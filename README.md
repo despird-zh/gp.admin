@@ -15,12 +15,6 @@ $ npm start
 Visit `http://localhost:3000/` from your browser of choice.
 Server is visible from the local network as well.
 
-![Running in the iTerm2](http://i.imgur.com/IxamMBh.png)
-
-It is using [webpack dashboard](https://github.com/FormidableLabs/webpack-dashboard), so please note the following:
-
-**OS X Terminal.app users:** Make sure that **View → Allow Mouse Reporting** is enabled, otherwise scrolling through logs and modules won't work. If your version of Terminal.app doesn't have this feature, you may want to check out an alternative such as [iTerm2](https://www.iterm2.com/).
-
 ## Build (production)
 
 Build will be placed in the `build` folder.
