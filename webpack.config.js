@@ -10,7 +10,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const isProduction = nodeEnv === 'production';
 
 const jsSourcePath = path.join(__dirname, './source/js');
-const buildPath = path.join(__dirname, './build');
+const buildPath = path.join(__dirname, './dist');
 const imgPath = path.join(__dirname, './source/assets/img');
 const sourcePath = path.join(__dirname, './source');
 
@@ -61,6 +61,22 @@ const rules = [
     include: imgPath,
     use: 'url-loader?limit=20480&name=assets/[name]-[hash].[ext]',
   },
+  {
+    test: /\.eot(\?v=\d+.\d+.\d+)?$/,
+    use: 'url-loader?name=[name].[ext]',
+  },
+  {
+    test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    use: 'url-loader?limit=10000&mimetype=application/font-woff&name=[name].[ext]',
+  },
+  {
+    test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
+    use: 'url-loader?limit=10000&mimetype=application/octet-stream&name=[name].[ext]',
+  },
+  {
+    test: /\.ico$/,
+    use: 'file-loader?name=[name].[ext]',
+  },
 ];
 
 if (isProduction) {
@@ -95,8 +111,12 @@ if (isProduction) {
     {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: 'css-loader!postcss-loader!sass-loader',
+        fallback: 'style-loader',
+        use: [
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       }),
     }
   );
@@ -128,7 +148,7 @@ if (isProduction) {
 }
 
 module.exports = {
-  devtool: !isProduction ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',//'eval' : 'source-map',
+  devtool: !isProduction ? 'cheap-module-eval-source-map' : 'cheap-module-source-map', // 'eval' : 'source-map',
   context: jsSourcePath,
   entry: {
     js: './index.js',
@@ -142,12 +162,12 @@ module.exports = {
       'react-router',
       'react',
       'redux-thunk',
-      'redux'
+      'redux',
     ],
   },
   output: {
     path: buildPath,
-    publicPath: '', //'/'
+    publicPath: '', // '/'
     filename: 'app-[hash].js',
   },
   module: {
@@ -162,7 +182,7 @@ module.exports = {
   },
   plugins,
   devServer: {
-    contentBase: isProduction ? './build' : './source',
+    contentBase: isProduction ? './dist' : './source',
     historyApiFallback: true,
     port: 3000,
     compress: isProduction,

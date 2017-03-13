@@ -1,41 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { testAction, testAsync } from 'actions/app';
-import bookImg from '../../../assets/img/book2.jpg';
+import { bindActionCreators } from 'redux';
+import { testAction, testAsync } from '../store/actions/homeActions';
+import bookImg from '../../assets/img/book2.jpg';
 
-@connect(state => ({
-  asyncData: state.app.get('asyncData'),
-  asyncError: state.app.get('asyncError'),
-  asyncLoading: state.app.get('asyncLoading'),
-  counter: state.app.get('counter'),
-}))
-export default class Dashboard extends Component {
-  static propTypes = {
-    asyncData: PropTypes.string,
-    asyncError: PropTypes.object,
-    asyncLoading: PropTypes.bool,
-    counter: PropTypes.number,
-    // from react-redux connect
-    dispatch: PropTypes.func,
-  }
+class HomePage extends Component {
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.handleAsyncButtonClick = this.handleAsyncButtonClick.bind(this);
     this.handleTestButtonClick = this.handleTestButtonClick.bind(this);
   }
 
   handleAsyncButtonClick() {
-    const { dispatch } = this.props;
-
-    dispatch(testAsync());
+    this.props.testAsync();
   }
 
   handleTestButtonClick() {
-    const { dispatch } = this.props;
+    console.log(this.props);
 
-    dispatch(testAction());
+    this.props.testAction();
   }
 
   render() {
@@ -52,7 +37,7 @@ export default class Dashboard extends Component {
         <hr />
         <div>
           <h3>Synchronous action</h3>
-          <p>{ counter }</p>
+          <p>{counter}</p>
           <button onClick={ this.handleTestButtonClick }>
             Increase counter
           </button>
@@ -60,9 +45,9 @@ export default class Dashboard extends Component {
         <hr />
         <div>
           <h3>Async action example</h3>
-          <p>{ asyncData }</p>
-          { asyncLoading && <p>Loading...</p> }
-          { asyncError && <p>Error: { asyncError }</p> }
+          <p>{asyncData}</p>
+          {asyncLoading && <p>Loading...</p>}
+          {asyncError && <p>Error: { asyncError }</p>}
           <button
             disabled={ asyncLoading }
             onClick={ this.handleAsyncButtonClick }
@@ -82,3 +67,28 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+HomePage.propTypes = {
+  asyncData: PropTypes.string,
+  asyncError: PropTypes.object,
+  asyncLoading: PropTypes.bool,
+  counter: PropTypes.number,
+  // from react-redux connect
+  testAction: PropTypes.func,
+  testAsync: PropTypes.func,
+};
+
+export default connect(
+  (state) => ({
+    asyncData: state.home.get('asyncData'),
+    asyncError: state.home.get('asyncError'),
+    asyncLoading: state.home.get('asyncLoading'),
+    counter: state.home.get('counter'),
+  }),
+  (dispatch) => (
+    bindActionCreators({
+      testAction,
+      testAsync,
+    }, dispatch)
+  )
+)(HomePage);

@@ -1,56 +1,25 @@
+/* eslint-disable import/default */
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { Router, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import 'babel-polyfill';
-import logger from 'dev/logger';
+import routes from './routes';
+import configureStore from './store/configureStore';
 
-import rootReducer from 'reducers';
-import Routes from 'routes';
-import DevTools from 'dev/redux-dev-tools';
+import '../scss/app.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
 
-// Load SCSS
-import '../scss/app.scss';
+require('../assets/favicon.ico'); // Tell webpack to load favicon.ico
 
-const isProduction = process.env.NODE_ENV === 'production';
+const store = configureStore();
 
-// Creating store
-let store = null;
+// Create an enhanced history that syncs navigation events with the store
+const history = syncHistoryWithStore(browserHistory, store);
 
-if (isProduction) {
-  // In production adding only thunk middleware
-  const middleware = applyMiddleware(thunk);
-
-  store = createStore(
-    rootReducer,
-    middleware
-  );
-} else {
-  // In development mode beside thunk
-  // logger and DevTools are added
-  const middleware = applyMiddleware(thunk, logger);
-  const enhancer = compose(
-    middleware,
-    DevTools.instrument()
-  );
-
-  store = createStore(
-    rootReducer,
-    enhancer
-  );
-}
-
-
-// Render it to DOM
-ReactDOM.render(
+render(
   <Provider store={ store }>
-    { isProduction ?
-      <Routes /> :
-      <div>
-        <Routes />
-        <DevTools />
-      </div> }
-  </Provider>,
-  document.getElementById('root')
+    <Router history={ history } routes={ routes } />
+  </Provider>, document.getElementById('root')
 );

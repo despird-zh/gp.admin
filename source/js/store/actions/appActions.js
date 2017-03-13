@@ -1,4 +1,4 @@
-import api from 'api';
+import rpcapi from '../../rpcapi';
 
 export const TEST_ACTION = 'TEST_ACTION';
 
@@ -40,10 +40,8 @@ export function testAsync() {
   return function (dispatch) {
     dispatch(testAsyncStart());
 
-    api.testAsync()
+    rpcapi.testAsync()
       .then(data => dispatch(testAsyncSuccess(data)))
       .catch(error => dispatch(testAsyncError(error)));
   };
 }
-
-// Update
