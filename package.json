@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dashboard -t 'React-Redux Sample' -- webpack-dev-server",
+    "start": "webpack-dashboard -t 'React-Redux' -- webpack-dev-server",
     "build": "rm -rf ./dist && NODE_ENV=\"production\" webpack",
     "lint-break-on-errors": "eslint ./source/js ./webpack.config.js -f table --ext .js --ext .jsx",
     "lint": "eslint ./source/js ./webpack.config.js --fix -f table --ext .js --ext .jsx || true",
