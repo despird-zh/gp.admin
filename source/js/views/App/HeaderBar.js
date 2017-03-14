@@ -1,4 +1,5 @@
 import React from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin'; 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -7,6 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+
+injectTapEventPlugin();
 
 export default class HeaderBar extends React.Component {
 
@@ -17,7 +20,7 @@ export default class HeaderBar extends React.Component {
     };
   }
 
-  handleChange = (event, index, value) => this.setState({value}).bind(this);
+  handleChange = (event, index, value) => this.setState({value});
 
   render() {
     return (

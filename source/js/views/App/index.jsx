@@ -5,6 +5,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import HeaderBar from './HeaderBar';
+import FooterBar from './FooterBar';
+
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
@@ -25,9 +27,7 @@ class App extends Component {
             </div>
           </div>
           <div className="footer">
-            <div className="box-content">
-            1dp
-            </div>
+            <FooterBar/>
           </div>
       </div>
       </MuiThemeProvider>
