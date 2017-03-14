@@ -13,6 +13,7 @@ import '../scss/app.scss'; // Yep, that's right.
 
 require('../assets/favicon.ico'); // Tell webpack to load favicon.ico
 
+// Create a store for application
 const store = configureStore();
 
 // Create an enhanced history that syncs navigation events with the store
