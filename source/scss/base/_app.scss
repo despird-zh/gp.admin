@@ -1,35 +1,75 @@
-body {
-  background: #1C1E20;
+// default margin size
+$gap-size: 10px;
+// the height of header
+$header-height: 64px;
+// the height of footer
+$footer-height: 64px;
+$page-toolbar-height: 76px;
+
+html,body {
+    margin: 0; 
+    padding: 0;
+    min-height: 100%;
+    div{
+        min-height: 0;
+    }
 }
 
-.App {
-  margin: 20px auto;
-  max-width: 500px;
-  width: calc(100% - 40px);
-  background: #f5f6f7;
-  padding: 20px;
-  border-radius: 3px;
+* {
+    box-sizing: border-box;
+}
+.wrapper{
+    width: 100%;
+
+    > .header {
+        position: fixed;
+        width: 100%;
+        height: $header-height;
+        top: 0px;
+        z-index: 2;
+
+        .box-content{
+            padding: 0;
+      
+            .md-toolbar{
+                width: 100%;
+                padding: 0;
+            }
+        }
+    }
+
+    > .footer {
+        position: fixed; /* or static */
+        width: 100%;
+        bottom:0px;
+        height: $footer-height;
+        z-index:2;
+
+        .box-content{
+            padding: 20px 0;
+        }
+    }
+
+    > .content{
+        padding-top: $header-height;
+        margin-bottom: $footer-height;
+        position: relative; /* or static */
+        z-index:1;
+
+        .box-content{
+            padding: 0 ;
+        }
+    }
+
 }
 
-.Menu a {
-  display: inline-block;
-  padding: 5px 0;
-  margin-right: 10px;
-}
-
-.BackgroundImgExample {
-  width: 250px;
-  height: 141px;
-  background: url(../assets/img/book1.jpg) no-repeat;
-  background-size: 100% auto;
-}
-
-.ImgExample {
-  width: 250px;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid #ddd;
-  margin: 20px 0;
+.box-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 20px 0;
+    max-width: 1060px;
+    min-width: 1060px;
+    display: flex;
 }
