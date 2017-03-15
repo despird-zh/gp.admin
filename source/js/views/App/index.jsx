@@ -17,12 +17,12 @@ class App extends Component {
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <div className="wrapper">
           <div className="header">
-            <div className="box-content">
+            <div className="content">
             <HeaderBar/>
             </div>
           </div>
-          <div className="content">
-            <div className="box-content">
+          <div className="body">
+            <div className="content">
               {this.props.children}
             </div>
           </div>

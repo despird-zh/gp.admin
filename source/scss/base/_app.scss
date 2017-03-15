@@ -27,15 +27,6 @@ html,body {
         height: $header-height;
         top: 0px;
         z-index: 2;
-
-        .box-content{
-            padding: 0;
-      
-            .md-toolbar{
-                width: 100%;
-                padding: 0;
-            }
-        }
     }
 
     > .footer {
@@ -45,30 +36,26 @@ html,body {
         height: $footer-height;
         z-index:2;
 
-        .box-content{
+        .content{
             padding: 20px 0;
         }
     }
 
-    > .content{
+    > .body{
         padding-top: $header-height;
         margin-bottom: $footer-height;
         position: relative; /* or static */
         z-index:1;
-
-        .box-content{
-            padding: 0 ;
-        }
     }
 
 }
 
-.box-content {
+.content {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 0;
     max-width: 1060px;
     min-width: 1060px;
     display: flex;

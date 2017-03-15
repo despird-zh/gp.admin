@@ -4,7 +4,7 @@ export default class FooterBar extends React.Component {
 
 	render() {
 	return (
-		<div className="box-content">
+		<div className="content">
 		  1dp
 		</div>
 	);
