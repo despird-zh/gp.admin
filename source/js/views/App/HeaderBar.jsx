@@ -101,11 +101,13 @@ class HeaderBar extends React.Component {
     }, 
     'Infinity Connection');
 
-    const iconRightStyle = Object.assign({}, this.styles.iconButtonStyle, {
+    const iconRightLastStyle = Object.assign({}, this.styles.iconButtonStyle, {
       marginRight: -16,
-      marginLeft: 'auto',
     });
 
+    const iconRightFirstStyle = Object.assign({}, this.styles.iconButtonStyle, {
+      marginLeft: 'auto',
+    });
     return (
       <div style={this.styles.root} className="content">
         <IconButton style={this.styles.iconButtonStyle} iconStyle={this.styles.iconButtonIconStyle}>
@@ -113,7 +115,7 @@ class HeaderBar extends React.Component {
         </IconButton>
         {titleElement}
         <IconButton
-          style={this.styles.iconButtonStyle}
+          style={iconRightFirstStyle}
           iconStyle={this.styles.iconButtonIconStyle}>
           <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
@@ -128,7 +130,7 @@ class HeaderBar extends React.Component {
           <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         <IconButton
-          style={iconRightStyle}
+          style={iconRightLastStyle}
           iconStyle={this.styles.iconButtonIconStyle}
           onTouchTap={this.handleTouchTap}>
           <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
