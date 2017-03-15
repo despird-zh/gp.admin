@@ -1,7 +1,15 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin'; 
 import IconButton from 'material-ui/IconButton';
+/** icons */
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
+import ActionOpenNew from 'material-ui/svg-icons/action/open-in-new';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ActionExtension from 'material-ui/svg-icons/action/extension';
+import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
+
+import Snackbar from 'material-ui/Snackbar';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 injectTapEventPlugin();
@@ -68,15 +76,35 @@ class HeaderBar extends React.Component {
     super(props);
     this.state = {
       value: 3,
+      open: false,
     };
     this.styles = getStyles(this.props);
   }
 
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  handleTouchTap = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
   render() {
 
-    const titleElement = React.createElement('h1', {
+    const titleElement = React.createElement('h1', 
+    {
       style: this.props.muiTheme.prepareStyles(Object.assign({}, this.styles.title, this.styles.mainElement)),
-    }, 'Infinity Connection');
+    }, 
+    'Infinity Connection');
+
+    const iconRightStyle = Object.assign({}, this.styles.iconButtonStyle, {
+      marginRight: -16,
+      marginLeft: 'auto',
+    });
 
     return (
       <div style={this.styles.root} className="content">
@@ -84,6 +112,33 @@ class HeaderBar extends React.Component {
           <NavigationMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         {titleElement}
+        <IconButton
+          style={this.styles.iconButtonStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={this.styles.iconButtonStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={this.styles.iconButtonStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={iconRightStyle}
+          iconStyle={this.styles.iconButtonIconStyle}
+          onTouchTap={this.handleTouchTap}>
+          <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+         <Snackbar style={{bottom: 45}}
+          open={this.state.open}
+          message="Event added to your calendar"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
       </div>
     );
   }
