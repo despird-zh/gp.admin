@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
+import Paper from 'material-ui/Paper';
 
 import HeaderBar from './HeaderBar';
 import FooterBar from './FooterBar';
@@ -11,10 +11,10 @@ import FooterBar from './FooterBar';
 const rootTheme = getMuiTheme(lightBaseTheme);
 const styles = {
   header: {
-    background: rootTheme.toolbar.backgroundColor,
+    background: rootTheme.appBar.color,
   },
   footer: {
-    background: lightBaseTheme.palette.accent2Color,
+    background: rootTheme.appBar.color,
   }
 };
 
@@ -28,23 +28,17 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={ rootTheme }>
         <div className="wrapper">
-          <div  style={ styles.header } className="header">
-            <div className="content">
-
-            <AppBar
-                title="Title"
-              />
+          <Paper  style={ styles.header } className="header">
             <HeaderBar/>
-            </div>
-          </div>
+          </Paper>
           <div className="body">
             <div className="content">
               {this.props.children}
             </div>
           </div>
-          <div style={ styles.header } className="footer">
+          <Paper style={ styles.footer } className="footer">
             <FooterBar/>
-          </div>
+          </Paper>
       </div>
       </MuiThemeProvider>
     );

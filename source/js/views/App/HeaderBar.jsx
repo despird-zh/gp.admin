@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
 injectTapEventPlugin();
 
@@ -20,13 +21,12 @@ export default class HeaderBar extends React.Component {
     };
   }
 
+
   handleChange = (event, index, value) => this.setState({value});
 
   render() {
     return (
-      <Toolbar style={{
-      	flex: 1,
-      }}>
+      <Toolbar className="content">
         <ToolbarGroup firstChild={true}>
           <DropDownMenu value={this.state.value} onChange={this.handleChange}>
             <MenuItem value={1} primaryText="All Broadcasts" />
