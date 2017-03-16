@@ -1,5 +1,7 @@
-import React from 'react';
+import React , { PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin'; 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import IconButton from 'material-ui/IconButton';
 /** icons */
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
@@ -8,10 +10,11 @@ import ActionOpenNew from 'material-ui/svg-icons/action/open-in-new';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionExtension from 'material-ui/svg-icons/action/extension';
 import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
-
+import { browserHistory } from 'react-router';
 import Snackbar from 'material-ui/Snackbar';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
+import { openSigninAction } from '../../store/actions/authActions';
 
 injectTapEventPlugin();
 
@@ -97,8 +100,12 @@ class HeaderBar extends React.Component {
     });
   };
 
+  handleSignin = () => {
+    this.props.openSigninAction(true);
+  };
+
   handleTouchJump = () => {
-    console.log(this.props);
+    browserHistory.push('/about');
   };
 
   render() {
@@ -131,7 +138,8 @@ class HeaderBar extends React.Component {
         </IconButton>
         <IconButton
           style={this.styles.iconButtonStyle}
-          iconStyle={this.styles.iconButtonIconStyle}>
+          iconStyle={this.styles.iconButtonIconStyle}
+          onTouchTap={this.handleTouchTap}>
           <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         <IconButton
@@ -143,9 +151,10 @@ class HeaderBar extends React.Component {
         <IconButton
           style={iconRightLastStyle}
           iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleTouchTap}>
+          onTouchTap={this.handleSignin}>
           <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
+        
          <Snackbar style={{bottom: 45}}
           open={this.state.open}
           message="Event added to your calendar"
@@ -157,5 +166,16 @@ class HeaderBar extends React.Component {
   }
 };
 
-export default muiThemeable()(HeaderBar);
+HeaderBar.propTypes = {
+  openSigninAction: PropTypes.func,
+};
+export default connect(
+  (state) => ({}),
+  (dispatch) => (
+    bindActionCreators({
+      openSigninAction,
+    }, dispatch)
+  )
+)(muiThemeable()(HeaderBar));
+//export default muiThemeable()(HeaderBar);
 

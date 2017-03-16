@@ -7,6 +7,7 @@ import Paper from 'material-ui/Paper';
 
 import HeaderBar from './HeaderBar';
 import FooterBar from './FooterBar';
+import SigninDialog from '../../components/Signin/SigninDialog';
 
 const rootTheme = getMuiTheme(lightBaseTheme);
 
@@ -42,6 +43,7 @@ class App extends Component {
           <Paper style={ styles.footer } className="footer">
             <FooterBar/>
           </Paper>
+          <SigninDialog/>
       </div>
       </MuiThemeProvider>
     );
