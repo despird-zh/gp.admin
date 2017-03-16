@@ -9,7 +9,9 @@ import HeaderBar from './HeaderBar';
 import FooterBar from './FooterBar';
 
 const rootTheme = getMuiTheme(lightBaseTheme);
+
 const styles = {
+
   header: {
     background: rootTheme.appBar.color,
   },
@@ -22,8 +24,10 @@ const styles = {
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 class App extends Component {
-
-
+  constructor(props, context) {
+    super(props, context);
+    console.log(props);
+  }
   render() {
     return (
       <MuiThemeProvider muiTheme={ rootTheme }>

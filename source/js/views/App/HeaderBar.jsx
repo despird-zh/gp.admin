@@ -1,6 +1,7 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin'; 
 import IconButton from 'material-ui/IconButton';
+import { hashHistory } from 'react-router';
 /** icons */
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
@@ -96,6 +97,10 @@ class HeaderBar extends React.Component {
     });
   };
 
+  handleTouchJump = () => {
+    hashHistory.push('/about');
+  };
+
   render() {
 
     const titleElement = React.createElement('h1', 
@@ -111,6 +116,7 @@ class HeaderBar extends React.Component {
     const iconRightFirstStyle = Object.assign({}, this.styles.iconButtonStyle, {
       marginLeft: 'auto',
     });
+
     return (
 
       <div style={this.styles.root} className="content">
@@ -130,7 +136,8 @@ class HeaderBar extends React.Component {
         </IconButton>
         <IconButton
           style={this.styles.iconButtonStyle}
-          iconStyle={this.styles.iconButtonIconStyle}>
+          iconStyle={this.styles.iconButtonIconStyle}
+          onTouchTap={this.handleTouchJump}>
           <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         <IconButton
