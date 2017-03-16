@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { testAction, testAsync } from '../store/actions/homeActions';
+import { Link } from 'react-router';
 import bookImg from '../../assets/img/book2.jpg';
 
 class HomePage extends Component {
@@ -18,6 +19,7 @@ class HomePage extends Component {
   }
 
   handleTestButtonClick() {
+
     console.log(this.props);
 
     this.props.testAction();
@@ -33,7 +35,7 @@ class HomePage extends Component {
 
     return (
       <div className='Dashboard'>
-        <h2>Examples</h2>
+        <h2>Examples <Link to="/about">about</Link></h2>
         <hr />
         <div>
           <h3>Synchronous action</h3>

@@ -1,7 +1,6 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin'; 
 import IconButton from 'material-ui/IconButton';
-import { hashHistory } from 'react-router';
 /** icons */
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
@@ -75,13 +74,14 @@ function getStyles(muiTheme) {
 
 class HeaderBar extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       value: 3,
       open: false,
     };
 
+    //console.log(context);
     this.styles = getStyles(this.props.muiTheme);
   }
 
@@ -98,7 +98,7 @@ class HeaderBar extends React.Component {
   };
 
   handleTouchJump = () => {
-    hashHistory.push('/about');
+    console.log(this.props);
   };
 
   render() {
