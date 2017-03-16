@@ -1,17 +1,28 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin'; 
 import IconButton from 'material-ui/IconButton';
+/** icons */
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
+import ActionOpenNew from 'material-ui/svg-icons/action/open-in-new';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ActionExtension from 'material-ui/svg-icons/action/extension';
+import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
+
+import Snackbar from 'material-ui/Snackbar';
+
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 injectTapEventPlugin();
 
-export function getStyles(muiTheme) {
+function getStyles(muiTheme) {
   const {
     appBar,
     button: {
       iconButtonSize,
     },
     zIndex,
+
   } = muiTheme;
 
   const flatButtonSize = 36;
@@ -67,15 +78,72 @@ class HeaderBar extends React.Component {
     super(props);
     this.state = {
       value: 3,
+      open: false,
     };
+
     this.styles = getStyles(this.props.muiTheme);
   }
 
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  handleTouchTap = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
   render() {
+
+    const titleElement = React.createElement('h1', 
+    {
+      style: this.props.muiTheme.prepareStyles(Object.assign({}, this.styles.title, this.styles.mainElement)),
+    }, 
+    'Infinity Connection');
+
+    const iconRightLastStyle = Object.assign({}, this.styles.iconButtonStyle, {
+      marginRight: -16,
+    });
+
+    const iconRightFirstStyle = Object.assign({}, this.styles.iconButtonStyle, {
+      marginLeft: 'auto',
+    });
     return (
-      <div className="content">
+
+      <div style={this.styles.root} className="content">
+        <IconButton style={this.styles.iconButtonStyle} iconStyle={this.styles.iconButtonIconStyle}>
+          <NavigationMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        {titleElement}
         <IconButton
+          style={iconRightFirstStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={this.styles.iconButtonStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={this.styles.iconButtonStyle}
+          iconStyle={this.styles.iconButtonIconStyle}>
+          <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+        <IconButton
+          style={iconRightLastStyle}
           iconStyle={this.styles.iconButtonIconStyle}
+          onTouchTap={this.handleTouchTap}>
+          <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+        </IconButton>
+         <Snackbar style={{bottom: 45}}
+          open={this.state.open}
+          message="Event added to your calendar"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
         />
       </div>
     );
@@ -83,3 +151,4 @@ class HeaderBar extends React.Component {
 };
 
 export default muiThemeable()(HeaderBar);
+
