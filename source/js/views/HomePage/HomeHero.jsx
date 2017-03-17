@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import FullWidthSection from '../../components/FullWidthSection';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import withWidth, {LARGE} from 'material-ui/utils/withWidth';
 import spacing from 'material-ui/styles/spacing';
 import typography from 'material-ui/styles/typography';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import {cyan500, grey200, darkWhite} from 'material-ui/styles/colors';
+import { openSigninAction } from '../../store/actions/authActions';
+import FullWidthSection from '../../components/FullWidthSection';
+
+import bookImg from '../../../assets/img/book2.jpg';
 
 const styles = {
   root: {
@@ -13,7 +18,7 @@ const styles = {
     overflow: 'hidden',
   },
   svgLogo: {
-    marginLeft: window.innerWidth * 0.5 - 130,
+    marginLeft: 1060 * 0.5 - 210, //window.innerWidth * 0.5 - 130,
     width: 420,
     height: 157,
   },
@@ -62,6 +67,19 @@ const styles = {
 
 class HomeHero extends Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.handleSignin = this.handleSignin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+  };
+
+  handleSignin = () => {
+    this.props.openSigninAction(true);
+  };
+  handleSignup = () => {
+    console.log('-=sdfadf');
+  };
+
 	render() {
 
     styles.h2 = Object.assign({}, styles.h1, styles.h2);
@@ -73,8 +91,9 @@ class HomeHero extends Component {
     }
 
 		return (
+      
       <FullWidthSection useContent={true} style={styles.root}>
-        <img style={styles.svgLogo} src="images/material-ui-logo.svg" />
+        <img style={styles.svgLogo} src={ bookImg } />
         <div style={styles.tagline}>
           <h1 style={styles.h1}>Material-UI</h1>
           <h2 style={styles.h2}>
@@ -82,10 +101,19 @@ class HomeHero extends Component {
             that Implement</span> <span style={styles.nowrap}>
             Google&apos;s Material Design</span>
           </h2>
+          { this.props.authenticated ? '':
           <RaisedButton
             className="demo-button"
-            label="Demo"
-            onTouchTap={this.handleTouchTapDemo}
+            label="Signin"
+            onTouchTap={this.handleSignin}
+            style={styles.demoStyle}
+            labelStyle={styles.label}
+          />
+          }
+          <RaisedButton
+            className="demo-button"
+            label="Signup"
+            onTouchTap={this.handleSignup}
             style={styles.demoStyle}
             labelStyle={styles.label}
           />
@@ -94,5 +122,17 @@ class HomeHero extends Component {
     );
 	}
 }
-
-export default withWidth()(HomeHero);
+HomeHero.propTypes = {
+  authenticated: PropTypes.bool,
+  openSigninAction: PropTypes.func,
+};
+export default connect(
+  (state) => ({
+    authenticated: state.auth.get('authenticated'),
+  }),
+  (dispatch) => (
+    bindActionCreators({
+      openSigninAction,
+    }, dispatch)
+  )
+)(withWidth()(HomeHero));

@@ -26,9 +26,10 @@ class FullWidthSection extends Component {
       root: {
         padding: desktopGutter,
         boxSizing: 'border-box',
+        width: 1060,
       },
       content: {
-        maxWidth: 1012,
+        maxWidth: 1060,
         margin: '0 auto',
       },
       rootWhenSmall: {
