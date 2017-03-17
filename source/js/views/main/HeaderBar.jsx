@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import IconButton from 'material-ui/IconButton';
 /** icons */
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import ActionHomeMenu from 'material-ui/svg-icons/action/home';
 import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
 import ActionOpenNew from 'material-ui/svg-icons/action/open-in-new';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionExtension from 'material-ui/svg-icons/action/extension';
 import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 import Snackbar from 'material-ui/Snackbar';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -109,8 +109,8 @@ class HeaderBar extends React.Component {
     this.props.openSigninAction(true);
   };
 
-  handleTouchJump = () => {
-    browserHistory.push('/about');
+  handleTouchJump = (path) => {
+    hashHistory.push(path);
   };
 
   handlePopMenu = (type, event) => {
@@ -123,6 +123,7 @@ class HeaderBar extends React.Component {
 
     this.setState(newstate);
   };
+
   handlePopMenuClose = (type) => {
     event.preventDefault();
     let newstate = Object.assign(this.state, {
@@ -152,8 +153,10 @@ class HeaderBar extends React.Component {
 
       <div style={this.styles.root} className="content">
         <IconButton style={this.styles.iconButtonStyle} 
-          iconStyle={this.styles.iconButtonIconStyle}>
-          <NavigationMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          iconStyle={this.styles.iconButtonIconStyle}
+          onTouchTap={this.handleTouchJump.bind(this, '/')}
+          >
+          <ActionHomeMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         {titleElement}
         <div>
@@ -174,7 +177,7 @@ class HeaderBar extends React.Component {
             animation={PopoverAnimationVertical}
           >
             <Menu>
-              <MenuItem primaryText="Refresh" />
+              <MenuItem primaryText="Home" onTouchTap={this.handleTouchJump.bind(this, '/')}/>
               <MenuItem primaryText="Help &amp; feedback" />
               <MenuItem primaryText="Settings" />
               <MenuItem primaryText="Sign out" />
@@ -190,7 +193,7 @@ class HeaderBar extends React.Component {
         <IconButton
           style={this.styles.iconButtonStyle}
           iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleTouchJump}>
+          onTouchTap={this.handleTouchJump.bind(this, '/about')}>
           <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         <IconButton

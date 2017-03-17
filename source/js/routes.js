@@ -1,8 +1,10 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './views/App';
-import HomePage from './views/HomePage';
+import App from './views/main';
+import HomePage from './views/home';
+import ConfigPage from './views/config/ConfigPage';
+import SettingPage from './views/config/SettingPage';
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
@@ -27,6 +29,10 @@ export default (
     <IndexRoute component={ HomePage } />
     <Route path='dev' component={ DevPage } />
     <Route path='about' component={ AboutPage } />
+    <Route path='config' component={ ConfigPage }>
+      <IndexRoute component={ SettingPage } />
+      <Route path='setting' component={ SettingPage } />
+    </Route>
   </Route>
 );
 
