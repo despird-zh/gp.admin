@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { testAction, testAsync } from '../store/actions/homeActions';
+import { testAction, testAsync } from '../store/actions/devActions';
 import { Link } from 'react-router';
 import bookImg from '../../assets/img/book2.jpg';
 
-class HomePage extends Component {
+class DevPage extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -35,7 +35,7 @@ class HomePage extends Component {
 
     return (
       <div className='Dashboard'>
-        <h2>Examples <Link to="/about">about</Link></h2>
+        <h2>Development <Link to="/about">about</Link></h2>
         <hr />
         <div>
           <h3>Synchronous action</h3>
@@ -70,7 +70,7 @@ class HomePage extends Component {
   }
 }
 
-HomePage.propTypes = {
+DevPage.propTypes = {
   asyncData: PropTypes.string,
   asyncError: PropTypes.object,
   asyncLoading: PropTypes.bool,
@@ -82,10 +82,10 @@ HomePage.propTypes = {
 
 export default connect(
   (state) => ({
-    asyncData: state.home.get('asyncData'),
-    asyncError: state.home.get('asyncError'),
-    asyncLoading: state.home.get('asyncLoading'),
-    counter: state.home.get('counter'),
+    asyncData: state.dev.get('asyncData'),
+    asyncError: state.dev.get('asyncError'),
+    asyncLoading: state.dev.get('asyncLoading'),
+    counter: state.dev.get('counter'),
   }),
   (dispatch) => (
     bindActionCreators({
@@ -93,4 +93,4 @@ export default connect(
       testAsync,
     }, dispatch)
   )
-)(HomePage);
+)(DevPage);

@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './views/App';
 import HomePage from './views/HomePage';
+import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
 const ensureAuthenticated = (nextState, replace) => {
@@ -24,6 +25,7 @@ const clearMessages = () => {
 export default (
   <Route path='/' component={ App }>
     <IndexRoute component={ HomePage } />
+    <Route path='dev' component={ DevPage } />
     <Route path='about' component={ AboutPage } />
   </Route>
 );

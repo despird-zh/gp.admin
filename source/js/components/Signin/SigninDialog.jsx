@@ -77,7 +77,7 @@ class SigninDialog extends React.Component {
         label="Signin"
         primary={true}
         onTouchTap={this.handleSignin}
-        disabled={this.state.account == '' || this.state.password== ''}
+        disabled={this.state.account === '' || this.state.password === ''}
       />,
     ];
 
