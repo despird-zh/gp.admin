@@ -63,7 +63,7 @@ const styles = {
 class HomeHero extends Component {
 
 	render() {
-		console.log('=======');
+
     styles.h2 = Object.assign({}, styles.h1, styles.h2);
 
     if (this.props.width === LARGE) {
@@ -73,7 +73,7 @@ class HomeHero extends Component {
     }
 
 		return (
-      <FullWidthSection style={styles.root}>
+      <FullWidthSection useContent={true} style={styles.root}>
         <img style={styles.svgLogo} src="images/material-ui-logo.svg" />
         <div style={styles.tagline}>
           <h1 style={styles.h1}>Material-UI</h1>

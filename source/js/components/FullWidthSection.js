@@ -28,7 +28,7 @@ class FullWidthSection extends Component {
         boxSizing: 'border-box',
       },
       content: {
-        maxWidth: 1200,
+        maxWidth: 1012,
         margin: '0 auto',
       },
       rootWhenSmall: {
