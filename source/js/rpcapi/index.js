@@ -1,4 +1,5 @@
 import 'es6-promise';
+import authApi from './authService';
 
 function testAsync() {
   return new Promise(resolve => {
@@ -17,4 +18,5 @@ function testAsync() {
 
 export default {
   testAsync,
+  authApi: authApi
 };

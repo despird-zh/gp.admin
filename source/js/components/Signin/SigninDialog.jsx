@@ -29,6 +29,14 @@ const styles = {
  */
 class SigninDialog extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      account: '',
+      password: '',
+    }
+  }
+
   handleOpen = () => {
     this.props.openSigninAction(true);
   };
@@ -37,6 +45,21 @@ class SigninDialog extends React.Component {
     this.props.openSigninAction(false);
   };
 
+  handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    this.state[name] = value;
+  };
+
+  handleSignin = () => {
+    let authbody = {
+      principal: this.state.account,
+      credential: this.state.password,
+      audience: this.props.audience
+    };
+
+    this.props.signinAction(authbody);
+  }
   render() {
     const actions = [
       <FlatButton
@@ -47,7 +70,8 @@ class SigninDialog extends React.Component {
       <FlatButton
         label="Signin"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.handleSignin}
+        disabled={this.state.principal == '' || this.state.credential == ''}
       />,
     ];
 
@@ -68,12 +92,17 @@ class SigninDialog extends React.Component {
             hintText="The user account"
             floatingLabelText="Account"
             floatingLabelFixed={true}
+            name="account"
+            defaultValue={this.props.account}
+            onChange={this.handleChange}
           />
           <TextField
             hintText="Please input password"
             type="password"
+            name="password"
             floatingLabelText="Password"
             floatingLabelFixed={true}
+            onChange={this.handleChange}
           />
         </Dialog>
       </div>
@@ -83,6 +112,8 @@ class SigninDialog extends React.Component {
 
 SigninDialog.propTypes = {
   opening: PropTypes.bool,
+  audience: PropTypes.string,
+  account: PropTypes.string,
   openSigninAction: PropTypes.func,
   signinAction: PropTypes.func,
   signoffAction: PropTypes.func,
@@ -91,6 +122,7 @@ SigninDialog.propTypes = {
 export default connect(
   (state) => ({
     opening: state.auth.get('opening'),
+    audience: state.auth.get('audience'),
   }),
   (dispatch) => (
     bindActionCreators({

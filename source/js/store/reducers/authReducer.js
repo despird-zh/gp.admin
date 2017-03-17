@@ -5,8 +5,7 @@ import {
   SIGNIN_ACT,
   SIGNOFF_ACT,
   AUTH_ACT_START,
-  AUTH_ACT_ERROR,
-  AUTH_ACT_SUCCESS,
+  AUTH_ACT_END,
   REISSUE_TOKEN_ACT,
   FETCH_TOKEN_ACT
 } from '../actions/authActions';
@@ -15,11 +14,13 @@ const BLIND_TOKEN = '__blind_token__';
 
 const initialState = Map({
 	opening: false,
+  rpcinvoking: false,
   account: '',
   credential: '',
   audience: 'gp.admin',
-  token: BLIND_TOKEN,
+  jwttoken: BLIND_TOKEN,
   authenticated: false,
+  message: '',
 });
 
 const actionsMap = {
@@ -28,6 +29,22 @@ const actionsMap = {
 
     return state.merge({
       opening,
+    });
+  },
+  [AUTH_ACT_START]: (state, action) => {
+
+    return state.merge({
+      rpcinvoking: true,
+      account: action.data,
+    });
+  },
+  [AUTH_ACT_END]: (state, action) => {
+
+    const respdata = action.data;
+
+    return state.merge({
+      rpcinvoking: false,
+      message: respdata.meta.message,
     });
   },
 };
