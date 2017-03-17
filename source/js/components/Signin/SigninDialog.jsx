@@ -1,13 +1,27 @@
 import React , { PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 import { openSigninAction, signinAction, signoffAction } from '../../store/actions/authActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-const contentStyle = {
-  width: 200,
+const styles = {
+  content: {
+    width: 310,
+  },
+  title: {
+    paddingBottom: 0
+  },
+  body: {
+    paddingBottom: 10
+  },
+  actions: {
+    paddingBottom:15,
+    paddingLeft: 20,
+    paddingRight: 20,
+  }
 };
 
 /**
@@ -40,14 +54,27 @@ class SigninDialog extends React.Component {
     return (
       <div>
         <Dialog
-          title="Dialog With Custom Width"
+          title="Welecome xxx"
+          titleStyle={styles.title}
           actions={actions}
+          actionsContainerStyle={styles.actions}
           modal={true}
-          contentStyle={contentStyle}
+          bodyStyle={styles.body}
+          contentStyle={styles.content}
           open={this.props.opening}
           onRequestClose={this.handleClose}
         >
-          This dialog spans the entire width of the screen.
+          <TextField
+            hintText="The user account"
+            floatingLabelText="Account"
+            floatingLabelFixed={true}
+          />
+          <TextField
+            hintText="Please input password"
+            type="password"
+            floatingLabelText="Password"
+            floatingLabelFixed={true}
+          />
         </Dialog>
       </div>
     );

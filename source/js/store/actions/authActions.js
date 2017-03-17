@@ -12,7 +12,7 @@ export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
 export function openSigninAction(show = true) {
   return {
     type: OPEN_SIGNIN_ACT,
-    show,
+    data: show,
   };
 }
 
