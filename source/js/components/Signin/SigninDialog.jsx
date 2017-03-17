@@ -18,9 +18,9 @@ const styles = {
     paddingBottom: 10
   },
   actions: {
-    paddingBottom:15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingBottom:25,
+    paddingLeft: 30,
+    paddingRight: 30,
   }
 };
 
@@ -45,7 +45,7 @@ class SigninDialog extends React.Component {
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label="Submit"
+        label="Signin"
         primary={true}
         onTouchTap={this.handleClose}
       />,
