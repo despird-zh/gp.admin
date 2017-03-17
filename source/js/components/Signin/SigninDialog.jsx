@@ -34,8 +34,13 @@ class SigninDialog extends React.Component {
     this.state = {
       account: '',
       password: '',
+      ready: false,
     }
-  }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSignin = this.handleSignin.bind(this);
+  };
 
   handleOpen = () => {
     this.props.openSigninAction(true);
@@ -46,9 +51,9 @@ class SigninDialog extends React.Component {
   };
 
   handleChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    this.state[name] = value;
+    let newstate = this.state;
+    newstate[e.target.name] = e.target.value;
+    this.setState(newstate);
   };
 
   handleSignin = () => {
@@ -61,6 +66,7 @@ class SigninDialog extends React.Component {
     this.props.signinAction(authbody);
   }
   render() {
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -71,7 +77,7 @@ class SigninDialog extends React.Component {
         label="Signin"
         primary={true}
         onTouchTap={this.handleSignin}
-        disabled={this.state.principal == '' || this.state.credential == ''}
+        disabled={this.state.account == '' || this.state.password== ''}
       />,
     ];
 
@@ -93,13 +99,14 @@ class SigninDialog extends React.Component {
             floatingLabelText="Account"
             floatingLabelFixed={true}
             name="account"
-            defaultValue={this.props.account}
+            defaultValue={this.state.account}
             onChange={this.handleChange}
           />
           <TextField
             hintText="Please input password"
             type="password"
             name="password"
+            defaultValue={this.state.password}
             floatingLabelText="Password"
             floatingLabelFixed={true}
             onChange={this.handleChange}
