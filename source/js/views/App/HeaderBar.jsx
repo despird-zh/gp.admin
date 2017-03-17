@@ -12,6 +12,9 @@ import ActionExtension from 'material-ui/svg-icons/action/extension';
 import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
 import { browserHistory } from 'react-router';
 import Snackbar from 'material-ui/Snackbar';
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { openSigninAction } from '../../store/actions/authActions';
@@ -82,6 +85,8 @@ class HeaderBar extends React.Component {
     this.state = {
       value: 3,
       open: false,
+      wgroup: false,
+      wgroup_anchor: null,
     };
 
     //console.log(context);
@@ -108,6 +113,25 @@ class HeaderBar extends React.Component {
     browserHistory.push('/about');
   };
 
+  handlePopMenu = (type, event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+    let newstate = Object.assign(this.state, {
+      wgroup: true,
+      wgroup_anchor: event.currentTarget,
+    });
+
+    this.setState(newstate);
+  };
+  handlePopMenuClose = (type) => {
+    event.preventDefault();
+    let newstate = Object.assign(this.state, {
+      wgroup: false,
+    });
+
+    this.setState(newstate);
+  };
+
   render() {
 
     const titleElement = React.createElement('h1', 
@@ -127,15 +151,36 @@ class HeaderBar extends React.Component {
     return (
 
       <div style={this.styles.root} className="content">
-        <IconButton style={this.styles.iconButtonStyle} iconStyle={this.styles.iconButtonIconStyle}>
+        <IconButton style={this.styles.iconButtonStyle} 
+          iconStyle={this.styles.iconButtonIconStyle}>
           <NavigationMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         {titleElement}
-        <IconButton
-          style={iconRightFirstStyle}
-          iconStyle={this.styles.iconButtonIconStyle}>
-          <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
-        </IconButton>
+        <div>
+          <IconButton
+            style={iconRightFirstStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handlePopMenu.bind(this, 'wgroup')}
+            ref="wgroup">
+            <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+          <Popover
+            open={this.state.wgroup}
+            anchorEl={this.state.wgroup_anchor}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={this.handlePopMenuClose.bind(this, 'wgroup')}
+            style={{marginTop: 8}}
+            animation={PopoverAnimationVertical}
+          >
+            <Menu>
+              <MenuItem primaryText="Refresh" />
+              <MenuItem primaryText="Help &amp; feedback" />
+              <MenuItem primaryText="Settings" />
+              <MenuItem primaryText="Sign out" />
+            </Menu>
+          </Popover>
+        </div>
         <IconButton
           style={this.styles.iconButtonStyle}
           iconStyle={this.styles.iconButtonIconStyle}
