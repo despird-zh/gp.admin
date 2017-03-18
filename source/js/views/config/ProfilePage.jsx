@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 
 
-export default class SettingPage extends React.Component {
+export default class ProfilePage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
@@ -10,14 +10,14 @@ export default class SettingPage extends React.Component {
   }
 
   componentDidMount(){
-    this.props.setCurrentPage('setting');
+    this.props.setCurrentPage('profile');
   }
   
   render() {
   	return (
 		  <div>
 		  	<div>
-		  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+		  	ddddd profile
   			</div>
   		</div>
   	);

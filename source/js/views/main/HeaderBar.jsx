@@ -193,7 +193,7 @@ class HeaderBar extends React.Component {
         <IconButton
           style={this.styles.iconButtonStyle}
           iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleTouchJump.bind(this, '/about')}>
+          onTouchTap={this.handleTouchJump.bind(this, '/config')}>
           <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         <IconButton

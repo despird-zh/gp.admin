@@ -5,6 +5,7 @@ import App from './views/main';
 import HomePage from './views/home';
 import ConfigPage from './views/config/ConfigPage';
 import SettingPage from './views/config/SettingPage';
+import ProfilePage from './views/config/ProfilePage';
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
@@ -32,6 +33,7 @@ export default (
     <Route path='config' component={ ConfigPage }>
       <IndexRoute component={ SettingPage } />
       <Route path='setting' component={ SettingPage } />
+      <Route path='profile' component={ ProfilePage } />
     </Route>
   </Route>
 );
