@@ -17,7 +17,7 @@ function getStyles(muiTheme) {
 			width: '100%',
 		},
 		container: {
-			paddingTop: 20,
+			paddingTop: 10,
 			width: '100%',
 			display: 'flex',
 			color: baseTheme.palette.textColor,
@@ -39,12 +39,17 @@ class ConfigPage extends React.Component {
     super(props, context);
     this.styles = getStyles(this.props.muiTheme);
     this.state = {
+    	title: null,
+    	description: null,
     	currentPage: null,
     };
   }
 
-  setCurrentPage = (page) => {
-  	let state = {currentPage: page};
+  setCurrentPage = ({page, title, description}) => {
+  	let state = {
+  		currentPage: page,
+  		title, description
+  	};
   	this.setState(state);
   }
 	
@@ -57,7 +62,7 @@ class ConfigPage extends React.Component {
   	return (
 		  <div style={this.styles.root}>
 		  	<div style={this.styles.container}>
-			  	<h3 style={{marginTop: 10 , flex: 1}}> title for 3 <small>what the fuck </small></h3>
+			  	<h3 style={{marginTop: 10 , flex: 1}}> {this.state.title} <small>{this.state.description} </small></h3>
 	  			<div>
 	  				<IconButton 
 	  					onTouchTap={this.handleTouchJump.bind(this, '/config/profile')}

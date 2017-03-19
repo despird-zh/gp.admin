@@ -10,7 +10,11 @@ export default class SettingPage extends React.Component {
   }
 
   componentDidMount(){
-    this.props.setCurrentPage('setting');
+    this.props.setCurrentPage({
+      page: 'setting',
+      title: 'System Settings',
+      description: 'Review the settings of System'
+    });
   }
   
   render() {
