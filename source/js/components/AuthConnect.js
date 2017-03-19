@@ -83,11 +83,12 @@ export default (ComposedComponent, stateMap, actions) => {
 
 	  render() {
 
-	    return <ComposedComponent {...this.props}
-	      {...this.state} 
-	      isAuthenticated = { this.isAuthenticated}
-	      toeknState = {this.tokenStake}
-	      rpcInovke = {this.invokeRPC}
+	    return <ComposedComponent { ...this.props }
+	      { ...this.state } 
+	      isAuthenticated = { this.isAuthenticated }
+	      toeknState = { this.tokenStake }
+	      rpcInovke = { this.invokeRPC }
+	      rpcHeaders = { this.rpcHeaders }
 	    />;
 	  }
 	};
@@ -111,7 +112,6 @@ export default (ComposedComponent, stateMap, actions) => {
 	      reIssueToken,
 	      reFetchToken,
 	      callRpcApi,
-	      rpcHeaders,
 	      ...actions
 	    }, dispatch)
 	  )
