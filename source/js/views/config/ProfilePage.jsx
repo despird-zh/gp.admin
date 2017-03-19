@@ -1,24 +1,24 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import HOC from '../../components/AuthRpcSupport';
+import AuthConnect from '../../components/AuthConnect';
 import { testAction } from '../../store/actions/devActions';
 
 class ProfilePage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-    
   }
 
   componentDidMount(){
+
     this.props.setCurrentPage('profile');
   }
   
-  handleTouchTap(){
-    console.log(this.props);
+  handleTouchTap = () => {
+
   	let auth = this.props.isAuthenticated();
-  	console.log(auth);
+  	console.log('auth result:' + auth);
     this.props.testAction();
   }
 
@@ -26,13 +26,18 @@ class ProfilePage extends React.Component {
   	return (
 		  <div>
 		  	<div>
-		  	ddddd profile
+		  	ddddd profile counter of dev - {this.props.counter}
 		  	<RaisedButton label="Primary" primary={true} 
-		  	onTouchTap ={this.handleTouchTap.bind(this)}/>
+		  	onTouchTap ={this.handleTouchTap}/>
   			</div>
   		</div>
   	);
   }
 }
 
-export default HOC(ProfilePage, {testAction});
+export default AuthConnect(
+  ProfilePage, 
+  (state) => ({
+            counter: state.dev.get('counter'),
+          }), 
+  {testAction});
