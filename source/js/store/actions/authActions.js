@@ -103,7 +103,11 @@ export function signinAction(authbody) {
 
     API.authService.authenticate(authbody)
       .then(data => {
-        dispatch(authEnd({data}))
+        dispatch(saveToken({
+          credential: authbody.credential,
+          token: data.data,
+        }));
+        dispatch(authEnd(data))
       })
       .catch( error => trapCatch( dispatch, error) );
   };

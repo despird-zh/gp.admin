@@ -39,7 +39,8 @@ const actionsMap = {
   },
   [SAVE_TOKEN_ACT]: (state, {type, data}) => {
     return state.merge({
-      jwttoken: data,
+      credential: data.credential,
+      jwttoken: data.token,
     });
   },
   [AUTH_ACT_END]: (state, {type, data}) => {
