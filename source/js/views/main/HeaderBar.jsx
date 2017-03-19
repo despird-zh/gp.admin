@@ -218,12 +218,10 @@ HeaderBar.propTypes = {
   openSigninAction: PropTypes.func,
 };
 export default connect(
-  (state) => ({}),
+  null,
   (dispatch) => (
     bindActionCreators({
       openSigninAction,
     }, dispatch)
   )
 )(muiThemeable()(HeaderBar));
-//export default muiThemeable()(HeaderBar);
-

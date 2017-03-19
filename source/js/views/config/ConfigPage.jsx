@@ -48,6 +48,10 @@ class ConfigPage extends React.Component {
   	this.setState(state);
   }
 	
+	handleTouchJump = (path) => {
+		this.props.router.push(path);
+	}
+
   render() {
 
   	return (
@@ -56,12 +60,14 @@ class ConfigPage extends React.Component {
 			  	<h3 style={{marginTop: 10 , flex: 1}}> title for 3 <small>what the fuck </small></h3>
 	  			<div>
 	  				<IconButton 
+	  					onTouchTap={this.handleTouchJump.bind(this, '/config/profile')}
 	  					iconStyle={this.state.currentPage !== 'profile' ? this.styles.btnIconStyle : null}
 	  					disabled={this.state.currentPage === 'profile'}>
 				      <ActionLaptop />
 				    </IconButton>
 				    <IconButton 
-				   	 iconStyle={this.state.currentPage !== 'setting' ? this.styles.btnIconStyle : null}
+				    	onTouchTap={this.handleTouchJump.bind(this, '/config/setting')}
+				   	  iconStyle={this.state.currentPage !== 'setting' ? this.styles.btnIconStyle : null}
 				    	disabled={this.state.currentPage === 'setting'}>
 				      <ActionSettings />
 				    </IconButton>
