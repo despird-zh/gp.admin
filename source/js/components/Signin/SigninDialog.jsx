@@ -32,8 +32,8 @@ class SigninDialog extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      account: '',
-      password: '',
+      account: 'dev1',
+      password: '1',
       ready: false,
     }
     this.handleChange = this.handleChange.bind(this);

@@ -4,6 +4,7 @@ import {
 	OPEN_SIGNIN_ACT,
   SIGNIN_ACT,
   SIGNOFF_ACT,
+  SAVE_TOKEN_ACT,
   AUTH_ACT_START,
   AUTH_ACT_END,
   REISSUE_TOKEN_ACT,
@@ -24,27 +25,27 @@ const initialState = Map({
 });
 
 const actionsMap = {
-	[OPEN_SIGNIN_ACT]: (state, action) => {
-    const opening = action.data;
-
+	[OPEN_SIGNIN_ACT]: (state, {type, data}) => {
     return state.merge({
-      opening,
+      opening: data,
     });
   },
-  [AUTH_ACT_START]: (state, action) => {
+  [AUTH_ACT_START]: (state, {type, data}) => {
 
     return state.merge({
       rpcinvoking: true,
-      account: action.data,
+      account: data,
     });
   },
-  [AUTH_ACT_END]: (state, action) => {
-
-    const respdata = action.data;
-
+  [SAVE_TOKEN_ACT]: (state, {type, data}) => {
+    return state.merge({
+      jwttoken: data,
+    });
+  },
+  [AUTH_ACT_END]: (state, {type, data}) => {
     return state.merge({
       rpcinvoking: false,
-      message: respdata.meta.message,
+      message: data.meta.message,
     });
   },
 };

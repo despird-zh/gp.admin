@@ -58,6 +58,7 @@
     "es6-promise": "^3.1.2",
     "immutable": "^3.8.1",
     "material-ui": "^0.17.0",
+    "jwt-decode": "^2.1.0",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "react-redux": "^4.4.0",
