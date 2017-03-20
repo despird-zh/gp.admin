@@ -16,10 +16,6 @@ export default (ComposedComponent, stateMap, actions) => {
 	    super(props);
 	    this.state = {};
 	  }
-
-	  isAuthenticated = () => {
-	    return this.props.authenticated;
-	  }
 	  
 	  rpcHeaders = () => {
 	  	return {
@@ -85,7 +81,6 @@ export default (ComposedComponent, stateMap, actions) => {
 
 	    return <ComposedComponent { ...this.props }
 	      { ...this.state } 
-	      isAuthenticated = { this.isAuthenticated }
 	      toeknState = { this.tokenStake }
 	      rpcInovke = { this.invokeRPC }
 	      rpcHeaders = { this.rpcHeaders }

@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import RaisedButton from 'material-ui/RaisedButton';
 import { testAction, testAsync } from '../store/actions/devActions';
+import { snackAction, loaderAction } from '../store/actions/appActions';
 import { Link } from 'react-router';
 import bookImg from '../../assets/img/book2.jpg';
 
@@ -25,6 +27,18 @@ class DevPage extends Component {
     this.props.testAction();
   }
 
+  handleLoaderTap = () => {
+    this.props.loaderAction({
+      shown: true,
+      loaderTip: 'this is a loading'
+    });
+  }
+  handleSnackTap = () => {
+    this.props.snackAction({
+      shown: true,
+      snackTip: 'this is a snack message'
+    });
+  }
   render() {
     const {
       asyncData,
@@ -43,6 +57,8 @@ class DevPage extends Component {
           <button onClick={ this.handleTestButtonClick }>
             Increase counter
           </button>
+          <RaisedButton label="Loader" primary={true} onTouchTap ={this.handleLoaderTap}/>
+          <RaisedButton label="Snack" primary={true} onTouchTap ={this.handleSnackTap}/>
         </div>
         <hr />
         <div>
@@ -91,6 +107,8 @@ export default connect(
     bindActionCreators({
       testAction,
       testAsync,
+      snackAction, 
+      loaderAction,
     }, dispatch)
   )
 )(DevPage);

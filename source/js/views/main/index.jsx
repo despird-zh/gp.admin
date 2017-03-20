@@ -8,6 +8,7 @@ import Paper from 'material-ui/Paper';
 import HeaderBar from './HeaderBar';
 import FooterBar from './FooterBar';
 import SigninDialog from '../../components/Signin/SigninDialog';
+import AffiliateBars from '../../components/AffiliateBars';
 
 const rootTheme = getMuiTheme(lightBaseTheme);
 
@@ -39,12 +40,13 @@ class App extends Component {
             <div className="content">
               {this.props.children}
             </div>
+            <SigninDialog/>
+            <AffiliateBars/>
           </div>
           <Paper style={ styles.footer } className="footer">
             <FooterBar/>
           </Paper>
-          <SigninDialog/>
-      </div>
+        </div>
       </MuiThemeProvider>
     );
   }

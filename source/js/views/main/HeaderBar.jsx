@@ -11,7 +11,7 @@ import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionExtension from 'material-ui/svg-icons/action/extension';
 import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
 import { hashHistory } from 'react-router';
-import Snackbar from 'material-ui/Snackbar';
+
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -92,12 +92,6 @@ class HeaderBar extends React.Component {
     //console.log(context);
     this.styles = getStyles(this.props.muiTheme);
   }
-
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
 
   handleTouchTap = () => {
     this.setState({
@@ -203,12 +197,6 @@ class HeaderBar extends React.Component {
           <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         
-         <Snackbar style={{bottom: 45}}
-          open={this.state.open}
-          message="Event added to your calendar"
-          autoHideDuration={4000}
-          onRequestClose={this.handleRequestClose}
-        />
       </div>
     );
   }

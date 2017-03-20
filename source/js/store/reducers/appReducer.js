@@ -1,47 +1,36 @@
 import { Map } from 'immutable';
 
 import {
-  TEST_ACTION,
-  TEST_ASYNC_ACTION_START,
-  TEST_ASYNC_ACTION_ERROR,
-  TEST_ASYNC_ACTION_SUCCESS,
+  APP_SHOW_LOADER,
+  APP_SHOW_SNACK,
 } from '../actions/appActions';
 
 const initialState = Map({
-  counter: 0,
-  asyncLoading: false,
-  asyncError: null,
-  asyncData: null,
+  loaderOpen: false,
+  loaderTip: '',
+  snackOpen: false,
+  snackTip: '',
 });
 
 const actionsMap = {
-  [TEST_ACTION]: (state) => {
-    const counter = state.get('counter') + 1;
+
+  // Loader Action
+  [APP_SHOW_LOADER]: (state, {type, data}) => {
 
     return state.merge({
-      counter,
+      loaderOpen: data.shown,
+      loaderTip: data.tip,
     });
   },
 
-  // Async action
-  [TEST_ASYNC_ACTION_START]: (state) => {
+  // SnackBar Action
+  [APP_SHOW_SNACK]: (state, {type, data}) => {
     return state.merge({
-      asyncLoading: true,
-      asyncError: null,
+      snackOpen: data.shown,
+      snackTip: data.tip,
     });
   },
-  [TEST_ASYNC_ACTION_ERROR]: (state, action) => {
-    return state.merge({
-      asyncLoading: false,
-      asyncError: action.data,
-    });
-  },
-  [TEST_ASYNC_ACTION_SUCCESS]: (state, action) => {
-    return state.merge({
-      asyncLoading: false,
-      asyncData: action.data,
-    });
-  },
+  
 };
 
 export default function reducer(state = initialState, action = {}) {

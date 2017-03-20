@@ -5,8 +5,8 @@ export const SIGNIN_ACT  = 'SIGNIN_ACT';
 export const SIGNOFF_ACT = 'SIGNOFF_ACT';
 export const SAVE_TOKEN_ACT = 'SAVE_TOKEN_ACT';
 
-export const AUTH_ACT_START = 'AUTH_ACT_START';
-export const AUTH_ACT_END   = 'AUTH_ACT_END';
+export const RPC_ACT_START = 'RPC_ACT_START';
+export const RPC_ACT_END   = 'RPC_ACT_END';
 
 export const REISSUE_TOKEN_ACT = 'REISSUE_TOKEN_ACT';
 export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
@@ -18,16 +18,16 @@ export function openSigninAction(show = true) {
   };
 }
 
-function authStart(account) {
+function rpcStart(account) {
   return {
-    type: AUTH_ACT_START,
+    type: RPC_ACT_START,
     data: account,
   };
 }
 
-function authEnd(data) {
+function rpcEnd(data) {
   return {
-    type: AUTH_ACT_END,
+    type: RPC_ACT_END,
     data: data,
   };
 }
@@ -99,7 +99,7 @@ export function callRpcApi(headers, api, postdata, resolve) {
 
 export function signinAction(authbody) {
   return (dispatch) => {
-    dispatch(authStart(authbody.principal));
+    dispatch(rpcStart(authbody.principal));
 
     API.authService.authenticate(authbody)
       .then(data => {
@@ -107,7 +107,7 @@ export function signinAction(authbody) {
           credential: authbody.credential,
           token: data.data,
         }));
-        dispatch(authEnd(data))
+        dispatch(rpcEnd(data))
       })
       .catch( error => trapCatch( dispatch, error) );
   };

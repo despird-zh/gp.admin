@@ -5,8 +5,8 @@ import {
   SIGNIN_ACT,
   SIGNOFF_ACT,
   SAVE_TOKEN_ACT,
-  AUTH_ACT_START,
-  AUTH_ACT_END,
+  RPC_ACT_START,
+  RPC_ACT_END,
   REISSUE_TOKEN_ACT,
   FETCH_TOKEN_ACT
 } from '../actions/authActions';
@@ -30,7 +30,7 @@ const actionsMap = {
       opening: data,
     });
   },
-  [AUTH_ACT_START]: (state, {type, data}) => {
+  [RPC_ACT_START]: (state, {type, data}) => {
 
     return state.merge({
       rpcinvoking: true,
@@ -43,7 +43,7 @@ const actionsMap = {
       jwttoken: data.token,
     });
   },
-  [AUTH_ACT_END]: (state, {type, data}) => {
+  [RPC_ACT_END]: (state, {type, data}) => {
     return state.merge({
       rpcinvoking: false,
       message: data.meta.message,

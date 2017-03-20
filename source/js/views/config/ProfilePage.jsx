@@ -35,8 +35,7 @@ class ProfilePage extends React.Component {
   
   handleTouchTap = () => {
 
-  	let auth = this.props.isAuthenticated();
-  	console.log('auth result:' + auth);
+  	console.log('auth result:' + this.props.authenticated);
     this.props.testAction();
   }
 
