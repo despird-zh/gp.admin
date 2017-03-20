@@ -4,11 +4,12 @@ import { bindActionCreators } from 'redux';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
 import { snackAction } from '../store/actions/appActions';
+import Spinner from './Spinner';
+
 const styles = {
-	root: {
-		display: 'flex', 
-		position: 'relative',
-		marginTop: 15
+	loaderStyle: {
+	  width: '30%',
+	  maxWidth: 400,
 	}
 };
 
@@ -28,8 +29,10 @@ class AffiliateBars extends React.Component {
 			<div>
 				<Dialog
 	        modal={false}
-	        open={this.props.loaderOpen}>
-	        {this.props.loaderTip}
+	        open={this.props.loaderOpen}
+	        contentStyle={styles.loaderStyle}
+	        >
+	        <Spinner/>{this.props.loaderTip}
 	      </Dialog>
 	      <Snackbar style={{bottom: 45}}
           open={this.props.snackOpen}
