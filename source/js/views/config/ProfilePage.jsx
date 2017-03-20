@@ -1,7 +1,9 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
+import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { testAction } from '../../store/actions/devActions';
 
@@ -11,7 +13,8 @@ const styles = {
     position: 'relative',
     marginTop: 10
   },
-  spacer: { flex: 1 }
+  spacer: { flex: 1 },
+
 }
 
 class ProfilePage extends React.Component {
@@ -27,6 +30,7 @@ class ProfilePage extends React.Component {
       title: 'System Profile',
       description: 'Review the information of System'
     });
+    console.log(this.props.muiTheme);
   }
   
   handleTouchTap = () => {
@@ -37,6 +41,10 @@ class ProfilePage extends React.Component {
   }
 
   render() {
+    const gutter = this.props.muiTheme.spacing.desktopGutter;
+    const  input = {
+      marginRight: gutter
+    }
 
   	return (
 		  <div>
@@ -52,7 +60,43 @@ class ProfilePage extends React.Component {
           </div>
         </div>
         <div>
+          <TextField style={ input }
+            defaultValue="Default Value"
+            floatingLabelText="Entity code"
+            floatingLabelFixed={true}/>
+          <TextField style={ input }
+            hintText="Hint Text"
+            floatingLabelText="Node code"
+            floatingLabelFixed={true}/><br/>
           
+          <TextField style={ input }
+            hintText="Hint Text"
+            floatingLabelText="Short Name"
+            floatingLabelFixed={true}/>
+          <TextField style={ Object.assign({},input,{width:100}) }
+            hintText="Hint Text"
+            floatingLabelText="Abbreviation"
+            floatingLabelFixed={true}/><br/>
+          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+            hintText="Hint Text"
+            floatingLabelText="Entity Name"
+            floatingLabelFixed={true}/><br/>
+          <TextField style={ input }
+            hintText="Hint Text"
+            floatingLabelText="Administrator"
+            floatingLabelFixed={true}/><br/>
+          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+            hintText="Hint Text"
+            floatingLabelText="Service URL"
+            floatingLabelFixed={true}/><br/>
+          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+            hintText="Hint Text"
+            floatingLabelText="Binary URL"
+            floatingLabelFixed={true}/><br/>
+          <TextField style={ Object.assign({}, input,{ width: 512 + gutter})}
+            hintText="Hint Text"
+            floatingLabelText="Description"
+            floatingLabelFixed={true}/>
         </div>
 		  	<div>
 		  	ddddd profile counter of dev - {this.props.counter}
@@ -64,9 +108,11 @@ class ProfilePage extends React.Component {
   }
 }
 
-export default AuthConnect(
+const NewComponent = AuthConnect(
   ProfilePage, 
   (state) => ({
             counter: state.dev.get('counter'),
           }), 
   {testAction});
+
+export default muiThemeable()(NewComponent);
