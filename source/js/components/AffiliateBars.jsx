@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
+import FontIcon from 'material-ui/FontIcon';
 import { snackAction } from '../store/actions/appActions';
 
 const styles = {
 	loaderStyle: {
 	  width: '30%',
-	  maxWidth: 400,
+	  maxWidth: 350,
 	}
 };
 
@@ -30,7 +31,7 @@ class AffiliateBars extends React.Component {
 	        modal={false}
 	        open={this.props.loaderOpen}
 	        contentStyle={styles.loaderStyle}>
-	        <i class="fa fa-edit"></i>{this.props.loaderTip}
+	        <FontIcon className="fa fa-spinner fa-spin fa-4x fa-fw" ></FontIcon> {this.props.loaderTip}
 	      </Dialog>
 	      <Snackbar style={{bottom: 45}}
           open={this.props.snackOpen}

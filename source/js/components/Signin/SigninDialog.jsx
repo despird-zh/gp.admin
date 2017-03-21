@@ -2,8 +2,10 @@ import React , { PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Chip from 'material-ui/Chip';
 import { openSigninAction, signinAction, signoffAction } from '../../store/actions/authActions';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -21,7 +23,14 @@ const styles = {
     paddingBottom:25,
     paddingLeft: 30,
     paddingRight: 30,
-  }
+  },
+  loading: {
+    float: 'left',
+    marginTop: 6
+  },
+  msg: {
+    marginTop: 10,
+  },
 };
 
 /**
@@ -68,6 +77,7 @@ class SigninDialog extends React.Component {
   render() {
 
     const actions = [
+      (this.props.authing ? <FontIcon className="fa fa-spinner fa-spin" style={styles.loading}></FontIcon> : null),
       <FlatButton
         label="Cancel"
         primary={true}
@@ -78,13 +88,13 @@ class SigninDialog extends React.Component {
         primary={true}
         onTouchTap={this.handleSignin}
         disabled={this.state.account === '' || this.state.password === ''}
-      />,
+      >
+      </FlatButton>,
     ];
-
     return (
       <div>
         <Dialog
-          title="Welecome xxx"
+          title="Welcome to GPress"
           titleStyle={styles.title}
           actions={actions}
           actionsContainerStyle={styles.actions}
@@ -92,16 +102,15 @@ class SigninDialog extends React.Component {
           bodyStyle={styles.body}
           contentStyle={styles.content}
           open={this.props.opening}
-          onRequestClose={this.handleClose}
-        >
+          onRequestClose={this.handleClose}>
+          {this.props.message === '' ? null : <span style={styles.msg}>{this.props.message}</span>}
           <TextField
             hintText="The user account"
             floatingLabelText="Account"
             floatingLabelFixed={true}
             name="account"
             defaultValue={this.state.account}
-            onChange={this.handleChange}
-          />
+            onChange={this.handleChange}/>
           <TextField
             hintText="Please input password"
             type="password"
@@ -109,8 +118,7 @@ class SigninDialog extends React.Component {
             defaultValue={this.state.password}
             floatingLabelText="Password"
             floatingLabelFixed={true}
-            onChange={this.handleChange}
-          />
+            onChange={this.handleChange}/>
         </Dialog>
       </div>
     );
@@ -119,23 +127,24 @@ class SigninDialog extends React.Component {
 
 SigninDialog.propTypes = {
   opening: PropTypes.bool,
+  authing: PropTypes.bool,
   audience: PropTypes.string,
-  account: PropTypes.string,
+  message: PropTypes.string,
   openSigninAction: PropTypes.func,
   signinAction: PropTypes.func,
-  signoffAction: PropTypes.func,
 };
 
 export default connect(
   (state) => ({
     opening: state.auth.get('opening'),
+    authing: state.auth.get('authing'),
     audience: state.auth.get('audience'),
+    message: state.auth.get('message'),
   }),
   (dispatch) => (
     bindActionCreators({
       openSigninAction,
       signinAction,
-      signoffAction
     }, dispatch)
   )
 )(SigninDialog);

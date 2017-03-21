@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 import {
   APP_SHOW_LOADER,
   APP_SHOW_SNACK,
+  APP_ONLY_SNACK,
 } from '../actions/appActions';
 
 const initialState = Map({
@@ -31,6 +32,14 @@ const actionsMap = {
     });
   },
   
+  // SnackBar Action
+  [APP_ONLY_SNACK]: (state, {type, data}) => {
+    return state.merge({
+      loaderOpen: false,
+      snackOpen: data.shown,
+      snackTip: data.tip,
+    });
+  },
 };
 
 export default function reducer(state = initialState, action = {}) {

@@ -1,15 +1,18 @@
 import API from '../../rpcapi';
+import { loaderAction, snackAction, snackOnlyAction } from './appActions';
 
 export const OPEN_SIGNIN_ACT  = 'OPEN_SIGNIN_ACT';
 export const SIGNIN_ACT  = 'SIGNIN_ACT';
 export const SIGNOFF_ACT = 'SIGNOFF_ACT';
 export const SAVE_TOKEN_ACT = 'SAVE_TOKEN_ACT';
 
-export const RPC_ACT_START = 'RPC_ACT_START';
-export const RPC_ACT_END   = 'RPC_ACT_END';
+export const AUTH_ACT_START = 'AUTH_ACT_START';
+export const AUTH_ACT_END   = 'AUTH_ACT_END';
 
 export const REISSUE_TOKEN_ACT = 'REISSUE_TOKEN_ACT';
 export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
+
+const START_LOADER = loaderAction({shown: true, loaderTip: ''});
 
 export function openSigninAction(show = true) {
   return {
@@ -18,16 +21,16 @@ export function openSigninAction(show = true) {
   };
 }
 
-function rpcStart(account) {
+function authStart(account) {
   return {
-    type: RPC_ACT_START,
+    type: AUTH_ACT_START,
     data: account,
   };
 }
 
-function rpcEnd(data) {
+function authEnd(data) {
   return {
-    type: RPC_ACT_END,
+    type: AUTH_ACT_END,
     data: data,
   };
 }
@@ -39,14 +42,19 @@ function saveToken(data) {
   };
 }
 
-function trapCatch(dispatch, error) {
-  dispatch(authEnd({
-    meta: {
-      state: 'error',
-      message: '无法连接服务器'
-    },
-    data: null
-  }))
+function trapCatch(dispatch, error, isAuthRpc = false) {
+  if(isAuthRpc){
+    dispatch(authEnd({
+      meta: {
+        state: 'error',
+        message: '无法连接服务器'
+      },
+      data: null
+    }));
+  } else{
+    let snackMsg = snackOnlyAction({snackTip: '无法连接服务器'});
+    dispatch(snackMsg);
+  }
 }
 
 export function reIssueToken({headers, api, postdata, resolve}) {
@@ -99,7 +107,7 @@ export function callRpcApi(headers, api, postdata, resolve) {
 
 export function signinAction(authbody) {
   return (dispatch) => {
-    dispatch(rpcStart(authbody.principal));
+    dispatch(authStart(authbody.principal));
 
     API.authService.authenticate(authbody)
       .then(data => {
@@ -107,9 +115,9 @@ export function signinAction(authbody) {
           credential: authbody.credential,
           token: data.data,
         }));
-        dispatch(rpcEnd(data))
+        dispatch(authEnd(data))
       })
-      .catch( error => trapCatch( dispatch, error) );
+      .catch( error => trapCatch( dispatch, error, true) );
   };
 }
 

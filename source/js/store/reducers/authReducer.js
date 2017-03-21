@@ -5,8 +5,8 @@ import {
   SIGNIN_ACT,
   SIGNOFF_ACT,
   SAVE_TOKEN_ACT,
-  RPC_ACT_START,
-  RPC_ACT_END,
+  AUTH_ACT_START,
+  AUTH_ACT_END,
   REISSUE_TOKEN_ACT,
   FETCH_TOKEN_ACT
 } from '../actions/authActions';
@@ -15,7 +15,7 @@ const BLIND_TOKEN = '__blind_token__';
 
 const initialState = Map({
 	opening: false,
-  rpcinvoking: false,
+  authing: false,
   account: '',
   credential: '',
   audience: 'gp.admin',
@@ -28,12 +28,12 @@ const actionsMap = {
 	[OPEN_SIGNIN_ACT]: (state, {type, data}) => {
     return state.merge({
       opening: data,
+      message: '',
     });
   },
-  [RPC_ACT_START]: (state, {type, data}) => {
-
+  [AUTH_ACT_START]: (state, {type, data}) => {
     return state.merge({
-      rpcinvoking: true,
+      authing: true,
       account: data,
     });
   },
@@ -43,9 +43,9 @@ const actionsMap = {
       jwttoken: data.token,
     });
   },
-  [RPC_ACT_END]: (state, {type, data}) => {
+  [AUTH_ACT_END]: (state, {type, data}) => {
     return state.merge({
-      rpcinvoking: false,
+      authing: false,
       message: data.meta.message,
     });
   },
