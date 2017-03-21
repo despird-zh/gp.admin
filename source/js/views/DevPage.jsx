@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import { testAction, testAsync } from '../store/actions/devActions';
 import { snackAction, loaderAction } from '../store/actions/appActions';
+import FontIcon from 'material-ui/FontIcon';
 import { Link } from 'react-router';
 import bookImg from '../../assets/img/book2.jpg';
 
@@ -59,6 +60,7 @@ class DevPage extends Component {
           </button>
           <RaisedButton label="Loader" primary={true} onTouchTap ={this.handleLoaderTap}/>
           <RaisedButton label="Snack" primary={true} onTouchTap ={this.handleSnackTap}/>
+          <FontIcon className="fa fa-spinner fa-spin fa-3x fa-fw" ></FontIcon>
         </div>
         <hr />
         <div>
