@@ -73,6 +73,9 @@ const rules = [
     test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
     use: 'url-loader?limit=10000&mimetype=application/octet-stream&name=[name].[ext]',
   },
+  { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
+    use: 'url-loader?limit=10000&mimetype=image/svg+xml'
+  },
   {
     test: /\.ico$/,
     use: 'file-loader?name=[name].[ext]',
