@@ -35,27 +35,14 @@ function authEnd(data) {
   };
 }
 
-function saveToken(data) {
+export function saveToken(data) {
   return {
     type: SAVE_TOKEN_ACT,
     data: data,
   };
 }
 
-function trapCatch(dispatch, error, isAuthRpc = false) {
-  if(isAuthRpc){
-    dispatch(authEnd({
-      meta: {
-        state: 'error',
-        message: '无法连接服务器'
-      },
-      data: null
-    }));
-  } else{
-    let snackMsg = snackOnlyAction({snackTip: '无法连接服务器'});
-    dispatch(snackMsg);
-  }
-}
+/*
 
 export function reIssueToken({headers, api, postdata, resolve}) {
 
@@ -98,13 +85,27 @@ export function reFetchToken({authbody, api, postdata, resolve}) {
 }
 
 export function callRpcApi(headers, api, postdata, resolve) {
-  return (dispatch) => {
+  return (dispatch, state, api, postdata, resolve) => {
     console.log(api);
     api(headers, postdata)
         .then(resolve)
         .catch( error => trapCatch( dispatch, error) );
   };
 }
+function trapCatch(dispatch, error, isAuthRpc = false) {
+  if(isAuthRpc){
+    dispatch(authEnd({
+      meta: {
+        state: 'error',
+        message: '无法连接服务器'
+      },
+      data: null
+    }));
+  } else{
+    let snackMsg = snackOnlyAction({snackTip: '无法连接服务器'});
+    dispatch(snackMsg);
+  }
+}*/
 
 export function signinAction(authbody) {
   return (dispatch) => {
@@ -119,7 +120,15 @@ export function signinAction(authbody) {
         }));
         dispatch(authEnd(data))
       })
-      .catch( error => trapCatch( dispatch, error, true) );
+      .catch( error => {
+        dispatch(authEnd({
+          meta: {
+            state: 'error',
+            message: '无法连接服务器'
+          },
+          data: null
+        }));
+      });
   };
 }
 
