@@ -12,7 +12,8 @@ export const AUTH_ACT_END   = 'AUTH_ACT_END';
 export const REISSUE_TOKEN_ACT = 'REISSUE_TOKEN_ACT';
 export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
 
-const START_LOADER = loaderAction({shown: true, loaderTip: ''});
+const START_LOADER = loaderAction({shown: true, loaderTip: 'Start RPC Invoking'});
+const END_LOADER = loaderAction({shown: false, loaderTip: 'End RPC Invoking'});
 
 export function openSigninAction(show = true) {
   return {
@@ -99,8 +100,10 @@ export function reFetchToken({authbody, api, postbody, callback}) {
 
 export function callRpcApi({headers, api, postbody, callback}) {
   return (dispatch) => {
+    dispatch(START_LOADER);
     api(headers, postbody)
         .then(callback)
+        .then(() => {dispatch(END_LOADER);})
         .catch( error => trapCatch( dispatch, error) );
   };
 }
