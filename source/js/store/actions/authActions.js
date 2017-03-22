@@ -99,6 +99,7 @@ export function reFetchToken({authbody, api, postdata, resolve}) {
 
 export function callRpcApi(headers, api, postdata, resolve) {
   return (dispatch) => {
+    console.log(api);
     api(headers, postdata)
         .then(resolve)
         .catch( error => trapCatch( dispatch, error) );
@@ -111,6 +112,7 @@ export function signinAction(authbody) {
 
     API.authService.authenticate(authbody)
       .then(data => {
+        
         dispatch(saveToken({
           credential: authbody.credential,
           token: data.data,

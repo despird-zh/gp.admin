@@ -39,7 +39,7 @@ function testAsyncError(error) {
 export function testAsync() {
   return function (dispatch) {
     dispatch(testAsyncStart());
-    console.log(API.devAPI);
+
     API.devService.testAsync()
       .then(data => dispatch(testAsyncSuccess(data)))
       .catch(error => dispatch(testAsyncError(error)));
