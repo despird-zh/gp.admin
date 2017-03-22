@@ -5,7 +5,7 @@ import {
 } from '../actions/configActions';
 
 const initialState = Map({
-  profile: {},
+  profile: Map(),
 });
 
 const actionsMap = {
