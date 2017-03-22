@@ -2,8 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import jwtDecode from 'jwt-decode';
-import API from '../rpcapi';
-import { openSigninAction, signoffAction, reIssueToken, reFetchToken, callRpcApi } from '../store/actions/authActions';
+import { snackOnlyAction } from '../store/actions/appActions';
+import { openSigninAction, 
+				 signoffAction, 
+				 reIssueToken, 
+				 reFetchToken, 
+				 callRpcApi } from '../store/actions/authActions';
 /**
  * here create a new HOC to complete the connect and api invoking
  * stateMap is the normal map of state
@@ -38,13 +42,13 @@ export default (ComposedComponent, stateMap, actions) => {
 
 		};
 
-	  invokeRPC = (api, databody, callback) => {
-	  	
+	  rpcInvoke = (api, databody, callback) => {
+
 	    if (this.props.authenticated) {
-        let _tokenState = this.props.tokenState();
+        let _tokenState = this.tokenState();
 
         if ( _tokenState === 'TO_BE_EXPIRE' ) {
-        	let headers = this.props.rpcHeaders();
+        	let headers = this.rpcHeaders();
 
           this.props.reIssueToken({
           	headers, 
@@ -65,7 +69,7 @@ export default (ComposedComponent, stateMap, actions) => {
           	callback
           });
         }else{
-        	let headers = this.props.rpcHeaders();
+        	let headers = this.rpcHeaders();
 
         	this.props.callRpcApi({
           	headers, 
@@ -74,6 +78,8 @@ export default (ComposedComponent, stateMap, actions) => {
           	callback
           });
       	}
+      }else{
+      	this.props.snackOnlyAction({show:true, snackTip: 'Please logon firstly!'});
       }
 	  }
 
@@ -81,8 +87,8 @@ export default (ComposedComponent, stateMap, actions) => {
 
 	    return <ComposedComponent { ...this.props }
 	      { ...this.state } 
-	      toeknState = { this.tokenStake }
-	      rpcInovke = { this.invokeRPC }
+	      tokenState = { this.tokenState }
+	      rpcInvoke = { this.rpcInvoke }
 	      rpcHeaders = { this.rpcHeaders }
 	    />;
 	  }
@@ -107,6 +113,7 @@ export default (ComposedComponent, stateMap, actions) => {
 	      reIssueToken,
 	      reFetchToken,
 	      callRpcApi,
+	      snackOnlyAction,
 	      ...actions
 	    }, dispatch)
 	  )

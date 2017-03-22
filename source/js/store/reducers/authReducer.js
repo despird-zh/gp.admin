@@ -44,9 +44,12 @@ const actionsMap = {
     });
   },
   [AUTH_ACT_END]: (state, {type, data}) => {
+
     return state.merge({
       authing: false,
       message: data.meta.message,
+      opening: data.meta.code !== 'VALID_TOKEN',
+      authenticated: data.meta.code === 'VALID_TOKEN'
     });
   },
 };

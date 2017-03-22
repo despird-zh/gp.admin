@@ -5,7 +5,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { testAction } from '../../store/actions/devActions';
+import { profileSaveAction } from '../../store/actions/configActions';
+import API from '../../rpcapi';
 
 const styles = {
   root: {
@@ -30,7 +31,6 @@ class ProfilePage extends React.Component {
       title: 'System Profile',
       description: 'Review the information of System'
     });
-    console.log(this.props.muiTheme);
   }
   
   handleTouchTap = () => {
@@ -39,6 +39,14 @@ class ProfilePage extends React.Component {
     this.props.testAction();
   }
 
+  handleRefresh = () => {
+    console.log(this.props);
+    console.log(API.configService.queryProfile);
+    this.props.rpcInvoke(API.configService.queryProfile, {}, (response) => {
+      console.log(response);
+    });
+  };
+  
   render() {
     const gutter = this.props.muiTheme.spacing.desktopGutter;
     const  input = {
@@ -54,7 +62,7 @@ class ProfilePage extends React.Component {
           </Chip>
           <div style={styles.spacer} />
           <div>
-              <RaisedButton label="Refresh" style={{margin: 4}} />
+              <RaisedButton label="Refresh" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
               <RaisedButton label="Save" primary={true} style={{margin: 4}} />
           </div>
         </div>
@@ -67,7 +75,6 @@ class ProfilePage extends React.Component {
             hintText="Hint Text"
             floatingLabelText="Node code"
             floatingLabelFixed={true}/><br/>
-          
           <TextField style={ input }
             hintText="Hint Text"
             floatingLabelText="Short Name"
@@ -110,8 +117,8 @@ class ProfilePage extends React.Component {
 const NewComponent = AuthConnect(
   ProfilePage, 
   (state) => ({
-            counter: state.dev.get('counter'),
+            profile: state.config.get('profile'),
           }), 
-  {testAction});
+  {profileSaveAction});
 
 export default muiThemeable()(NewComponent);
