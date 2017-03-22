@@ -40,9 +40,8 @@ class ProfilePage extends React.Component {
   }
 
   handleRefresh = () => {
-    console.log(this.props);
-    console.log(API.configService.queryProfile);
     this.props.rpcInvoke(API.configService.queryProfile, {}, (response) => {
+      console.log('----------------------');
       console.log(response);
     });
   };

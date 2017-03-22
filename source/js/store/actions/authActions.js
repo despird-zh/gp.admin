@@ -57,7 +57,7 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
   }
 }
 
-export function reIssueToken({headers, api, postdata, resolve}) {
+export function reIssueToken({headers, api, postbody, callback}) {
 
   return (dispatch) => {
 
@@ -67,8 +67,8 @@ export function reIssueToken({headers, api, postdata, resolve}) {
 
       headers.Authorization= 'Bearer: ' + response.data,
 
-      api(headers, postdata)
-        .then(resolve)
+      api(headers, postbody)
+        .then(callback)
         .catch( error => trapCatch( dispatch, error) );
 
     })
@@ -76,7 +76,7 @@ export function reIssueToken({headers, api, postdata, resolve}) {
   };
 }
 
-export function reFetchToken({authbody, api, postdata, resolve}) {
+export function reFetchToken({authbody, api, postbody, callback}) {
 
   return (dispatch) => {
 
@@ -88,8 +88,8 @@ export function reFetchToken({authbody, api, postdata, resolve}) {
               Accept: 'application/json'
             };
 
-      api(headers, postdata)
-        .then(resolve)
+      api(headers, postbody)
+        .then(callback)
         .catch( error => trapCatch( dispatch, error) );
 
     })
@@ -97,11 +97,10 @@ export function reFetchToken({authbody, api, postdata, resolve}) {
   };
 }
 
-export function callRpcApi(headers, api, postdata, resolve) {
+export function callRpcApi({headers, api, postbody, callback}) {
   return (dispatch) => {
-    console.log(api);
-    api(headers, postdata)
-        .then(resolve)
+    api(headers, postbody)
+        .then(callback)
         .catch( error => trapCatch( dispatch, error) );
   };
 }
