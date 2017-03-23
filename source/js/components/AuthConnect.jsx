@@ -5,7 +5,9 @@ import jwtDecode from 'jwt-decode';
 import { snackOnlyAction } from '../store/actions/appActions';
 import { openSigninAction, 
 				 signoffAction, 
-				 saveToken} from '../store/actions/authActions';
+				 reIssueToken, 
+				 reFetchToken, 
+				 callRpcApi } from '../store/actions/authActions';
 /**
  * here create a new HOC to complete the connect and api invoking
  * stateMap is the normal map of state
@@ -40,7 +42,7 @@ export default (ComposedComponent, stateMap, actions) => {
 
 		};
 
-	  rpcInvoke = (api, databody, callback) => {
+	  rpcInvoke = (api, postbody, callback) => {
 
 	    if (this.props.authenticated) {
         let _tokenState = this.tokenState();
@@ -48,69 +50,23 @@ export default (ComposedComponent, stateMap, actions) => {
         if ( _tokenState === 'TO_BE_EXPIRE' ) {
         	let headers = this.rpcHeaders();
 
-          this.reIssueToken({	headers, api, databody, callback  });
+          this.props.reIssueToken({	headers, api, postbody, callback });
         } else if ( _tokenState === 'EXPIRED' ) {
         	let authbody = {
 			      principal: this.props.account,
 			      credential: this.props.credential,
 			      audience: this.props.audience
 			    };
-          this.reFetchToken({	authbody, api, databody, callback });
+          this.props.reFetchToken({	authbody, api, postbody, callback });
         }else{
         	let headers = this.rpcHeaders();
 
-        	this.callRpcApi({	headers, api, databody, callback });
+        	this.props.callRpcApi({ headers, api, postbody, callback });
       	}
       }else{
       	this.props.snackOnlyAction({show:true, snackTip: 'Please logon firstly!'});
       }
 	  }
-
-		reIssueToken = ({headers, api, postdata, resolve}) => {
-
-	    API.authService.reIssueToken(headers).then((response) => {
-
-	      this.props.saveToken(response.data);
-
-	      headers.Authorization= 'Bearer: ' + response.data,
-
-	      api(headers, postdata)
-	        .then(resolve)
-	        .catch( error => trapCatch( error) );
-
-	    })
-	    .catch( error => trapCatch( error) );
-		}
-
-		reFetchToken = ({authbody, api, postdata, resolve}) => {
-
-	    API.authService.reFetchToken(authbody).then((response) => {
-
-	      this.props.saveToken(response.data);
-	      let headers = {
-	              Authorization: 'Bearer: ' + response.data,
-	              Accept: 'application/json'
-	            };
-
-	      api(headers, postdata)
-	        .then(resolve)
-	        .catch( error => trapCatch( error) );
-
-	    })
-	    .catch( error => trapCatch( error) );
-
-		}
-
-	  callRpcApi = (headers, api, postdata, resolve) => {
-		  
-		    api(headers, postdata)
-		        .then(resolve)
-		        .catch( error => trapCatch(error) );
-		}
-
-		trapCatch(error){
-			this.props.snackOnlyAction({show:true, snackTip: '无法连接服务器'})
-		}
 
 	  render() {
 
@@ -139,7 +95,9 @@ export default (ComposedComponent, stateMap, actions) => {
 	    bindActionCreators({
 	      openSigninAction,
 	      signoffAction,
-	      saveToken,
+	      reIssueToken,
+	      reFetchToken,
+	      callRpcApi,
 	      snackOnlyAction,
 	      ...actions
 	    }, dispatch)

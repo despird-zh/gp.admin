@@ -40,27 +40,26 @@ class ProfilePage extends React.Component {
   }
 
   handleRefresh = () => {
-    console.log(this.props);
-    console.log(API.configService.queryProfile);
     this.props.rpcInvoke(API.configService.queryProfile, {}, (response) => {
-      console.log(response);
+      console.log('----------------------');
+      this.props.profileSaveAction(response.data);
     });
   };
   
   render() {
+
     const gutter = this.props.muiTheme.spacing.desktopGutter;
     const  input = {
       marginRight: gutter
     }
-
   	return (
 		  <div>
         <div style={styles.root}>
           <Chip
             style={{margin: 6}}>
-            Text Chipssssssssssss
+            {this.props.profile.get('lastModified')} Modified By {profile.get('modifier')}
           </Chip>
-          <div style={styles.spacer} />
+          <div style={styles.spacer}/>
           <div>
               <RaisedButton label="Refresh" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
               <RaisedButton label="Save" primary={true} style={{margin: 4}} />
@@ -70,45 +69,49 @@ class ProfilePage extends React.Component {
           <TextField style={ input }
             defaultValue="Default Value"
             floatingLabelText="Entity code"
+            value={ profile.get('entityCode')}
             floatingLabelFixed={true}/>
           <TextField style={ input }
             hintText="Hint Text"
             floatingLabelText="Node code"
+            value={ profile.get('nodeCode')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ input }
             hintText="Hint Text"
             floatingLabelText="Short Name"
+            value={ profile.get('shortName')}
             floatingLabelFixed={true}/>
           <TextField style={ Object.assign({},input,{width:100}) }
             hintText="Hint Text"
             floatingLabelText="Abbreviation"
+            value={ profile.get('abbr')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
             hintText="Hint Text"
             floatingLabelText="Entity Name"
+            value={ profile.get('name')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ input }
             hintText="Hint Text"
             floatingLabelText="Administrator"
+            value={ profile.get('admin')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
             hintText="Hint Text"
             floatingLabelText="Service URL"
+            value={ profile.get('serviceUrl')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
             hintText="Hint Text"
             floatingLabelText="Binary URL"
+            value={ profile.get('binaryUrl')}
             floatingLabelFixed={true}/><br/>
           <TextField style={ Object.assign({}, input,{ width: 512 + gutter})}
             hintText="Hint Text"
+            value={ profile.get('description')}
             floatingLabelText="Description"
             floatingLabelFixed={true}/>
         </div>
-		  	<div>
-		  	ddddd profile counter of dev - {this.props.counter}
-		  	<RaisedButton label="Primary" primary={true} 
-		  	onTouchTap ={this.handleTouchTap}/>
-  			</div>
   		</div>
   	);
   }

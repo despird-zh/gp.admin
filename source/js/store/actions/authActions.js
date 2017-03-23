@@ -12,7 +12,9 @@ export const AUTH_ACT_END   = 'AUTH_ACT_END';
 export const REISSUE_TOKEN_ACT = 'REISSUE_TOKEN_ACT';
 export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
 
-const START_LOADER = loaderAction({shown: true, loaderTip: ''});
+
+const START_LOADER = loaderAction({shown: true, loaderTip: 'Start RPC Invoking'});
+const END_LOADER = loaderAction({shown: false, loaderTip: 'End RPC Invoking'});
 
 export function openSigninAction(show = true) {
   return {
@@ -35,63 +37,13 @@ function authEnd(data) {
   };
 }
 
-export function saveToken(data) {
+function saveToken(data) {
   return {
     type: SAVE_TOKEN_ACT,
     data: data,
   };
 }
 
-/*
-
-export function reIssueToken({headers, api, postdata, resolve}) {
-
-  return (dispatch) => {
-
-    API.authService.reIssueToken(headers).then((response) => {
-
-      dispatch(saveToken(response.data))
-
-      headers.Authorization= 'Bearer: ' + response.data,
-
-      api(headers, postdata)
-        .then(resolve)
-        .catch( error => trapCatch( dispatch, error) );
-
-    })
-    .catch( error => trapCatch( dispatch, error) );
-  };
-}
-
-export function reFetchToken({authbody, api, postdata, resolve}) {
-
-  return (dispatch) => {
-
-    API.authService.reFetchToken(authbody).then((response) => {
-
-      dispatch(saveToken(response.data))
-      let headers = {
-              Authorization: 'Bearer: ' + response.data,
-              Accept: 'application/json'
-            };
-
-      api(headers, postdata)
-        .then(resolve)
-        .catch( error => trapCatch( dispatch, error) );
-
-    })
-    .catch( error => trapCatch( dispatch, error) );
-  };
-}
-
-export function callRpcApi(headers, api, postdata, resolve) {
-  return (dispatch, state, api, postdata, resolve) => {
-    console.log(api);
-    api(headers, postdata)
-        .then(resolve)
-        .catch( error => trapCatch( dispatch, error) );
-  };
-}
 function trapCatch(dispatch, error, isAuthRpc = false) {
   if(isAuthRpc){
     dispatch(authEnd({
@@ -105,7 +57,57 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
     let snackMsg = snackOnlyAction({snackTip: '无法连接服务器'});
     dispatch(snackMsg);
   }
-}*/
+}
+
+export function reIssueToken({headers, api, postbody, callback}) {
+
+  return (dispatch) => {
+
+    API.authService.reIssueToken(headers).then((response) => {
+
+      dispatch(saveToken(response.data))
+
+      headers.Authorization= 'Bearer: ' + response.data,
+
+      api(headers, postbody)
+        .then(callback)
+        .catch( error => trapCatch( dispatch, error) );
+
+    })
+    .catch( error => trapCatch( dispatch, error) );
+  };
+}
+
+export function reFetchToken({authbody, api, postbody, callback}) {
+
+  return (dispatch) => {
+
+    API.authService.reFetchToken(authbody).then((response) => {
+
+      dispatch(saveToken(response.data))
+      let headers = {
+              Authorization: 'Bearer: ' + response.data,
+              Accept: 'application/json'
+            };
+
+      api(headers, postbody)
+        .then(callback)
+        .catch( error => trapCatch( dispatch, error) );
+
+    })
+    .catch( error => trapCatch( dispatch, error) );
+  };
+}
+
+export function callRpcApi({headers, api, postbody, callback}) {
+  return (dispatch) => {
+    dispatch(START_LOADER);
+    api(headers, postbody)
+        .then(callback)
+        .then(() => {dispatch(END_LOADER);})
+        .catch( error => trapCatch( dispatch, error) );
+  };
+}
 
 export function signinAction(authbody) {
   return (dispatch) => {
@@ -120,15 +122,7 @@ export function signinAction(authbody) {
         }));
         dispatch(authEnd(data))
       })
-      .catch( error => {
-        dispatch(authEnd({
-          meta: {
-            state: 'error',
-            message: '无法连接服务器'
-          },
-          data: null
-        }));
-      });
+      .catch( error => trapCatch( dispatch, error, true) );
   };
 }
 

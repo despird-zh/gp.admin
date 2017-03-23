@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 import { BASE_URL } from './config';
 
 function queryProfile(headers, params) {
-
+	
   let url = BASE_URL + 'ent-profile-query.do';
   return fetch(url,{
 		  method: 'POST',
