@@ -48,10 +48,12 @@ class ProfilePage extends React.Component {
   
   render() {
 
+    let profile = this.props.profile;
     const gutter = this.props.muiTheme.spacing.desktopGutter;
     const  input = {
       marginRight: gutter
     }
+
   	return (
 		  <div>
         <div style={styles.root}>
