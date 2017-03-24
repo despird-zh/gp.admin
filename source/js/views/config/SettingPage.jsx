@@ -13,12 +13,30 @@ const styles = {
     marginTop: 10
   },
   spacer: { flex: 1 },
+  iconStyle: {
+    height:20
+  }
 }
 export default class SettingPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-    
+    this.state = {
+      settings: [
+        {
+          id: 'a',
+          name: 'ff'
+        },
+        {
+          id: 'c',
+          name: 'ff'
+        },
+        {
+          id: 'b',
+          name: 'ff'
+        },
+      ]
+    };
   }
 
   componentDidMount(){
@@ -29,7 +47,21 @@ export default class SettingPage extends React.Component {
     });
   }
   
+  handleClick = (e) => {
+    console.log(e);
+  }
+
   render() {
+    console.log(this.state.settins);
+    let rows = this.state.settings.map((item, index) => {
+      return <TableRow key={item.id} >
+              <TableRowColumn>{ item.id }</TableRowColumn>
+              <TableRowColumn>{ item.name }</TableRowColumn>
+              <TableRowColumn>
+                <IconButton iconStyle={styles.iconStyle} onClick={ this.handleClick }><ModeEditIcon/></IconButton >
+              </TableRowColumn>
+            </TableRow>;
+    });
   	return (
 		  <div >
 		  	<div style={styles.root}>
@@ -50,28 +82,7 @@ export default class SettingPage extends React.Component {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableRowColumn>1</TableRowColumn>
-              <TableRowColumn>John Smith</TableRowColumn>
-              <TableRowColumn>
-                <IconButton iconStyle={{height:20}}><ModeEditIcon/></IconButton >
-              </TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>2</TableRowColumn>
-              <TableRowColumn>Randal White</TableRowColumn>
-              <TableRowColumn>Unemployed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>3</TableRowColumn>
-              <TableRowColumn>Stephanie Sanders</TableRowColumn>
-              <TableRowColumn>Employed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>4</TableRowColumn>
-              <TableRowColumn>Steve Brown</TableRowColumn>
-              <TableRowColumn>Employed</TableRowColumn>
-            </TableRow>
+            {rows}
           </TableBody>
         </Table>
   		</div>
