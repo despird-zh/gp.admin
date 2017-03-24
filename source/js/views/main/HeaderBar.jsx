@@ -153,43 +153,31 @@ class HeaderBar extends React.Component {
           <ActionHomeMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         {titleElement}
-        <div>
+        { !this.props.authenticated ? null :
           <IconButton
             style={iconRightFirstStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handlePopMenu.bind(this, 'wgroup')}
+            onTouchTap={this.handleTouchTap}
             ref="wgroup">
             <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
-          <Popover
-            open={this.state.wgroup}
-            anchorEl={this.state.wgroup_anchor}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={this.handlePopMenuClose.bind(this, 'wgroup')}
-            style={{marginTop: 8}}
-            animation={PopoverAnimationVertical}
-          >
-            <Menu>
-              <MenuItem primaryText="Home" onTouchTap={this.handleTouchJump.bind(this, '/')}/>
-              <MenuItem primaryText="Help &amp; feedback" />
-              <MenuItem primaryText="Settings" />
-              <MenuItem primaryText="Sign out" />
-            </Menu>
-          </Popover>
-        </div>
-        <IconButton
-          style={this.styles.iconButtonStyle}
-          iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleTouchTap}>
-          <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
-        </IconButton>
-        <IconButton
-          style={this.styles.iconButtonStyle}
-          iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleTouchJump.bind(this, '/config')}>
-          <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
-        </IconButton>
+        }
+        { !this.props.authenticated ? null :
+          <IconButton
+            style={this.styles.iconButtonStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleTouchTap}>
+            <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+        }
+        { !this.props.authenticated ? null :
+          <IconButton
+            style={this.styles.iconButtonStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleTouchJump.bind(this, '/config')}>
+            <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+        }
         <IconButton
           style={iconRightLastStyle}
           iconStyle={this.styles.iconButtonIconStyle}
@@ -206,7 +194,9 @@ HeaderBar.propTypes = {
   openSigninAction: PropTypes.func,
 };
 export default connect(
-  null,
+  (state) => ({
+    authenticated: state.auth.get('authenticated'),
+  }),
   (dispatch) => (
     bindActionCreators({
       openSigninAction,

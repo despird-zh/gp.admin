@@ -31,7 +31,7 @@ export default (
     <Route path='dev' component={ DevPage } />
     <Route path='about' component={ AboutPage } />
     <Route path='config' component={ ConfigPage }>
-      <IndexRoute component={ SettingPage } />
+      <IndexRoute component={ ProfilePage } />
       <Route path='setting' component={ SettingPage } />
       <Route path='profile' component={ ProfilePage } />
     </Route>

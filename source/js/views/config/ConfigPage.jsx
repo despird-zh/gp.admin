@@ -33,10 +33,26 @@ function getStyles(muiTheme) {
 	};
 };
 
+const pages = [
+	{
+		path: '/config/profile',
+		title: 'System Profile',
+		icon: <ActionLaptop />,
+    description: 'Review the information of System'
+	},
+	{
+		path: '/config/setting',
+    title: 'System Settings',
+    icon: <ActionSettings />,
+    description: 'Review the settings of System'
+	},
+];
+
 class ConfigPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
+
     this.styles = getStyles(this.props.muiTheme);
     this.state = {
     	title: null,
@@ -45,43 +61,32 @@ class ConfigPage extends React.Component {
     };
   }
 
-  setCurrentPage = ({page, title, description}) => {
-  	let state = {
-  		currentPage: page,
-  		title, description
-  	};
-  	this.setState(state);
-  }
-	
 	handleTouchJump = (path) => {
 		this.props.router.push(path);
 	}
 
   render() {
+  	let currentPath = this.props.location.pathname;
+  	let buttons = pages.map((item) => {
+
+  		return <IconButton key={item.path}
+	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
+	  					iconStyle={currentPath !== item.path ? this.styles.btnIconStyle : null}
+	  					disabled={currentPath === item.path}>
+				      {item.icon}
+				    </IconButton>;
+  	});
 
   	return (
 		  <div style={this.styles.root}>
 		  	<div style={this.styles.container}>
 			  	<h3 style={{marginTop: 10 , flex: 1}}> {this.state.title} <small>{this.state.description} </small></h3>
 	  			<div>
-	  				<IconButton 
-	  					onTouchTap={this.handleTouchJump.bind(this, '/config/profile')}
-	  					iconStyle={this.state.currentPage !== 'profile' ? this.styles.btnIconStyle : null}
-	  					disabled={this.state.currentPage === 'profile'}>
-				      <ActionLaptop />
-				    </IconButton>
-				    <IconButton 
-				    	onTouchTap={this.handleTouchJump.bind(this, '/config/setting')}
-				   	  iconStyle={this.state.currentPage !== 'setting' ? this.styles.btnIconStyle : null}
-				    	disabled={this.state.currentPage === 'setting'}>
-				      <ActionSettings />
-				    </IconButton>
+	  				{buttons}
 	  			</div>
   			</div>
   			<Divider/>
-		  	{this.props.children && React.cloneElement(this.props.children, {
-            setCurrentPage: this.setCurrentPage
-        })}
+		  	{this.props.children}
   		</div>
   	);
   }

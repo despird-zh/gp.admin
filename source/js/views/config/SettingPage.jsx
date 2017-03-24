@@ -38,22 +38,15 @@ export default class SettingPage extends React.Component {
       ]
     };
   }
-
-  componentDidMount(){
-    this.props.setCurrentPage({
-      page: 'setting',
-      title: 'System Settings',
-      description: 'Review the settings of System'
-    });
-  }
   
   handleClick = (e) => {
-    console.log(e);
+    console.log(e.target.dataset);
   }
 
   render() {
-    console.log(this.state.settins);
+    
     let rows = this.state.settings.map((item, index) => {
+      console.log(item);
       return <TableRow key={item.id} >
               <TableRowColumn>{ item.id }</TableRowColumn>
               <TableRowColumn>{ item.name }</TableRowColumn>

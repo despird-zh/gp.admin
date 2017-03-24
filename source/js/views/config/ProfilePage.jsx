@@ -15,22 +15,12 @@ const styles = {
     marginTop: 10
   },
   spacer: { flex: 1 },
-
 }
 
 class ProfilePage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-  }
-
-  componentDidMount(){
-
-    this.props.setCurrentPage({
-      page: 'profile',
-      title: 'System Profile',
-      description: 'Review the information of System'
-    });
   }
   
   handleTouchTap = () => {
