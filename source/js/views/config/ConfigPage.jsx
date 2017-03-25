@@ -54,25 +54,36 @@ class ConfigPage extends React.Component {
     super(props, context);
 
     this.styles = getStyles(this.props.muiTheme);
+    let path = this.props.location.pathname;
+    let currentPage = this.getPageInfo(path);
     this.state = {
-    	title: null,
-    	description: null,
-    	currentPage: null,
+			currentPage,
     };
+  }
+
+  getPageInfo = (path) => {
+  	for( let i = 0; i < pages.length; i++){
+  		if(path === pages[i].path)
+  			return pages[i];
+  	}
   }
 
 	handleTouchJump = (path) => {
 		this.props.router.push(path);
+		let currentPage = this.getPageInfo(path);
+		this.setState({
+			currentPage,
+		});
 	}
 
   render() {
-  	let currentPath = this.props.location.pathname;
+
   	let buttons = pages.map((item) => {
 
   		return <IconButton key={item.path}
 	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
-	  					iconStyle={currentPath !== item.path ? this.styles.btnIconStyle : null}
-	  					disabled={currentPath === item.path}>
+	  					iconStyle={this.state.currentPage.path !== item.path ? this.styles.btnIconStyle : null}
+	  					disabled={this.state.currentPage.path === item.path}>
 				      {item.icon}
 				    </IconButton>;
   	});
@@ -80,7 +91,7 @@ class ConfigPage extends React.Component {
   	return (
 		  <div style={this.styles.root}>
 		  	<div style={this.styles.container}>
-			  	<h3 style={{marginTop: 10 , flex: 1}}> {this.state.title} <small>{this.state.description} </small></h3>
+			  	<h3 style={{marginTop: 10 , flex: 1}}> { this.state.currentPage.title } <small>{ this.state.currentPage.description } </small></h3>
 	  			<div>
 	  				{buttons}
 	  			</div>
