@@ -35,20 +35,20 @@ function getStyles(muiTheme) {
 
 const pages = [
 	{
-		path: '/config/profile',
+		path: '/security/interusers',
 		title: 'System Profile',
 		icon: <ActionLaptop />,
     description: 'Review the information of System'
 	},
 	{
-		path: '/config/setting',
+		path: '/security/exterusers',
     title: 'System Settings',
     icon: <ActionSettings />,
     description: 'Review the settings of System'
 	},
 ];
 
-class ConfigPage extends React.Component {
+class SecurityPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
@@ -106,4 +106,4 @@ class ConfigPage extends React.Component {
 }
 
 
-export default muiThemeable()(ConfigPage);
+export default muiThemeable()(SecurityPage);

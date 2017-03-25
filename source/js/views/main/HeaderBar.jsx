@@ -166,7 +166,7 @@ class HeaderBar extends React.Component {
           <IconButton
             style={this.styles.iconButtonStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleTouchTap}>
+            onTouchTap={this.handleTouchJump.bind(this, '/security')}>
             <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
