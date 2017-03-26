@@ -1,8 +1,8 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import ActionLaptop from 'material-ui/svg-icons/hardware/laptop';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ActionLaptop from 'material-ui/svg-icons/social/person';
+import ActionSettings from 'material-ui/svg-icons/social/people';
 import typography from 'material-ui/styles/typography';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
@@ -36,15 +36,21 @@ function getStyles(muiTheme) {
 const pages = [
 	{
 		path: '/security/interusers',
-		title: 'System Profile',
+		title: 'Internal Users',
 		icon: <ActionLaptop />,
-    description: 'Review the information of System'
+    description: 'The internal users list'
 	},
 	{
 		path: '/security/exterusers',
-    title: 'System Settings',
+    title: 'External Users',
     icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    description: 'The external users list'
+	},
+		{
+		path: '/security/adduser',
+		title: 'Add User',
+		icon: <ActionLaptop />,
+    description: 'Add new user information'
 	},
 ];
 

@@ -87,7 +87,7 @@ class SettingPage extends React.Component {
   	return (
 		  <div >
 		  	<div style={styles.root}>
-		  	   <TextField hintText="Search"/>
+		  	  <TextField hintText="Search"/>
           <div style={styles.spacer}/>
           <div>
               <RaisedButton label="Query" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>

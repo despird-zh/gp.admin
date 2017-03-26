@@ -1,8 +1,7 @@
 import React from 'react';
-import Divider from 'material-ui/Divider';
-import Chip from 'material-ui/Chip';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { profileSaveAction } from '../../store/actions/configActions';
@@ -23,13 +22,52 @@ class InterUsersPage extends React.Component {
     super(props, context);
   }
   
+
   render() {
 
     let profile = this.props.profile;
 
   	return (
 		  <div>
-       inter users
+        <div style={styles.root}>
+          <TextField hintText="Search"/>
+          <div style={styles.spacer}/>
+          <div>
+              <RaisedButton label="Query" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
+              <RaisedButton label="Add" style={{margin: 4}} primary={true} onTouchTap ={this.handleRefresh}/>
+          </div>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHeaderColumn>ID</TableHeaderColumn>
+              <TableHeaderColumn>Name</TableHeaderColumn>
+              <TableHeaderColumn>Status</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableRowColumn>1</TableRowColumn>
+              <TableRowColumn>John Smith</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>2</TableRowColumn>
+              <TableRowColumn>Randal White</TableRowColumn>
+              <TableRowColumn>Unemployed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>3</TableRowColumn>
+              <TableRowColumn>Stephanie Sanders</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>4</TableRowColumn>
+              <TableRowColumn>Steve Brown</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+          </TableBody>
+        </Table>
   		</div>
   	);
   }

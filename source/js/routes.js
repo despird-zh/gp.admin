@@ -10,6 +10,7 @@ import ProfilePage from './views/config/ProfilePage';
 import SecurityPage from './views/security/SecurityPage';
 import InterUsersPage from './views/security/InterUsersPage';
 import ExterUsersPage from './views/security/ExterUsersPage';
+import AddUserPage from './views/security/AddUserPage';
 
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
@@ -44,6 +45,7 @@ export default (
       <IndexRoute component={ InterUsersPage } />
       <Route path='interusers' component={ InterUsersPage } />
       <Route path='exterusers' component={ ExterUsersPage } />
+      <Route path='adduser' component={ AddUserPage } />
     </Route>
   </Route>
 );
