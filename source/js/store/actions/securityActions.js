@@ -19,7 +19,7 @@ export function filterSaveAction(filter) {
 
 export function userSaveAction(userinfo) {
   return {
-    type: SEC_SAVE_USERS,
+    type: SEC_SAVE_USER,
     data: userinfo
   };
 }

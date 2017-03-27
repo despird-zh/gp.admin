@@ -31,7 +31,7 @@ const actionsMap = {
 // Loader Action
   [SEC_SAVE_USER]: (state, {type, data}) => {
 
-    return state.merge({
+    return state.mergeDeep({
       useredit: data,
     });
   },

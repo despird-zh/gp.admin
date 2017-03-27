@@ -47,7 +47,7 @@ export default (
       <Route path='interusers' component={ InterUsersPage } />
       <Route path='exterusers' component={ ExterUsersPage } />
       <Route path='adduser' component={ AddUserPage } />
-      <Route path='edituser/:id' component={ EditUserPage } />
+      <Route path='edituser/:account' component={ EditUserPage } />
     </Route>
   </Route>
 );

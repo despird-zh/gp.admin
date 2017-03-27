@@ -42,7 +42,12 @@ class InterUsersPage extends React.Component {
   
   handleJump = (account) => {
 
-    let url = '/security/edituser/'+account;
+    let url = '/security/edituser/' + account;
+    let userinfo = this.props.userlist.get('users').find((item, index, iter) => {
+      return item.account == account;
+    });
+
+    this.props.userSaveAction(userinfo);
     hashHistory.push(url);
   }
 

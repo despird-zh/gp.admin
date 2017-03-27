@@ -46,8 +46,6 @@ class EditUserPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-
-    console.log(this.props.params)
   }
   
   render() {
@@ -182,8 +180,8 @@ class EditUserPage extends React.Component {
 const NewComponent = AuthConnect(
   EditUserPage, 
   (state) => ({
-            profile: state.config.get('profile'),
+            useredit: state.security.get('useredit'),
           }), 
-  {profileSaveAction});
+  {});
 
 export default muiThemeable()(NewComponent);
