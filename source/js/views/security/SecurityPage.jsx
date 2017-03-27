@@ -1,8 +1,11 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import ActionLaptop from 'material-ui/svg-icons/social/person';
-import ActionSettings from 'material-ui/svg-icons/social/people';
+import SocialPerson from 'material-ui/svg-icons/social/person';
+import SocialPersonAdd from 'material-ui/svg-icons/social/person-add';
+import SocialPersonOutline from 'material-ui/svg-icons/social/person-outline';
+import SocialPeople from 'material-ui/svg-icons/social/people';
+import SocialPeopleOutline from 'material-ui/svg-icons/social/people-outline';
 import typography from 'material-ui/styles/typography';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
@@ -37,19 +40,25 @@ const pages = [
 	{
 		path: '/security/interusers',
 		title: 'Internal Users',
-		icon: <ActionLaptop />,
+		icon: <SocialPeople />,
     description: 'The internal users list'
 	},
 	{
 		path: '/security/exterusers',
     title: 'External Users',
-    icon: <ActionSettings />,
+    icon: <SocialPeopleOutline />,
     description: 'The external users list'
 	},
 		{
 		path: '/security/adduser',
 		title: 'Add User',
-		icon: <ActionLaptop />,
+		icon: <SocialPersonAdd />,
+    description: 'Add new user information'
+	},
+	{
+		path: '/security/addextuser',
+		title: 'Add User',
+		icon: <SocialPersonOutline />,
     description: 'Add new user information'
 	},
 ];

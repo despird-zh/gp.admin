@@ -11,6 +11,7 @@ import SecurityPage from './views/security/SecurityPage';
 import InterUsersPage from './views/security/InterUsersPage';
 import ExterUsersPage from './views/security/ExterUsersPage';
 import AddUserPage from './views/security/AddUserPage';
+import EditUserPage from './views/security/EditUserPage';
 
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
@@ -46,6 +47,7 @@ export default (
       <Route path='interusers' component={ InterUsersPage } />
       <Route path='exterusers' component={ ExterUsersPage } />
       <Route path='adduser' component={ AddUserPage } />
+      <Route path='edituser/:id' component={ EditUserPage } />
     </Route>
   </Route>
 );

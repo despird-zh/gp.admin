@@ -12,7 +12,6 @@ import API from '../../rpcapi';
 
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
-	console.log(baseTheme);
 	return{
   root: {
     display: 'flex', 
@@ -43,16 +42,16 @@ function getStyles (muiTheme) {
 };
 }
 
-class AddUserPage extends React.Component {
+class EditUserPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
+
+    console.log(this.props.params)
   }
   
   render() {
   	let styles = getStyles(this.props.muiTheme);
-
-    console.log(styles.inputItem);
 
   	return (
 		  <div>
@@ -181,7 +180,7 @@ class AddUserPage extends React.Component {
 }
 
 const NewComponent = AuthConnect(
-  AddUserPage, 
+  EditUserPage, 
   (state) => ({
             profile: state.config.get('profile'),
           }), 
