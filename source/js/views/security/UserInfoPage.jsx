@@ -49,8 +49,41 @@ class UserInfoPage extends React.Component {
   }
   
   render() {
-  	let styles = getStyles(this.props.muiTheme);
 
+  	let styles = getStyles(this.props.muiTheme);
+  	let {
+			account,
+			avatarId,
+			classification,
+			createDate,
+			email,
+			extraInfo,
+			fullName,
+			globalAccount,
+			id,
+			infoId,
+			language,
+			lastLogonDate,
+			mobile,
+			modifier,
+			modifyDate,
+			netdiskCabinet,
+			password,
+			phone,
+			publishCabinet,
+			retryTimes,
+			signature,
+			sourceAbbr,
+			sourceId,
+			sourceName,
+			sourceShortName,
+			state,
+			storageId,
+			storageName,
+			timeZone,
+			type
+  	} = this.props.userinfo.toJS();
+  	console.log(this.props.userinfo);
   	return (
 		  <div>
 		  	<div style={styles.root}>
@@ -69,6 +102,7 @@ class UserInfoPage extends React.Component {
 	       		style= {styles.inputItem}
 			      hintText="Account"
 			      floatingLabelText="Fixed Floating Label Text"
+			      value={account}
 			      floatingLabelFixed={true}
 			    />
 			    <TextField
@@ -180,7 +214,7 @@ class UserInfoPage extends React.Component {
 const NewComponent = AuthConnect(
   UserInfoPage, 
   (state) => ({
-            useredit: state.security.get('useredit'),
+            userinfo: state.security.get('userinfo'),
           }), 
   {});
 

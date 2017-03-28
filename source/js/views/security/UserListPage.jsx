@@ -42,7 +42,7 @@ class UserListPage extends React.Component {
   
   handleJump = (account) => {
 
-    let url = '/security/edituser/' + account;
+    let url = '/security/userinfo/' + account;
     let userinfo = this.props.userlist.get('users').find((item, index, iter) => {
       return item.account == account;
     });

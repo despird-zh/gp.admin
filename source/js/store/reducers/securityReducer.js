@@ -11,7 +11,7 @@ const initialState = Map({
   	internal: false, 
   	external: false,
   }),
-  useredit: Map(),
+  userinfo: Map(),
 });
 
 const actionsMap = {
@@ -32,7 +32,7 @@ const actionsMap = {
   [SEC_SAVE_USER]: (state, {type, data}) => {
 
     return state.mergeDeep({
-      useredit: data,
+      userinfo: data,
     });
   },
 
