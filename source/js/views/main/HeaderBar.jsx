@@ -207,7 +207,7 @@ class HeaderBar extends React.Component {
             <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
-        { !this.props.authenticated ? 
+        { this.props.authenticated ? 
           <IconButton
             style={iconRightLastStyle}
             iconStyle={this.styles.iconButtonIconStyle}

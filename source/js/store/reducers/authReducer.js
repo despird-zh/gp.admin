@@ -21,7 +21,7 @@ const initialState = Map({
   credential: '',
   audience: 'gp.admin',
   jwttoken: BLIND_TOKEN,
-  authenticated: true,
+  authenticated: false,
   message: '',
 });
 
