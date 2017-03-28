@@ -11,6 +11,10 @@ import SecurityPage from './views/security/SecurityPage';
 import UserListPage from './views/security/UserListPage';
 import UserInfoPage from './views/security/UserInfoPage';
 
+import WGroupInfoPage from './views/wgroup/WGroupInfoPage';
+import WGroupListPage from './views/wgroup/WGroupListPage';
+import WGroupPage from './views/wgroup/WGroupPage';
+
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
@@ -44,6 +48,11 @@ export default (
       <IndexRoute component={ UserListPage } />
       <Route path='userlist' component={ UserListPage } />
       <Route path='userinfo/:account' component={ UserInfoPage } />
+    </Route>
+    <Route path='wgroup' component={ WGroupPage }>
+      <IndexRoute component={ WGroupListPage } />
+      <Route path='wgrouplist' component={ WGroupListPage } />
+      <Route path='wgroupinfo/:account' component={ WGroupInfoPage } />
     </Route>
   </Route>
 );

@@ -9,7 +9,14 @@ import ActionOpenBrowser from 'material-ui/svg-icons/action/open-in-browser';
 import ActionOpenNew from 'material-ui/svg-icons/action/open-in-new';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionExtension from 'material-ui/svg-icons/action/extension';
+import ActionTrackChgs from 'material-ui/svg-icons/action/track-changes';
+import ActionLaunch from 'material-ui/svg-icons/action/launch';
+
 import HardwareSecurity from 'material-ui/svg-icons/hardware/security';
+import HardwareDvcHub from 'material-ui/svg-icons/hardware/device-hub';
+
+import DeviceWidgets from 'material-ui/svg-icons/device/widgets';
+
 import { hashHistory } from 'react-router';
 
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
@@ -17,7 +24,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import { openSigninAction } from '../../store/actions/authActions';
+import { openSigninAction, signoffAction } from '../../store/actions/authActions';
 
 injectTapEventPlugin();
 
@@ -103,6 +110,10 @@ class HeaderBar extends React.Component {
     this.props.openSigninAction(true);
   };
 
+  handleSignoff = () => {
+    this.props.signoffAction(true);
+  };
+
   handleTouchJump = (path) => {
     hashHistory.push(path);
   };
@@ -157,9 +168,27 @@ class HeaderBar extends React.Component {
           <IconButton
             style={iconRightFirstStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleTouchTap}
+            onTouchTap={this.handleTouchJump.bind(this, '/audit')}
             ref="wgroup">
-            <ActionExtension style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+            <ActionTrackChgs style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+        }
+        { !this.props.authenticated ? null :
+          <IconButton
+            style={this.styles.iconButtonStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleTouchJump.bind(this, '/master')}
+            ref="wgroup">
+            <DeviceWidgets style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+        }
+        { !this.props.authenticated ? null :
+          <IconButton
+            style={this.styles.iconButtonStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleTouchJump.bind(this, '/wgroup')}
+            ref="wgroup">
+            <HardwareDvcHub style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
         { !this.props.authenticated ? null :
@@ -178,13 +207,21 @@ class HeaderBar extends React.Component {
             <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
-        <IconButton
-          style={iconRightLastStyle}
-          iconStyle={this.styles.iconButtonIconStyle}
-          onTouchTap={this.handleSignin}>
-          <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
-        </IconButton>
-        
+        { !this.props.authenticated ? 
+          <IconButton
+            style={iconRightLastStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleSignoff}>
+            <ActionLaunch style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+         :
+          <IconButton
+            style={iconRightLastStyle}
+            iconStyle={this.styles.iconButtonIconStyle}
+            onTouchTap={this.handleSignin}>
+            <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
+          </IconButton>
+        }
       </div>
     );
   }
@@ -196,10 +233,11 @@ HeaderBar.propTypes = {
 export default connect(
   (state) => ({
     authenticated: state.auth.get('authenticated'),
+    account: state.auth.get('account')
   }),
   (dispatch) => (
     bindActionCreators({
-      openSigninAction,
+      openSigninAction, signoffAction
     }, dispatch)
   )
 )(muiThemeable()(HeaderBar));

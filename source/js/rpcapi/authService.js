@@ -43,8 +43,21 @@ function reFetchToken(authbody) {
 		}).then( response => response.json() );
 }
 
+/**
+ * reissue a token before expire
+ */
+function signOff(headers) {
+
+  let url = BASE_URL + 'logoff.do';
+  return fetch(url,{
+		  method: 'POST',
+		  headers: headers
+		}).then( response => response.json() );
+}
+
 export default {
   authenticate,
   reIssueToken,
-  reFetchToken
+  reFetchToken,
+  signOff
 };

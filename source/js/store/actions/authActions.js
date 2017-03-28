@@ -5,6 +5,7 @@ export const OPEN_SIGNIN_ACT  = 'OPEN_SIGNIN_ACT';
 export const SIGNIN_ACT  = 'SIGNIN_ACT';
 export const SIGNOFF_ACT = 'SIGNOFF_ACT';
 export const SAVE_TOKEN_ACT = 'SAVE_TOKEN_ACT';
+export const PURGE_TOKEN_ACT = 'PURGE_TOKEN_ACT';
 
 export const AUTH_ACT_START = 'AUTH_ACT_START';
 export const AUTH_ACT_END   = 'AUTH_ACT_END';
@@ -41,6 +42,12 @@ function saveToken(data) {
   return {
     type: SAVE_TOKEN_ACT,
     data: data,
+  };
+}
+
+function purgeToken() {
+  return {
+    type: PURGE_TOKEN_ACT,
   };
 }
 
@@ -127,8 +134,15 @@ export function signinAction(authbody) {
 }
 
 export function signoffAction(principal) {
-  return {
-    type: SIGNIN_ACT,
-    principal,
+  return (dispatch) => {
+    dispatch(authStart(principal));
+
+    API.authService.signOff(principal)
+      .then(data => {
+        
+        dispatch(purgeToken());
+        dispatch(authEnd(data))
+      })
+      .catch( error => trapCatch( dispatch, error, true) );
   };
 }

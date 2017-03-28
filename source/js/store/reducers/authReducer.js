@@ -5,6 +5,7 @@ import {
   SIGNIN_ACT,
   SIGNOFF_ACT,
   SAVE_TOKEN_ACT,
+  PURGE_TOKEN_ACT,
   AUTH_ACT_START,
   AUTH_ACT_END,
   REISSUE_TOKEN_ACT,
@@ -20,7 +21,7 @@ const initialState = Map({
   credential: '',
   audience: 'gp.admin',
   jwttoken: BLIND_TOKEN,
-  authenticated: false,
+  authenticated: true,
   message: '',
 });
 
@@ -50,6 +51,14 @@ const actionsMap = {
       message: data.meta.message,
       opening: data.meta.code !== 'VALID_TOKEN',
       authenticated: data.meta.code === 'VALID_TOKEN'
+    });
+  },
+  [PURGE_TOKEN_ACT]: (state, {type}) => {
+    return state.merge({
+      account: '',
+      credential: '',
+      jwttoken: BLIND_TOKEN,
+      authenticated: false
     });
   },
 };
