@@ -35,13 +35,25 @@ function getStyles(muiTheme) {
 
 const pages = [
 	{
-		path: '/config/profile',
+		path: '/master/dictlist',
 		title: 'System Profile',
 		icon: <ActionLaptop />,
     description: 'Review the information of System'
 	},
 	{
-		path: '/config/setting',
+		path: '/master/entitylist',
+    title: 'System Settings',
+    icon: <ActionSettings />,
+    description: 'Review the settings of System'
+	},
+	{
+		path: '/master/imagelist',
+    title: 'System Settings',
+    icon: <ActionSettings />,
+    description: 'Review the settings of System'
+	},
+	{
+		path: '/master/storagelist',
     title: 'System Settings',
     icon: <ActionSettings />,
     description: 'Review the settings of System'

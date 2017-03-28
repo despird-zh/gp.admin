@@ -15,6 +15,16 @@ import WGroupInfoPage from './views/wgroup/WGroupInfoPage';
 import WGroupListPage from './views/wgroup/WGroupListPage';
 import WGroupPage from './views/wgroup/WGroupPage';
 
+import DictListPage from './views/master/DictListPage';
+import EntityListPage from './views/master/EntityListPage';
+import ImageListPage from './views/master/ImageListPage';
+import StorageListPage from './views/master/StorageListPage';
+import MasterPage from './views/master/MasterPage';
+
+import UserAuditPage from './views/audit/UserAuditPage';
+import WGroupAuditPage from './views/audit/WGroupAuditPage';
+import AuditPage from './views/audit/AuditPage';
+
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
@@ -53,6 +63,18 @@ export default (
       <IndexRoute component={ WGroupListPage } />
       <Route path='wgrouplist' component={ WGroupListPage } />
       <Route path='wgroupinfo/:account' component={ WGroupInfoPage } />
+    </Route>
+    <Route path='master' component={ MasterPage }>
+      <IndexRoute component={ DictListPage } />
+      <Route path='dictlist' component={ DictListPage } />
+      <Route path='imagelist' component={ ImageListPage } />
+      <Route path='entitylist' component={ EntityListPage } />
+      <Route path='storageist' component={ StorageListPage } />
+    </Route>
+    <Route path='audit' component={ AuditPage }>
+      <IndexRoute component={ WGroupAuditPage } />
+      <Route path='wgroupaudit' component={ WGroupAuditPage } />
+      <Route path='useraudit' component={ UserAuditPage } />
     </Route>
   </Route>
 );
