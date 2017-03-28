@@ -55,11 +55,6 @@ class ConfigPage extends React.Component {
 
     this.styles = getStyles(this.props.muiTheme);
 
-    let path = this.props.location.pathname;
-    let currentPage = this.getPageInfo(path);
-    this.state = {
-			currentPage,
-    };
   }
 
   getPageInfo = (path) => {
@@ -72,20 +67,17 @@ class ConfigPage extends React.Component {
 
 	handleTouchJump = (path) => {
 		this.props.router.push(path);
-		let currentPage = this.getPageInfo(path);
-		this.setState({
-			currentPage,
-		});
 	}
 
   render() {
-
+  	let path = this.props.location.pathname;
+    let currentPage = this.getPageInfo(path);
   	let buttons = pages.map((item) => {
 
   		return <IconButton key={item.path}
 	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
-	  					iconStyle={this.state.currentPage.path != item.path ? this.styles.btnIconStyle : null}
-	  					disabled={this.state.currentPage.path == item.path}>
+	  					iconStyle={currentPage.path != item.path ? this.styles.btnIconStyle : null}
+	  					disabled={currentPage.path == item.path}>
 				      {item.icon}
 				    </IconButton>;
   	});
@@ -93,7 +85,7 @@ class ConfigPage extends React.Component {
   	return (
 		  <div style={this.styles.root}>
 		  	<div style={this.styles.container}>
-			  	<h3 style={{marginTop: 10 , flex: 1}}> { this.state.currentPage.title } <small>{ this.state.currentPage.description } </small></h3>
+			  	<h3 style={{marginTop: 10 , flex: 1}}> { currentPage.title } <small>{ currentPage.description } </small></h3>
 	  			<div>
 	  				{buttons}
 	  			</div>

@@ -42,7 +42,7 @@ function getStyles (muiTheme) {
 };
 }
 
-class EditUserPage extends React.Component {
+class UserInfoPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
@@ -178,7 +178,7 @@ class EditUserPage extends React.Component {
 }
 
 const NewComponent = AuthConnect(
-  EditUserPage, 
+  UserInfoPage, 
   (state) => ({
             useredit: state.security.get('useredit'),
           }), 

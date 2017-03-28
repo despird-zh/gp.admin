@@ -34,7 +34,7 @@ function getStyles (muiTheme) {
   }};
 }
 
-class InterUsersPage extends React.Component {
+class UserListPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
@@ -85,14 +85,14 @@ class InterUsersPage extends React.Component {
   }
 
   render() {
-    console.log(this.props.userlist);
+
     let users = this.props.userlist.get('users').toJS();
     let internal = this.props.userlist.get('internal');
     let external = this.props.userlist.get('external');
     let search = this.props.userlist.get('search');
         
     let styles = getStyles(this.props.muiTheme);
-    console.log(users);
+
     let rows = users.map((item, index) => {
 
       return <TableRow key={item.account}>
@@ -157,7 +157,7 @@ class InterUsersPage extends React.Component {
 }
 
 const NewComponent = AuthConnect(
-  InterUsersPage, 
+  UserListPage, 
   (state) => ({
             userlist: state.security.get('userlist'),
           }), 

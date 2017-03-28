@@ -8,10 +8,8 @@ import SettingPage from './views/config/SettingPage';
 import ProfilePage from './views/config/ProfilePage';
 
 import SecurityPage from './views/security/SecurityPage';
-import InterUsersPage from './views/security/InterUsersPage';
-import ExterUsersPage from './views/security/ExterUsersPage';
-import AddUserPage from './views/security/AddUserPage';
-import EditUserPage from './views/security/EditUserPage';
+import UserListPage from './views/security/UserListPage';
+import UserInfoPage from './views/security/UserInfoPage';
 
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
@@ -43,11 +41,9 @@ export default (
       <Route path='profile' component={ ProfilePage } />
     </Route>
     <Route path='security' component={ SecurityPage }>
-      <IndexRoute component={ InterUsersPage } />
-      <Route path='interusers' component={ InterUsersPage } />
-      <Route path='exterusers' component={ ExterUsersPage } />
-      <Route path='adduser' component={ AddUserPage } />
-      <Route path='edituser/:account' component={ EditUserPage } />
+      <IndexRoute component={ UserListPage } />
+      <Route path='userlist' component={ UserListPage } />
+      <Route path='userinfo/:account' component={ UserInfoPage } />
     </Route>
   </Route>
 );
