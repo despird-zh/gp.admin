@@ -35,13 +35,13 @@ function getStyles(muiTheme) {
 
 const pages = [
 	{
-		path: '/wgroup/wgroupinfo',
+		path: '/wgroup/groupinfo/_blank_',
 		title: 'System Profile',
 		icon: <ActionLaptop />,
     description: 'Review the information of System'
 	},
 	{
-		path: '/wgroup/wgrouplist',
+		path: '/wgroup/grouplist',
     title: 'System Settings',
     icon: <ActionSettings />,
     description: 'Review the settings of System'

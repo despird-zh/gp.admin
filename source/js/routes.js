@@ -61,8 +61,8 @@ export default (
     </Route>
     <Route path='wgroup' component={ WGroupPage }>
       <IndexRoute component={ WGroupListPage } />
-      <Route path='wgrouplist' component={ WGroupListPage } />
-      <Route path='wgroupinfo/:account' component={ WGroupInfoPage } />
+      <Route path='grouplist' component={ WGroupListPage } />
+      <Route path='groupinfo/:account' component={ WGroupInfoPage } />
     </Route>
     <Route path='master' component={ MasterPage }>
       <IndexRoute component={ DictListPage } />
