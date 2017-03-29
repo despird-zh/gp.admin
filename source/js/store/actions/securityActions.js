@@ -2,7 +2,11 @@ export const SEC_SAVE_USERS = 'SEC_SAVE_USERS';
 export const SEC_SAVE_USER = 'SEC_SAVE_USER';
 export const SEC_SAVE_FILTER = 'SEC_SAVE_FILTER';
 export const SEC_CLEAR_SEARCH = 'SEC_CLEAR_SEARCH';
-// Test action
+
+export const SecurityApis = {
+  UsersQuery: 'users-query.do',
+};
+
 export function usersSaveAction(userlist) {
   return {
     type: SEC_SAVE_USERS,

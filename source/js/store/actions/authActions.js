@@ -1,4 +1,5 @@
-import API from '../../rpcapi';
+import 'es6-promise';
+import 'whatwg-fetch';
 import { loaderAction, snackAction, snackOnlyAction } from './appActions';
 
 export const OPEN_SIGNIN_ACT  = 'OPEN_SIGNIN_ACT';
@@ -13,7 +14,7 @@ export const AUTH_ACT_END   = 'AUTH_ACT_END';
 export const REISSUE_TOKEN_ACT = 'REISSUE_TOKEN_ACT';
 export const FETCH_TOKEN_ACT   = 'FETCH_TOKEN_ACT';
 
-
+const BASE_URL = 'http://localhost:8010/gpapi/';
 const START_LOADER = loaderAction({shown: true, loaderTip: 'Start RPC Invoking'});
 const END_LOADER = loaderAction({shown: false, loaderTip: 'End RPC Invoking'});
 
@@ -66,53 +67,86 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
   }
 }
 
-export function reIssueToken({headers, api, postbody, callback}) {
+export function reIssueToken({headers, apiname, postbody, action}) {
 
   return (dispatch) => {
-
-    API.authService.reIssueToken(headers).then((response) => {
-
+    let url = BASE_URL + 'reissue.do';
+    fetch(url,{
+      method: 'POST',
+      headers: headers
+    })
+    .then( response => response.json() )
+    .then( json => {
       dispatch(saveToken(response.data))
 
       headers.Authorization= 'Bearer: ' + response.data,
-
-      api(headers, postbody)
-        .then(callback)
-        .catch( error => trapCatch( dispatch, error) );
-
+      url = BASE_URL + apiname;
+      fetch(url,{
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(postbody)
+      })
+      .then( response => response.json() )
+      .then( json => {
+        dispatch(action(json.data));
+      })
+      .catch( error => trapCatch( dispatch, error) );
     })
     .catch( error => trapCatch( dispatch, error) );
   };
 }
 
-export function reFetchToken({authbody, api, postbody, callback}) {
+export function reFetchToken({authbody, apiname, postbody, action}) {
 
   return (dispatch) => {
 
-    API.authService.reFetchToken(authbody).then((response) => {
-
-      dispatch(saveToken(response.data))
+    let url = BASE_URL + 'authenticate.do';
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(authbody)
+    })
+    .then( response => response.json() )
+    .then( json => {
+      dispatch(saveToken(json.data))
       let headers = {
-              Authorization: 'Bearer: ' + response.data,
+              Authorization: 'Bearer: ' + json.data,
               Accept: 'application/json'
             };
-
-      api(headers, postbody)
-        .then(callback)
-        .catch( error => trapCatch( dispatch, error) );
-
+      url = BASE_URL + apiname;
+      fetch(url,{
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(postbody)
+      })
+      .then( response => response.json() )
+      .then( json => {
+        dispatch(action(json.data));
+      })
+      .catch( error => trapCatch( dispatch, error) );
     })
     .catch( error => trapCatch( dispatch, error) );
   };
 }
 
-export function callRpcApi({headers, api, postbody, callback}) {
+export function callRpcApi({headers, apiname, postbody, action}) {
   return (dispatch) => {
     dispatch(START_LOADER);
-    api(headers, postbody)
-        .then(callback)
-        .then(() => {dispatch(END_LOADER);})
-        .catch( error => trapCatch( dispatch, error) );
+
+    let url = BASE_URL + apiname;
+    fetch(url,{
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(postbody)
+    })
+    .then( response => response.json() )
+    .then( json => {
+      dispatch(action(json.data));
+      dispatch(END_LOADER);
+    })
+    .catch( error => trapCatch( dispatch, error) );
   };
 }
 
@@ -120,29 +154,46 @@ export function signinAction(authbody) {
   return (dispatch) => {
     dispatch(authStart(authbody.principal));
 
-    API.authService.authenticate(authbody)
-      .then(data => {
-        
-        dispatch(saveToken({
-          credential: authbody.credential,
-          token: data.data,
-        }));
-        dispatch(authEnd(data))
-      })
-      .catch( error => trapCatch( dispatch, error, true) );
+    let url = BASE_URL + 'authenticate.do';
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(authbody)
+    })
+    .then( response => response.json() )
+    .then( json => {
+      
+      dispatch(saveToken({
+        credential: authbody.credential,
+        token: json.data,
+      }));
+      dispatch(authEnd(json))
+    })
+    .catch( error => trapCatch( dispatch, error, true) );
   };
 }
 
-export function signoffAction(principal) {
-  return (dispatch) => {
-    dispatch(authStart(principal));
+export function signoffAction({ principal }) {
+  return (dispatch, getState) => {
+    let {auth} = getState();
+    let headers = {
+        Authorization: 'Bearer: ' + auth.get('jwttoken'),
+        Accept: 'application/json'
+      };
 
-    API.authService.signOff(principal)
-      .then(data => {
+    let url = BASE_URL + 'logoff.do';
+    return fetch(url,{
+      method: 'GET',
+      headers: headers
+    })
+    .then( response => response.json() )
+    .then( json => {
         
-        dispatch(purgeToken());
-        dispatch(authEnd(data))
-      })
-      .catch( error => trapCatch( dispatch, error, true) );
+      dispatch(purgeToken());
+      dispatch(snackOnlyAction({snackTip: json.meta.message}));
+    })
+    .catch( error => trapCatch( dispatch, error, true) );
   };
 }

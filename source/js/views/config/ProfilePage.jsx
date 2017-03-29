@@ -5,8 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { profileSaveAction } from '../../store/actions/configActions';
-import API from '../../rpcapi';
+import { profileSaveAction,ConfigApis } from '../../store/actions/configActions';
 
 const styles = {
   root: {
@@ -30,10 +29,8 @@ class ProfilePage extends React.Component {
   }
 
   handleRefresh = () => {
-    this.props.rpcInvoke(API.configService.queryProfile, {}, (response) => {
-      console.log('----------------------');
-      this.props.profileSaveAction(response.data);
-    });
+    this.props.rpcInvoke(ConfigApis.EntProfileQuery, {},
+      this.props.profileSaveAction);
   };
   
   render() {
