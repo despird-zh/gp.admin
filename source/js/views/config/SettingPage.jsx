@@ -60,7 +60,10 @@ class SettingPage extends React.Component {
   }
 
   handleRefresh = () => {
-    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},settingsSaveAction);
+    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},(json)=>{
+      let state = Object.assign(this.state, {settings: json.data});
+      this.setState(state);
+    }, true);
   }
 
   render() {

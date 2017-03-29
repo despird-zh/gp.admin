@@ -1,11 +1,13 @@
 import { Map } from 'immutable';
 
 import {
-  CFG_SAVE_PROFILE
+  CFG_SAVE_PROFILE,
+  CFG_SAVE_SETTINGS
 } from '../actions/configActions';
 
 const initialState = Map({
   profile: Map(),
+  settings: [],
 });
 
 const actionsMap = {
@@ -18,6 +20,12 @@ const actionsMap = {
     });
   },
 
+  [CFG_SAVE_SETTINGS]: (state, {type, data}) => {
+
+    return state.merge({
+      settings: data,
+    });
+  },
 };
 
 export default function reducer(state = initialState, action = {}) {

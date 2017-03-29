@@ -67,7 +67,22 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
   }
 }
 
-export function reIssueToken({headers, apiname, postbody, action}) {
+function trapResolve(dispatch, json, action, raw = false){
+  if(action && !raw){
+    let actionObj = action(json.data);
+    if(actionObj){
+      dispatch( actionObj );
+    }
+  }
+  else if(action && raw){
+    let actionObj = action(json);
+    if(actionObj){
+      dispatch( actionObj );
+    }
+  }
+}
+
+export function reIssueToken({headers, apiname, postbody, action, raw = false}) {
 
   return (dispatch) => {
     let url = BASE_URL + 'reissue.do';
@@ -87,16 +102,14 @@ export function reIssueToken({headers, apiname, postbody, action}) {
         body: JSON.stringify(postbody)
       })
       .then( response => response.json() )
-      .then( json => {
-        dispatch(action(json.data));
-      })
+      .then( json => trapResolve(dispatch, json, action, raw) )
       .catch( error => trapCatch( dispatch, error) );
     })
     .catch( error => trapCatch( dispatch, error) );
   };
 }
 
-export function reFetchToken({authbody, apiname, postbody, action}) {
+export function reFetchToken({authbody, apiname, postbody, action, raw = false}) {
 
   return (dispatch) => {
 
@@ -122,16 +135,14 @@ export function reFetchToken({authbody, apiname, postbody, action}) {
         body: JSON.stringify(postbody)
       })
       .then( response => response.json() )
-      .then( json => {
-        dispatch(action(json.data));
-      })
+      .then( json => trapResolve(dispatch, json, action, raw))
       .catch( error => trapCatch( dispatch, error) );
     })
     .catch( error => trapCatch( dispatch, error) );
   };
 }
 
-export function callRpcApi({headers, apiname, postbody, action}) {
+export function callRpcApi({headers, apiname, postbody, action, raw = false}) {
   return (dispatch) => {
     dispatch(START_LOADER);
 
@@ -143,7 +154,7 @@ export function callRpcApi({headers, apiname, postbody, action}) {
     })
     .then( response => response.json() )
     .then( json => {
-      dispatch(action(json.data));
+      trapResolve(dispatch, json, action, raw);
       dispatch(END_LOADER);
     })
     .catch( error => trapCatch( dispatch, error) );

@@ -58,10 +58,7 @@ class UserListPage extends React.Component {
 
     let search = this.props.userlist.get('search');
     let params = {filterkey: search, state: 'ALL', type: 'ALL'};
-    this.props.rpcInvoke(SecurityApis.UsersQuery, params, (response) => {
-      let data = List(response.data);
-      return usersSaveAction(data);
-    });
+    this.props.rpcInvoke(SecurityApis.UsersQuery, params, usersSaveAction);
   }
 
   handleClear = () => {
@@ -87,7 +84,7 @@ class UserListPage extends React.Component {
 
   render() {
 
-    let users = this.props.userlist.get('users').toJS();
+    let users = this.props.userlist.get('users');
     let internal = this.props.userlist.get('internal');
     let external = this.props.userlist.get('external');
     let search = this.props.userlist.get('search');
