@@ -9,8 +9,11 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { usersSaveAction, userSaveAction, filterSaveAction, searchClearAction } from '../../store/actions/securityActions';
-import { securityService } from '../../rpcapi';
+import { usersSaveAction, 
+  userSaveAction, 
+  filterSaveAction, 
+  searchClearAction,
+  SecurityApis } from '../../store/actions/securityActions';
 
 function getStyles (muiTheme) {
   const {baseTheme} = muiTheme;
@@ -55,11 +58,9 @@ class UserListPage extends React.Component {
 
     let search = this.props.userlist.get('search');
     let params = {filterkey: search, state: 'ALL', type: 'ALL'};
-    this.props.rpcInvoke(securityService.queryUsers, params, (response) => {
-      console.log(response.data);
+    this.props.rpcInvoke(SecurityApis.UsersQuery, params, (response) => {
       let data = List(response.data);
-     
-      this.props.usersSaveAction(data);
+      return usersSaveAction(data);
     });
   }
 

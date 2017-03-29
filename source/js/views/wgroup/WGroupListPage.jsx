@@ -10,7 +10,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { groupsSaveAction, groupSaveAction, filterSaveAction, searchClearAction } from '../../store/actions/wgroupActions';
-import { securityService } from '../../rpcapi';
+
 
 function getStyles (muiTheme) {
   const {baseTheme} = muiTheme;

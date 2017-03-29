@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AuthConnect from '../../components/AuthConnect';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import { configService } from '../../rpcapi';
+import { settingsSaveAction,ConfigApis } from '../../store/actions/configActions';
 
 function  getStyles(muiTheme) {
 
@@ -60,12 +60,7 @@ class SettingPage extends React.Component {
   }
 
   handleRefresh = () => {
-    this.props.rpcInvoke(configService.querySysOptions, {}, (response) => {
-      console.log('sys options ---');
-      console.log(response);
-      let state = Object.assign(this.state, {settings: response.data});
-      this.setState(state);
-    });
+    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},settingsSaveAction);
   }
 
   render() {

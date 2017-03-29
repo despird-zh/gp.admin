@@ -7,9 +7,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { profileSaveAction } from '../../store/actions/configActions';
-import API from '../../rpcapi';
-
+import { profileSaveAction,SecurityApis } from '../../store/actions/securityActions';
+ 
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
 	return{
