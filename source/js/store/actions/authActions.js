@@ -65,6 +65,7 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
     let snackMsg = snackOnlyAction({snackTip: '无法连接服务器'});
     dispatch(snackMsg);
   }
+  dispatch(END_LOADER);
 }
 
 function trapResolve(dispatch, json, action, raw = false){
@@ -80,11 +81,15 @@ function trapResolve(dispatch, json, action, raw = false){
       dispatch( actionObj );
     }
   }
+  dispatch(END_LOADER);
 }
 
-export function reIssueToken({headers, apiname, postbody, action, raw = false}) {
+export function reIssueToken({headers, apiname, postbody, action, silent = true, raw = false}) {
 
   return (dispatch) => {
+    if(!silent){
+      dispatch(START_LOADER);
+    }
     let url = BASE_URL + 'reissue.do';
     fetch(url,{
       method: 'POST',
@@ -109,10 +114,12 @@ export function reIssueToken({headers, apiname, postbody, action, raw = false}) 
   };
 }
 
-export function reFetchToken({authbody, apiname, postbody, action, raw = false}) {
+export function reFetchToken({authbody, apiname, postbody, action, silent = true, raw = false}) {
 
   return (dispatch) => {
-
+    if(!silent){
+      dispatch(START_LOADER);
+    }
     let url = BASE_URL + 'authenticate.do';
     fetch(url,{
       method: 'POST',
@@ -142,10 +149,11 @@ export function reFetchToken({authbody, apiname, postbody, action, raw = false})
   };
 }
 
-export function callRpcApi({headers, apiname, postbody, action, raw = false}) {
+export function callRpcApi({headers, apiname, postbody, action, silent = true, raw = false}) {
   return (dispatch) => {
-    dispatch(START_LOADER);
-
+    if(!silent){
+      dispatch(START_LOADER);
+    }
     let url = BASE_URL + apiname;
     fetch(url,{
       method: 'POST',
@@ -153,10 +161,7 @@ export function callRpcApi({headers, apiname, postbody, action, raw = false}) {
       body: JSON.stringify(postbody)
     })
     .then( response => response.json() )
-    .then( json => {
-      trapResolve(dispatch, json, action, raw);
-      dispatch(END_LOADER);
-    })
+    .then( json => trapResolve(dispatch, json, action, raw))
     .catch( error => trapCatch( dispatch, error) );
   };
 }

@@ -86,7 +86,11 @@ class UserInfoPage extends React.Component {
 			timeZone,
 			type
   	} = this.props.userinfo.toJS();
-  	
+
+  	let storageItems = this.props.storages.map((item, index) => {
+  		let obj = item.toJS();
+  		return <MenuItem value={obj.storageId} primaryText={obj.name} />
+  	});
   	return (
 		  <div>
 		  	<div style={styles.root}>
@@ -183,10 +187,8 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Storage"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}
-		        >
-	          <MenuItem value={1} primaryText="LDAP" />
-	          <MenuItem value={2} primaryText="OAuth2" />
+	          onChange={this.handleChange}>
+	          { storageItems }
 	        </SelectField>
 	        <div style={{ display: 'inline-block', width: 200 }}/>
 			    <SelectField

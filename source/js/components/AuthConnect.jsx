@@ -42,7 +42,7 @@ export default (ComposedComponent, stateMap, actions) => {
 
 		};
 
-	  rpcInvoke = (apiname, postbody, action, raw = false) => {
+	  rpcInvoke = (apiname, postbody, action, silent = true, raw = false) => {
 
 	    if (this.props.authenticated) {
         let _tokenState = this.tokenState();
@@ -50,18 +50,18 @@ export default (ComposedComponent, stateMap, actions) => {
         if ( _tokenState === 'TO_BE_EXPIRE' ) {
         	let headers = this.rpcHeaders();
 
-          this.props.reIssueToken({	headers, apiname, postbody, action, raw });
+          this.props.reIssueToken({	headers, apiname, postbody, action, silent, raw });
         } else if ( _tokenState === 'EXPIRED' ) {
         	let authbody = {
 			      principal: this.props.account,
 			      credential: this.props.credential,
 			      audience: this.props.audience
 			    };
-          this.props.reFetchToken({	authbody, apiname, postbody, action, raw });
+          this.props.reFetchToken({	authbody, apiname, postbody, action, silent, raw });
         }else{
         	let headers = this.rpcHeaders();
 
-        	this.props.callRpcApi({ headers, apiname, postbody, action, raw });
+        	this.props.callRpcApi({ headers, apiname, postbody, action, silent, raw });
       	}
       }else{
       	this.props.snackOnlyAction({show:true, snackTip: 'Please logon firstly!'});
