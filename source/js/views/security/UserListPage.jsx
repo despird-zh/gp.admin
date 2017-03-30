@@ -49,14 +49,14 @@ class UserListPage extends React.Component {
     let userinfo = this.props.userlist.get('users').find((item, index, iter) => {
       return item.account == account;
     });
-
+    
     this.props.userSaveAction(userinfo);
     hashHistory.push(url);
   }
 
   handleQuery = () => {
 
-    let search = this.props.userlist.get('search');
+    let search = this.props.userlist.search;
     let params = {filterkey: search, state: 'ALL', type: 'ALL'};
     this.props.rpcInvoke(SecurityApis.UsersQuery, params, usersSaveAction);
   }
@@ -84,11 +84,9 @@ class UserListPage extends React.Component {
 
   render() {
 
-    let users = this.props.userlist.get('users');
-    let internal = this.props.userlist.get('internal');
-    let external = this.props.userlist.get('external');
-    let search = this.props.userlist.get('search');
-        
+    let {users, internal, external, search} = this.props.userlist.toJS();
+    
+    console.log(users);
     let styles = getStyles(this.props.muiTheme);
 
     let rows = users.map((item, index) => {
@@ -157,8 +155,8 @@ class UserListPage extends React.Component {
 const NewComponent = AuthConnect(
   UserListPage, 
   (state) => ({
-            userlist: state.security.get('userlist'),
-          }), 
+    userlist: state.security.get('userlist'),
+  }), 
   {usersSaveAction, userSaveAction, filterSaveAction, searchClearAction});
 
 export default muiThemeable()(NewComponent);

@@ -7,8 +7,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { profileSaveAction,SecurityApis } from '../../store/actions/securityActions';
- 
+import { profileSaveAction, SecurityApis } from '../../store/actions/securityActions';
+import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
 	return{
@@ -47,8 +47,12 @@ class UserInfoPage extends React.Component {
     super(props, context);
   }
   
-  render() {
+  componentWillMount() {
+  	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
+  }
 
+  render() {
+ 
   	let styles = getStyles(this.props.muiTheme);
   	let {
 			account,
@@ -82,7 +86,7 @@ class UserInfoPage extends React.Component {
 			timeZone,
 			type
   	} = this.props.userinfo.toJS();
-  	console.log(this.props.userinfo);
+  	
   	return (
 		  <div>
 		  	<div style={styles.root}>
@@ -213,8 +217,9 @@ class UserInfoPage extends React.Component {
 const NewComponent = AuthConnect(
   UserInfoPage, 
   (state) => ({
-            userinfo: state.security.get('userinfo'),
-          }), 
+    userinfo: state.security.get('userinfo'),
+    storages: state.app.get('storages')
+   }), 
   {});
 
 export default muiThemeable()(NewComponent);

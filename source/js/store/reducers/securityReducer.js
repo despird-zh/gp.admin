@@ -18,30 +18,21 @@ const actionsMap = {
 
   // Loader Action
   [SEC_SAVE_USERS]: (state, {type, data}) => {
-
     return state.setIn(['userlist','users'], data);
-
   },
  	[SEC_SAVE_FILTER]: (state, {type, data}) => {
 
-    return state.mergeDeep({
-      userlist: data
-    });
+    return state.mergeDeep({'userlist': data});
   },
 // Loader Action
   [SEC_SAVE_USER]: (state, {type, data}) => {
 
-    return state.mergeDeep({
-      userinfo: data,
-    });
+    return state.mergeDeep({'userinfo': data});
   },
 
   [SEC_CLEAR_SEARCH]: (state, {type, data}) => {
-
-    let newState = state.mergeDeep({
-      userlist: data
-    });
-    return newState.setIn(['userlist','users'], List());
+    data.users = List();
+    return state.mergeDeep('userlist', data);
   },
 };
 
