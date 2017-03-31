@@ -57,12 +57,12 @@ export default (
     <Route path='security' component={ SecurityPage }>
       <IndexRoute component={ UserListPage } />
       <Route path='userlist' component={ UserListPage } />
-      <Route path='userinfo/:account' component={ UserInfoPage } />
+      <Route path='userinfo/:userId' component={ UserInfoPage } />
     </Route>
     <Route path='wgroup' component={ WGroupPage }>
       <IndexRoute component={ WGroupListPage } />
       <Route path='grouplist' component={ WGroupListPage } />
-      <Route path='groupinfo/:account' component={ WGroupInfoPage } />
+      <Route path='groupinfo/:wgroupId' component={ WGroupInfoPage } />
     </Route>
     <Route path='master' component={ MasterPage }>
       <IndexRoute component={ DictListPage } />

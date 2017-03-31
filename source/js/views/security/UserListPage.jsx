@@ -43,14 +43,9 @@ class UserListPage extends React.Component {
     super(props, context);
   }
   
-  handleJump = (account) => {
+  handleJump = (userId) => {
 
-    let url = '/security/userinfo/' + account;
-    let userinfo = this.props.userlist.get('users').find((item, index, iter) => {
-      return item.account == account;
-    });
-    
-    this.props.userSaveAction(userinfo);
+    let url = '/security/userinfo/' + userId;
     hashHistory.push(url);
   }
 
@@ -92,13 +87,13 @@ class UserListPage extends React.Component {
     let rows = users.map((item, index) => {
 
       return <TableRow key={item.account}>
-              <TableRowColumn>{item.account} - {item.fullName}</TableRowColumn>
+              <TableRowColumn>{item.account} - {item.name}</TableRowColumn>
               <TableRowColumn>{item.email}</TableRowColumn>
               <TableRowColumn>{item.mobile}</TableRowColumn>
               <TableRowColumn>{item.state}</TableRowColumn>
               <TableRowColumn>{item.sourceName}</TableRowColumn>
               <TableRowColumn style={{ width: 80}}>
-                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, item.account)}><ModeEditIcon/></IconButton >
+                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, item.userId)}><ModeEditIcon/></IconButton >
               </TableRowColumn>
             </TableRow>;
     });

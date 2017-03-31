@@ -5,7 +5,8 @@ export const SEC_CLEAR_SEARCH = 'SEC_CLEAR_SEARCH';
 
 export const SecurityApis = {
   UsersQuery: 'users-query.do',
-  UserSave: 'user-save.do'
+  UserSave: 'user-save.do',
+  UserInfo: 'user-info.do'
 };
 
 export function usersSaveAction(userlist) {

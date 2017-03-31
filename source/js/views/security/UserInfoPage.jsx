@@ -48,13 +48,15 @@ class UserInfoPage extends React.Component {
   }
   
   componentWillMount() {
-  	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
-  }
 
+  	let user_id = this.props.params.userId;
+  	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
+  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
+  }
   
   handleFieldChange = (key, event, newVal, payload) => {
 
-    let selects = ['state', 'type', 'language', 'timeZone'];
+    let selects = ['state', 'type', 'language', 'timezone'];
     console.log(payload + ' / ' + newVal);
     let data = {};
     if(selects.indexOf(key) >= 0){
@@ -70,34 +72,23 @@ class UserInfoPage extends React.Component {
   	let styles = getStyles(this.props.muiTheme);
   	let {
 			account,
-			avatarId,
-			classification,
 			createDate,
 			email,
-			extraInfo,
-			fullName,
-			globalAccount,
-			id,
-			infoId,
+			imagePath,
 			language,
-			lastLogonDate,
 			mobile,
-			modifier,
-			modifyDate,
-			netdiskCabinet,
+			name,
 			password,
 			phone,
-			publishCabinet,
-			retryTimes,
+			pricapacity,
+			pubcapacity,
 			signature,
-			sourceAbbr,
 			sourceId,
 			sourceName,
-			sourceShortName,
 			state,
 			storageId,
 			storageName,
-			timeZone,
+			timezone,
 			type
   	} = this.props.userinfo.toJS();
 
@@ -130,7 +121,7 @@ class UserInfoPage extends React.Component {
 			    <TextField
 			    	style={ styles.inputItem }
 			      hintText="Name"
-			      value={ fullName }
+			      value={ name }
 			      onChange={ this.handleFieldChange.bind(null, 'fullName') }
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
@@ -201,12 +192,16 @@ class UserInfoPage extends React.Component {
 			      hintText="Public Cab"
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
+			      value={ pubcapacity }
+			      onChange={ this.handleFieldChange.bind(null, 'pubcapacity') }
 			    />
 			    <TextField
 			    style={ styles.inputItem }
 			      hintText="Private Cab"
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
+			      value={ pricapacity }
+			      onChange={ this.handleFieldChange.bind(null, 'pricapacity') }
 			    />
 			    <SelectField
 			     style={ styles.inputItem }
@@ -220,7 +215,8 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Language"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}
+	          value={ language }
+	          onChange={this.handleFieldChange.bind(null, 'language')}
 		        >
 	          <MenuItem value={1} primaryText="LDAP" />
 	          <MenuItem value={2} primaryText="OAuth2" />
@@ -229,7 +225,8 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Timezone"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}
+	          value={ timezone }
+	          onChange={this.handleFieldChange.bind(null, 'timezone')}
 		        >
 	          <MenuItem value={1} primaryText="LDAP" />
 	          <MenuItem value={2} primaryText="OAuth2" />
