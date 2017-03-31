@@ -24,7 +24,7 @@ class AffiliateBars extends React.Component {
 	}
 
 	render() {
-
+		
 		return (
 			<div>
 				<Dialog

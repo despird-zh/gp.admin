@@ -7,7 +7,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { profileSaveAction, SecurityApis } from '../../store/actions/securityActions';
+import { userSaveAction, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
@@ -50,6 +50,20 @@ class UserInfoPage extends React.Component {
   componentWillMount() {
   	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
   }
+
+  
+  handleFieldChange = (key, event, newVal, payload) => {
+
+    let selects = ['state', 'type', 'language', 'timeZone'];
+    console.log(payload + ' / ' + newVal);
+    let data = {};
+    if(selects.indexOf(key) >= 0){
+    	data[key] = payload;
+    }else{
+	    data[key] = newVal;
+	  }
+    this.props.userSaveAction(data);
+  };
 
   render() {
  
@@ -109,18 +123,23 @@ class UserInfoPage extends React.Component {
 	       		style= {styles.inputItem}
 			      hintText="Account"
 			      floatingLabelText="Fixed Floating Label Text"
-			      value={account}
+			      value={ account }
+			      onChange={ this.handleFieldChange.bind(null, 'account') }
 			      floatingLabelFixed={true}
 			    />
 			    <TextField
 			    	style={ styles.inputItem }
 			      hintText="Name"
+			      value={ fullName }
+			      onChange={ this.handleFieldChange.bind(null, 'fullName') }
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
 			    />
 			    <TextField
 			    	style={ styles.inputItem }
 			      hintText="Password"
+			      value={ password }
+			      onChange={ this.handleFieldChange.bind(null, 'password') }
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
 			    />
@@ -134,25 +153,27 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Status"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}
-		        >
-	          <MenuItem value={1} primaryText="Action" />
-	          <MenuItem value={2} primaryText="Deactive" />
-	          <MenuItem value={3} primaryText="Frozen" />
+	          value={ state }
+	          onChange={this.handleFieldChange.bind(null, 'state')}>
+	          <MenuItem value={'ACTIVE'} primaryText="Action" />
+	          <MenuItem value={'DEACTIVE'} primaryText="Deactive" />
+	          <MenuItem value={'FROZEN'} primaryText="Frozen" />
 	        </SelectField>
 	        <SelectField
 			     style={ styles.inputItem }
 	          floatingLabelText="Type"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}
-		        >
-	          <MenuItem value={1} primaryText="LDAP" />
-	          <MenuItem value={2} primaryText="OAuth2" />
+	          value={ type }
+	          onChange={this.handleFieldChange.bind(null, 'type')}>
+	          <MenuItem value={'LDAP'} primaryText="LDAP" />
+	          <MenuItem value={'OAuth2'} primaryText="OAuth2" />
 	        </SelectField>
 			    <TextField
 			    style={ styles.inputItem }
 			      hintText="Email"
 			      floatingLabelText="Fixed Floating Label Text"
+			      value={ email }
+			      onChange={ this.handleFieldChange.bind(null, 'email') }
 			      floatingLabelFixed={true}
 			    /><br/>
 			    <TextField
@@ -160,12 +181,16 @@ class UserInfoPage extends React.Component {
 			      hintText="Mobile"
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
+			      value={ mobile }
+			      onChange={ this.handleFieldChange.bind(null, 'mobile') }
 			    />
 			    <TextField
 			    style={ styles.inputItem }
 			      hintText="Phone"
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
+			      value={ phone }
+			      onChange={ this.handleFieldChange.bind(null, 'phone') }
 			    />
 	       </div>
 	       <div style={styles.right}>
@@ -222,6 +247,6 @@ const NewComponent = AuthConnect(
     userinfo: state.security.get('userinfo'),
     storages: state.app.get('storages')
    }), 
-  {});
+  { userSaveAction });
 
 export default muiThemeable()(NewComponent);

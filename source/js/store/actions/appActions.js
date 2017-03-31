@@ -15,7 +15,7 @@ export function storagesSaveAction(storages) {
   };
 }
 
-export function loaderAction({shown = true, loaderTip = null}) {
+export function loaderAction({shown = true, loaderTip = ''}) {
   return {
     type: APP_SHOW_LOADER,
     data: {
@@ -25,7 +25,7 @@ export function loaderAction({shown = true, loaderTip = null}) {
   };
 }
 
-export function snackAction({shown = true, snackTip = null}) {
+export function snackAction({shown = true, snackTip = ''}) {
   return {
     type: APP_SHOW_SNACK,
     data: {
@@ -35,7 +35,7 @@ export function snackAction({shown = true, snackTip = null}) {
   };
 }
 
-export function snackOnlyAction({shown = true, snackTip = null}) {
+export function snackOnlyAction({shown = true, snackTip = ''}) {
   return {
     type: APP_ONLY_SNACK,
     data: {
