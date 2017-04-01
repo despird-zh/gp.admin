@@ -9,6 +9,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { userSaveAction, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
+
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
 	return{
@@ -71,25 +72,10 @@ class UserInfoPage extends React.Component {
  
   	let styles = getStyles(this.props.muiTheme);
   	let {
-			account,
-			createDate,
-			email,
-			imagePath,
-			language,
-			mobile,
-			name,
-			password,
-			phone,
-			pricapacity,
-			pubcapacity,
-			signature,
-			sourceId,
-			sourceName,
-			state,
-			storageId,
-			storageName,
-			timezone,
-			type
+			account, createDate, email, imagePath,	language,
+			mobile,	name,	password,	phone,	pricapacity,
+			pubcapacity,	signature,	sourceId,	sourceName,	state,
+			storageId,	storageName,	timezone,	type
   	} = this.props.userinfo.toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
@@ -99,7 +85,10 @@ class UserInfoPage extends React.Component {
   	return (
 		  <div>
 		  	<div style={styles.root}>
-          
+          <Chip
+            style={{margin: 6}}>
+            { 啛啛喳喳错错错 }
+          </Chip>
           <div style={styles.spacer}/>
           <div>
               <RaisedButton label="Clear" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
