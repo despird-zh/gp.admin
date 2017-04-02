@@ -57,7 +57,7 @@ class UserInfoPage extends React.Component {
   
   handleFieldChange = (key, event, newVal, payload) => {
 
-    let selects = ['state', 'type', 'language', 'timezone'];
+    let selects = ['state', 'type', 'language', 'timezone','storageId'];
     console.log(payload + ' / ' + newVal);
     let data = {};
     if(selects.indexOf(key) >= 0){
@@ -75,11 +75,12 @@ class UserInfoPage extends React.Component {
 			account, createDate, email, imagePath,	language,
 			mobile,	name,	password,	phone,	pricapacity,
 			pubcapacity,	signature,	sourceId,	sourceName,	state,
-			storageId,	storageName,	timezone,	type
+			storageId,	storageName,	timezone,	type, modifier, lastModified
   	} = this.props.userinfo.toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
   		let obj = item.toJS();
+  		console.log(obj);
   		return <MenuItem value={obj.storageId} primaryText={obj.name} />
   	});
   	return (
@@ -87,7 +88,7 @@ class UserInfoPage extends React.Component {
 		  	<div style={styles.root}>
           <Chip
             style={{margin: 6}}>
-            { 啛啛喳喳错错错 }
+            { lastModified } Modified By { modifier }
           </Chip>
           <div style={styles.spacer}/>
           <div>
@@ -196,7 +197,8 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Storage"
 	          floatingLabelFixed={true}
-	          onChange={this.handleChange}>
+	          value={ storageId }
+			      onChange={ this.handleFieldChange.bind(null, 'storageId') }>
 	          { storageItems }
 	        </SelectField>
 	        <div style={{ display: 'inline-block', width: 200 }}/>
@@ -207,8 +209,8 @@ class UserInfoPage extends React.Component {
 	          value={ language }
 	          onChange={this.handleFieldChange.bind(null, 'language')}
 		        >
-	          <MenuItem value={1} primaryText="LDAP" />
-	          <MenuItem value={2} primaryText="OAuth2" />
+	          <MenuItem value={'en_US'} primaryText="English" />
+	          <MenuItem value={'zh_CN'} primaryText="Chinese" />
 	        </SelectField>
 			    <SelectField
 			     style={ styles.inputItem }
@@ -217,8 +219,8 @@ class UserInfoPage extends React.Component {
 	          value={ timezone }
 	          onChange={this.handleFieldChange.bind(null, 'timezone')}
 		        >
-	          <MenuItem value={1} primaryText="LDAP" />
-	          <MenuItem value={2} primaryText="OAuth2" />
+	          <MenuItem value={'GMT+08:00'} primaryText="China Shanghai" />
+	          <MenuItem value={'GMT+09:00'} primaryText="Singapore" />
 	        </SelectField>
 	       </div>
 	      </div>
