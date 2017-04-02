@@ -63,7 +63,7 @@ class SettingPage extends React.Component {
     this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},(json)=>{
       let state = Object.assign(this.state, {settings: json.data});
       this.setState(state);
-    }, true);
+    },true, true);
   }
 
   render() {
