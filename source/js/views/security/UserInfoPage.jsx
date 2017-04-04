@@ -53,7 +53,6 @@ class UserInfoPage extends React.Component {
   	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
 
   	if(this.props.userinfo.get('mode') == 'edit') {
-  		this.props.userinfo.get('mode')
 	  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
 	  }
   }
@@ -79,11 +78,12 @@ class UserInfoPage extends React.Component {
   	let postdata = userinfo.get('user').toJS();
   	if( userinfo.get('mode') == 'edit'){
 	  	this.props.rpcInvoke(SecurityApis.UserSave, postdata, (json)=>{
-	  		console.log(json)
+	  		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
 	  	}, false, true);
 	  }else{
 	  	this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json)=>{
-	  		console.log(json)
+	  		console.log(json);
+	  		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
 	  	}, false, true);
 	  }
   }
@@ -103,10 +103,11 @@ class UserInfoPage extends React.Component {
   		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
   	});
 
-  	let chip = this.props.mode == 'edit' ? (<Chip
+  	let chip = this.props.userinfo.get('mode') == 'edit' ? (<Chip
             style={{margin: 6}}>
             { lastModified } Modified By { modifier }
           </Chip>): null;
+
   	return (
 		  <div>
 		  	<div style={styles.root}>
