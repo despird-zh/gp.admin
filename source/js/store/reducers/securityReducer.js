@@ -33,9 +33,9 @@ const actionsMap = {
     return state.mergeDeep({'userinfo': { 'user':data} });
   },
 
-  [SEC_SAVE_USER_MODE]: (state, {type, mode}) => {
+  [SEC_SAVE_USER_MODE]: (state, {type, data}) => {
 
-    return state.mergeDeep({'userinfo': { 'mode':mode} });
+    return state.setIn(['userinfo','mode'], data);
   },
 
   [SEC_CLEAR_SEARCH]: (state, {type, data}) => {

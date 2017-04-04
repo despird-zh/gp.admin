@@ -46,20 +46,14 @@ class UserInfoPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-    this.state = {
-  		mode: this.props.params.userId == '_blank_' ? 'add':'edit',
-  	};
-  }
-
-  componentWillUpdate(){
-  	console.log('will update');
   }
 
   componentWillMount() {
-  	console.log('will mount');
   	let user_id = this.props.params.userId;
   	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
-  	if(this.state.mode == 'edit') {
+
+  	if(this.props.userinfo.get('mode') == 'edit') {
+  		this.props.userinfo.get('mode')
 	  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
 	  }
   }
@@ -81,10 +75,17 @@ class UserInfoPage extends React.Component {
   }
 
   handleSave = () => {
-  	let postdata = this.props.userinfo.get('user').toJS();
-  	this.props.rpcInvoke(SecurityApis.UserSave, postdata, (json)=>{
-  		console.log(json)
-  	}, false, true);
+  	let {userinfo} = this.props;
+  	let postdata = userinfo.get('user').toJS();
+  	if( userinfo.get('mode') == 'edit'){
+	  	this.props.rpcInvoke(SecurityApis.UserSave, postdata, (json)=>{
+	  		console.log(json)
+	  	}, false, true);
+	  }else{
+	  	this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json)=>{
+	  		console.log(json)
+	  	}, false, true);
+	  }
   }
 
   render() {
@@ -92,7 +93,7 @@ class UserInfoPage extends React.Component {
   	let styles = getStyles(this.props.muiTheme);
   	let {
 			account, createDate, email, imagePath,	language,
-			mobile,	name,	password,	phone,	pricapacity,
+			mobile,	name,	password, confirm,	phone,	pricapacity,
 			pubcapacity,	signature,	sourceId,	sourceName,	state,
 			storageId,	storageName,	timezone,	type, modifier, lastModified
   	} = this.props.userinfo.get('user').toJS();
@@ -102,7 +103,7 @@ class UserInfoPage extends React.Component {
   		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
   	});
 
-  	let chip = this.state.mode == 'edit' ? (<Chip
+  	let chip = this.props.mode == 'edit' ? (<Chip
             style={{margin: 6}}>
             { lastModified } Modified By { modifier }
           </Chip>): null;
@@ -132,7 +133,7 @@ class UserInfoPage extends React.Component {
 			    	style={ styles.inputItem }
 			      hintText="Name"
 			      value={ name }
-			      onChange={ this.handleFieldChange.bind(null, 'fullName') }
+			      onChange={ this.handleFieldChange.bind(null, 'name') }
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
 			    />
@@ -147,6 +148,8 @@ class UserInfoPage extends React.Component {
 			    <TextField
 			    	style={ styles.inputItem }
 			      hintText="Confirm"
+			      value={ confirm }
+			      onChange={ this.handleFieldChange.bind(null, 'confirm') }
 			      floatingLabelText="Fixed Floating Label Text"
 			      floatingLabelFixed={true}
 			    />
@@ -156,7 +159,7 @@ class UserInfoPage extends React.Component {
 	          floatingLabelFixed={true}
 	          value={ state }
 	          onChange={this.handleFieldChange.bind(null, 'state')}>
-	          <MenuItem value={'ACTIVE'} primaryText="Action" />
+	          <MenuItem value={'ACTIVE'} primaryText="Active" />
 	          <MenuItem value={'DEACTIVE'} primaryText="Deactive" />
 	          <MenuItem value={'FROZEN'} primaryText="Frozen" />
 	        </SelectField>

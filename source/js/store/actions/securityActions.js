@@ -7,6 +7,7 @@ export const SEC_CLEAR_SEARCH = 'SEC_CLEAR_SEARCH';
 export const SecurityApis = {
   UsersQuery: 'users-query.do',
   UserSave: 'user-save.do',
+  UserAdd: 'user-add.do',
   UserInfo: 'user-info.do'
 };
 
