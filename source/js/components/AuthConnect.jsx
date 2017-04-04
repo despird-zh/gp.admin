@@ -103,5 +103,4 @@ export default (ComposedComponent, stateMap, actions) => {
 	    }, dispatch)
 	  )
 	)(NewComponent);
-
 }

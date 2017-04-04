@@ -1,5 +1,6 @@
 export const SEC_SAVE_USERS = 'SEC_SAVE_USERS';
 export const SEC_SAVE_USER = 'SEC_SAVE_USER';
+export const SEC_SAVE_USER_MODE = 'SEC_SAVE_USER_MODE';
 export const SEC_SAVE_FILTER = 'SEC_SAVE_FILTER';
 export const SEC_CLEAR_SEARCH = 'SEC_CLEAR_SEARCH';
 
@@ -20,6 +21,13 @@ export function filterSaveAction(filter) {
   return {
     type: SEC_SAVE_FILTER,
     data: filter
+  };
+}
+
+export function userModeSaveAction(mode) {
+  return {
+    type: SEC_SAVE_USER_MODE,
+    data: mode
   };
 }
 

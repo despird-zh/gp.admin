@@ -46,19 +46,27 @@ class UserInfoPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
+    this.state = {
+  		mode: this.props.params.userId == '_blank_' ? 'add':'edit',
+  	};
   }
-  
-  componentWillMount() {
 
+  componentWillUpdate(){
+  	console.log('will update');
+  }
+
+  componentWillMount() {
+  	console.log('will mount');
   	let user_id = this.props.params.userId;
   	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
-  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
+  	if(this.state.mode == 'edit') {
+	  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
+	  }
   }
   
   handleFieldChange = (key, event, newVal, payload) => {
 
     let selects = ['state', 'type', 'language', 'timezone','storageId'];
-    console.log(payload + ' / ' + newVal);
     let data = {};
     if(selects.indexOf(key) >= 0){
     	data[key] = payload;
@@ -68,6 +76,17 @@ class UserInfoPage extends React.Component {
     this.props.userSaveAction(data);
   };
 
+  handleRefresh = () => {
+  	console.log('wr');
+  }
+
+  handleSave = () => {
+  	let postdata = this.props.userinfo.get('user').toJS();
+  	this.props.rpcInvoke(SecurityApis.UserSave, postdata, (json)=>{
+  		console.log(json)
+  	}, false, true);
+  }
+
   render() {
  
   	let styles = getStyles(this.props.muiTheme);
@@ -76,24 +95,25 @@ class UserInfoPage extends React.Component {
 			mobile,	name,	password,	phone,	pricapacity,
 			pubcapacity,	signature,	sourceId,	sourceName,	state,
 			storageId,	storageName,	timezone,	type, modifier, lastModified
-  	} = this.props.userinfo.toJS();
+  	} = this.props.userinfo.get('user').toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
   		let obj = item.toJS();
-  		console.log(obj);
-  		return <MenuItem value={obj.storageId} primaryText={obj.name} />
+  		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
   	});
+
+  	let chip = this.state.mode == 'edit' ? (<Chip
+            style={{margin: 6}}>
+            { lastModified } Modified By { modifier }
+          </Chip>): null;
   	return (
 		  <div>
 		  	<div style={styles.root}>
-          <Chip
-            style={{margin: 6}}>
-            { lastModified } Modified By { modifier }
-          </Chip>
+          { chip }
           <div style={styles.spacer}/>
           <div>
-              <RaisedButton label="Clear" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
-              <RaisedButton label="Save" style={{margin: 4}} primary={true} onTouchTap ={this.handleRefresh}/>
+              <RaisedButton label="Refresh" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
+              <RaisedButton label="Save" style={{margin: 4}} primary={true} onTouchTap ={this.handleSave}/>
           </div>
         </div>
         <div style={styles.container}>
@@ -146,6 +166,7 @@ class UserInfoPage extends React.Component {
 	          floatingLabelFixed={true}
 	          value={ type }
 	          onChange={this.handleFieldChange.bind(null, 'type')}>
+	          <MenuItem value={'INLINE'} primaryText="InLine" />
 	          <MenuItem value={'LDAP'} primaryText="LDAP" />
 	          <MenuItem value={'OAuth2'} primaryText="OAuth2" />
 	        </SelectField>

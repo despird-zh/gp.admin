@@ -1,7 +1,7 @@
 import { Map, List } from 'immutable';
 
 import {
-  SEC_SAVE_USERS, SEC_SAVE_USER, SEC_SAVE_FILTER, SEC_CLEAR_SEARCH
+  SEC_SAVE_USERS, SEC_SAVE_USER, SEC_SAVE_USER_MODE, SEC_SAVE_FILTER, SEC_CLEAR_SEARCH
 } from '../actions/securityActions';
 
 const initialState = Map({
@@ -11,28 +11,37 @@ const initialState = Map({
   	internal: false, 
   	external: false,
   }),
-  userinfo: Map(),
+  userinfo: Map({
+    user: Map(),
+    mode: 'edit',
+  }),
 });
 
 const actionsMap = {
 
-  // Loader Action
   [SEC_SAVE_USERS]: (state, {type, data}) => {
     return state.setIn(['userlist','users'], data);
   },
+
  	[SEC_SAVE_FILTER]: (state, {type, data}) => {
 
     return state.mergeDeep({'userlist': data});
   },
-// Loader Action
+
   [SEC_SAVE_USER]: (state, {type, data}) => {
 
-    return state.mergeDeep({'userinfo': data});
+    return state.mergeDeep({'userinfo': { 'user':data} });
+  },
+
+  [SEC_SAVE_USER_MODE]: (state, {type, mode}) => {
+
+    return state.mergeDeep({'userinfo': { 'mode':mode} });
   },
 
   [SEC_CLEAR_SEARCH]: (state, {type, data}) => {
-    data.users = List();
-    return state.mergeDeep('userlist', data);
+    
+    let newState = state.mergeDeep({'userlist': data});
+    return newState.setIn(['userlist','users'], List());
   },
 };
 

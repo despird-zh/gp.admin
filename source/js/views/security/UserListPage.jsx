@@ -10,7 +10,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { usersSaveAction, 
-  userSaveAction, 
+  userModeSaveAction, 
   filterSaveAction, 
   searchClearAction,
   SecurityApis } from '../../store/actions/securityActions';
@@ -46,6 +46,7 @@ class UserListPage extends React.Component {
   handleJump = (userId) => {
 
     let url = '/security/userinfo/' + userId;
+    this.props.userModeSaveAction('edit');
     hashHistory.push(url);
   }
 
@@ -81,7 +82,6 @@ class UserListPage extends React.Component {
 
     let {users, internal, external, search} = this.props.userlist.toJS();
     
-    console.log(users);
     let styles = getStyles(this.props.muiTheme);
 
     let rows = users.map((item, index) => {
@@ -152,6 +152,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     userlist: state.security.get('userlist'),
   }), 
-  {usersSaveAction, userSaveAction, filterSaveAction, searchClearAction});
+  {usersSaveAction, userModeSaveAction, filterSaveAction, searchClearAction});
 
 export default muiThemeable()(NewComponent);
