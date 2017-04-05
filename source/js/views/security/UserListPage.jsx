@@ -9,10 +9,9 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { usersSaveAction, 
-  userModeSaveAction, 
-  filterSaveAction, 
-  searchClearAction,
+import { saveUsers, 
+  saveUsersFilter, 
+  clearUsersFilter,
   SecurityApis } from '../../store/actions/securityActions';
 
 function getStyles (muiTheme) {
@@ -41,20 +40,25 @@ class UserListPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
+
   }
   
   handleJump = (userId) => {
 
-    let url = '/security/userinfo/' + userId;
-    this.props.userModeSaveAction('edit');
+    let url = '/security/useredit/' + userId;
     hashHistory.push(url);
   }
 
+  componentWillMount() {
+    if(this.props.setCurrentPage)
+      this.props.setCurrentPage('userlist');
+  }
+  
   handleQuery = () => {
 
     let search = this.props.userlist.search;
     let params = {filterkey: search, state: 'ALL', type: 'ALL'};
-    this.props.rpcInvoke(SecurityApis.UsersQuery, params, usersSaveAction);
+    this.props.rpcInvoke(SecurityApis.UsersQuery, params, saveUsers);
   }
 
   handleClear = () => {
@@ -64,7 +68,7 @@ class UserListPage extends React.Component {
       external: false,
     };
 
-    this.props.searchClearAction(filter);
+    this.props.clearUsersFilter(filter);
   }
 
   handleFilter = (key, event, newVal)=>{
@@ -75,7 +79,7 @@ class UserListPage extends React.Component {
       filter[key] = newVal;
     }
     
-    this.props.filterSaveAction(filter);
+    this.props.saveUsersFilter(filter);
   }
 
   render() {
@@ -152,6 +156,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     userlist: state.security.get('userlist'),
   }), 
-  {usersSaveAction, userModeSaveAction, filterSaveAction, searchClearAction});
+  { saveUsersFilter, clearUsersFilter });
 
 export default muiThemeable()(NewComponent);

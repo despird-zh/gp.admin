@@ -1,8 +1,8 @@
 export const SEC_SAVE_USERS = 'SEC_SAVE_USERS';
-export const SEC_SAVE_USER = 'SEC_SAVE_USER';
-export const SEC_SAVE_USER_MODE = 'SEC_SAVE_USER_MODE';
-export const SEC_SAVE_FILTER = 'SEC_SAVE_FILTER';
-export const SEC_CLEAR_SEARCH = 'SEC_CLEAR_SEARCH';
+export const SEC_SAVE_USERS_FILTER = 'SEC_SAVE_USERS_FILTER';
+export const SEC_CLEAR_USERS_FILTER = 'SEC_CLEAR_USERS_FILTER';
+export const SEC_SAVE_EDIT_USER = 'SEC_SAVE_EDIT_USER';
+export const SEC_SAVE_ADD_USER = 'SEC_SAVE_ADD_USER';
 
 export const SecurityApis = {
   UsersQuery: 'users-query.do',
@@ -11,37 +11,37 @@ export const SecurityApis = {
   UserInfo: 'user-info.do'
 };
 
-export function usersSaveAction(userlist) {
+export function saveUsers(userlist) {
   return {
     type: SEC_SAVE_USERS,
     data: userlist
   };
 }
 
-export function filterSaveAction(filter) {
+export function saveUsersFilter(filter) {
   return {
-    type: SEC_SAVE_FILTER,
+    type: SEC_SAVE_USERS_FILTER,
     data: filter
   };
 }
 
-export function userModeSaveAction(mode) {
+export function saveEditUser(userinfo) {
   return {
-    type: SEC_SAVE_USER_MODE,
-    data: mode
-  };
-}
-
-export function userSaveAction(userinfo) {
-  return {
-    type: SEC_SAVE_USER,
+    type: SEC_SAVE_EDIT_USER,
     data: userinfo
   };
 }
 
-export function searchClearAction(filter) {
+export function saveAddUser(userinfo) {
   return {
-    type: SEC_CLEAR_SEARCH,
+    type: SEC_SAVE_ADD_USER,
+    data: userinfo
+  };
+}
+
+export function clearUsersFilter(filter) {
+  return {
+    type: SEC_CLEAR_USERS_FILTER,
     data: filter
   };
 }

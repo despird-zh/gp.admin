@@ -7,7 +7,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { userSaveAction, SecurityApis } from '../../store/actions/securityActions';
+import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 
 function getStyles (muiTheme) {
@@ -51,10 +51,8 @@ class UserInfoPage extends React.Component {
   componentWillMount() {
   	let user_id = this.props.params.userId;
   	this.props.rpcInvoke(AppApis.StoragesQuery, {type:'ALL', state:'ALL'}, storagesSaveAction);
-
-  	if(this.props.userinfo.get('mode') == 'edit') {
-	  	this.props.rpcInvoke(SecurityApis.UserInfo, {user_id}, userSaveAction);
-	  }
+	  if(this.props.setCurrentPage)
+  		this.props.setCurrentPage('useradd');
   }
   
   handleFieldChange = (key, event, newVal, payload) => {
@@ -66,7 +64,7 @@ class UserInfoPage extends React.Component {
     }else{
 	    data[key] = newVal;
 	  }
-    this.props.userSaveAction(data);
+    this.props.saveAddUser(data);
   };
 
   handleRefresh = () => {
@@ -74,18 +72,13 @@ class UserInfoPage extends React.Component {
   }
 
   handleSave = () => {
-  	let {userinfo} = this.props;
-  	let postdata = userinfo.get('user').toJS();
-  	if( userinfo.get('mode') == 'edit'){
-	  	this.props.rpcInvoke(SecurityApis.UserSave, postdata, (json)=>{
-	  		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
-	  	}, false, true);
-	  }else{
-	  	this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json)=>{
-	  		console.log(json);
-	  		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
-	  	}, false, true);
-	  }
+  	let { useradd } = this.props;
+  	let postdata = useradd.get('user').toJS();
+
+  	this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json)=>{
+  		console.log(json);
+  		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
+  	}, false, true);
   }
 
   render() {
@@ -96,22 +89,16 @@ class UserInfoPage extends React.Component {
 			mobile,	name,	password, confirm,	phone,	pricapacity,
 			pubcapacity,	signature,	sourceId,	sourceName,	state,
 			storageId,	storageName,	timezone,	type, modifier, lastModified
-  	} = this.props.userinfo.get('user').toJS();
+  	} = this.props.useradd.get('user').toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
   		let obj = item.toJS();
   		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
   	});
 
-  	let chip = this.props.userinfo.get('mode') == 'edit' ? (<Chip
-            style={{margin: 6}}>
-            { lastModified } Modified By { modifier }
-          </Chip>): null;
-
   	return (
 		  <div>
 		  	<div style={styles.root}>
-          { chip }
           <div style={styles.spacer}/>
           <div>
               <RaisedButton label="Refresh" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
@@ -257,9 +244,9 @@ class UserInfoPage extends React.Component {
 const NewComponent = AuthConnect(
   UserInfoPage, 
   (state) => ({
-    userinfo: state.security.get('userinfo'),
+    useradd: state.security.get('useradd'),
     storages: state.app.get('storages')
    }), 
-  { userSaveAction });
+  { saveAddUser });
 
 export default muiThemeable()(NewComponent);

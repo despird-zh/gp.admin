@@ -9,7 +9,8 @@ import ProfilePage from './views/config/ProfilePage';
 
 import SecurityPage from './views/security/SecurityPage';
 import UserListPage from './views/security/UserListPage';
-import UserInfoPage from './views/security/UserInfoPage';
+import UserEditPage from './views/security/UserEditPage';
+import UserAddPage from './views/security/UserAddPage';
 
 import WGroupInfoPage from './views/wgroup/WGroupInfoPage';
 import WGroupListPage from './views/wgroup/WGroupListPage';
@@ -57,7 +58,8 @@ export default (
     <Route path='security' component={ SecurityPage }>
       <IndexRoute component={ UserListPage } />
       <Route path='userlist' component={ UserListPage } />
-      <Route path='userinfo/:userId' component={ UserInfoPage } />
+      <Route path='useredit/:userId' component={ UserEditPage } />
+      <Route path='useradd' component={ UserAddPage } />
     </Route>
     <Route path='wgroup' component={ WGroupPage }>
       <IndexRoute component={ WGroupListPage } />
