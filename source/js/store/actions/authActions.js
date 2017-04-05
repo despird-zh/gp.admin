@@ -18,7 +18,7 @@ const BASE_URL = 'http://localhost:8010/gpapi/';
 const START_LOADER = loaderAction({shown: true, loaderTip: 'Start RPC Invoking'});
 const END_LOADER = loaderAction({shown: false, loaderTip: 'End RPC Invoking'});
 
-export function openSigninAction(show = true) {
+export function openSignin(show = true) {
   return {
     type: OPEN_SIGNIN_ACT,
     data: show,
@@ -166,7 +166,7 @@ export function callRpcApi({headers, apiname, postbody, action, silent = true, r
   };
 }
 
-export function signinAction(authbody) {
+export function signin(authbody) {
   return (dispatch) => {
     dispatch(authStart(authbody.principal));
 
@@ -191,7 +191,7 @@ export function signinAction(authbody) {
   };
 }
 
-export function signoffAction({ principal }) {
+export function signoff({ principal }) {
   return (dispatch, getState) => {
     let {auth} = getState();
     let headers = {

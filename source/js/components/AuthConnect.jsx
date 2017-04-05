@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import jwtDecode from 'jwt-decode';
 import { snackOnlyAction } from '../store/actions/appActions';
-import { openSigninAction, 
-				 signoffAction, 
+import { openSignin, 
+				 signoff, 
 				 reIssueToken, 
 				 reFetchToken, 
 				 callRpcApi } from '../store/actions/authActions';
@@ -93,8 +93,8 @@ export default (ComposedComponent, stateMap, actions) => {
 	  },
 	  (dispatch) => (
 	    bindActionCreators({
-	      openSigninAction,
-	      signoffAction,
+	      openSignin,
+	      signoff,
 	      reIssueToken,
 	      reFetchToken,
 	      callRpcApi,

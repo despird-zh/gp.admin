@@ -24,7 +24,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import { openSigninAction, signoffAction } from '../../store/actions/authActions';
+import { openSignin, signoff } from '../../store/actions/authActions';
 
 injectTapEventPlugin();
 
@@ -107,11 +107,11 @@ class HeaderBar extends React.Component {
   };
 
   handleSignin = () => {
-    this.props.openSigninAction(true);
+    this.props.openSignin(true);
   };
 
   handleSignoff = () => {
-    this.props.signoffAction(true);
+    this.props.signoff(true);
   };
 
   handleTouchJump = (path) => {
@@ -228,7 +228,7 @@ class HeaderBar extends React.Component {
 };
 
 HeaderBar.propTypes = {
-  openSigninAction: PropTypes.func,
+  openSignin: PropTypes.func,
 };
 export default connect(
   (state) => ({
@@ -237,7 +237,7 @@ export default connect(
   }),
   (dispatch) => (
     bindActionCreators({
-      openSigninAction, signoffAction
+      openSignin, signoff
     }, dispatch)
   )
 )(muiThemeable()(HeaderBar));

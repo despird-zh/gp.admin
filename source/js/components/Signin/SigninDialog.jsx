@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
-import { openSigninAction, signinAction, signoffAction } from '../../store/actions/authActions';
+import { openSignin, signin, signoff } from '../../store/actions/authActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
@@ -52,11 +52,11 @@ class SigninDialog extends React.Component {
   };
 
   handleOpen = () => {
-    this.props.openSigninAction(true);
+    this.props.openSignin(true);
   };
 
   handleClose = () => {
-    this.props.openSigninAction(false);
+    this.props.openSignin(false);
   };
 
   handleChange = (e) => {
@@ -72,7 +72,7 @@ class SigninDialog extends React.Component {
       audience: this.props.audience
     };
 
-    this.props.signinAction(authbody);
+    this.props.signin(authbody);
   }
   render() {
 
@@ -130,8 +130,8 @@ SigninDialog.propTypes = {
   authing: PropTypes.bool,
   audience: PropTypes.string,
   message: PropTypes.string,
-  openSigninAction: PropTypes.func,
-  signinAction: PropTypes.func,
+  openSignin: PropTypes.func,
+  signin: PropTypes.func,
 };
 
 export default connect(
@@ -143,8 +143,8 @@ export default connect(
   }),
   (dispatch) => (
     bindActionCreators({
-      openSigninAction,
-      signinAction,
+      openSignin,
+      signin,
     }, dispatch)
   )
 )(SigninDialog);

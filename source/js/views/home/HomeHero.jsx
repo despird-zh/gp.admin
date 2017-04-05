@@ -7,7 +7,7 @@ import spacing from 'material-ui/styles/spacing';
 import typography from 'material-ui/styles/typography';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import {cyan500, grey200, darkWhite} from 'material-ui/styles/colors';
-import { openSigninAction } from '../../store/actions/authActions';
+import { openSignin } from '../../store/actions/authActions';
 import FullWidthSection from '../../components/FullWidthSection';
 
 import bookImg from '../../../assets/img/book2.jpg';
@@ -74,7 +74,7 @@ class HomeHero extends Component {
   };
 
   handleSignin = () => {
-    this.props.openSigninAction(true);
+    this.props.openSignin(true);
   };
   handleSignup = () => {
     console.log('-=sdfadf');
@@ -124,7 +124,7 @@ class HomeHero extends Component {
 }
 HomeHero.propTypes = {
   authenticated: PropTypes.bool,
-  openSigninAction: PropTypes.func,
+  openSignin: PropTypes.func,
 };
 export default connect(
   (state) => ({
@@ -132,7 +132,7 @@ export default connect(
   }),
   (dispatch) => (
     bindActionCreators({
-      openSigninAction,
+      openSignin,
     }, dispatch)
   )
 )(withWidth()(HomeHero));
