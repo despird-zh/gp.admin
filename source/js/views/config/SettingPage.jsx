@@ -51,7 +51,11 @@ class SettingPage extends React.Component {
       }
     };
   }
-  
+  componentWillMount() {
+    if(this.props.setCurrentPage)
+      this.props.setCurrentPage('settings');
+  }
+
   handleClick = (option) => {
     let idx = this.state.settings.findIndex((item) => {return item.option == option });
     let setting = this.state.settings[idx];

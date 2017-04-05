@@ -46,6 +46,9 @@ class UserInfoPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
+    this.state = {
+    	errtips: {}
+    };
   }
 
   componentWillMount() {
@@ -76,7 +79,15 @@ class UserInfoPage extends React.Component {
   	let postdata = useradd.get('user').toJS();
 
   	this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json)=>{
-  		console.log(json);
+  		let { meta, data} = json;
+
+  		if(meta.state == 'fail' && meta.code == 'invalid'){
+  			let vitem, validmsg = {};
+  			for(vitem of data){
+  				validmsg[vitem.property.toLowerCase()] = vitem.message;
+  			}
+  			this.setState({errtips: validmsg});
+  		}
   		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
   	}, false, true);
   }
@@ -113,6 +124,7 @@ class UserInfoPage extends React.Component {
 	       		style= {styles.inputItem}
 			      hintText="Account"
 			      floatingLabelText="Fixed Floating Label Text"
+			      errorText={ this.state.errtips.account }
 			      value={ account }
 			      onChange={ this.handleFieldChange.bind(null, 'account') }
 			      floatingLabelFixed={true}
@@ -120,6 +132,7 @@ class UserInfoPage extends React.Component {
 			    <TextField
 			    	style={ styles.inputItem }
 			      hintText="Name"
+			      errorText={ this.state.errtips.fullname }
 			      value={ name }
 			      onChange={ this.handleFieldChange.bind(null, 'name') }
 			      floatingLabelText="Fixed Floating Label Text"
@@ -145,6 +158,7 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Status"
 	          floatingLabelFixed={true}
+	          errorText={ this.state.errtips.status }
 	          value={ state }
 	          onChange={this.handleFieldChange.bind(null, 'state')}>
 	          <MenuItem value={'ACTIVE'} primaryText="Active" />
@@ -155,6 +169,7 @@ class UserInfoPage extends React.Component {
 			     style={ styles.inputItem }
 	          floatingLabelText="Type"
 	          floatingLabelFixed={true}
+	          errorText={ this.state.errtips.type }
 	          value={ type }
 	          onChange={this.handleFieldChange.bind(null, 'type')}>
 	          <MenuItem value={'INLINE'} primaryText="InLine" />
@@ -165,6 +180,7 @@ class UserInfoPage extends React.Component {
 			    style={ styles.inputItem }
 			      hintText="Email"
 			      floatingLabelText="Fixed Floating Label Text"
+			      errorText={ this.state.errtips.email }
 			      value={ email }
 			      onChange={ this.handleFieldChange.bind(null, 'email') }
 			      floatingLabelFixed={true}

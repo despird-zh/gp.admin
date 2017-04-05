@@ -33,20 +33,22 @@ function getStyles(muiTheme) {
 	};
 };
 
-const pages = [
-	{
+const pages = {
+	profile: {
 		path: '/config/profile',
 		title: 'System Profile',
 		icon: <ActionLaptop />,
-    description: 'Review the information of System'
+    description: 'Review the information of System',
+    disabled: false
 	},
-	{
+	settings: {
 		path: '/config/setting',
     title: 'System Settings',
     icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    description: 'Review the settings of System',
+    disabled: false
 	},
-];
+};
 
 class ConfigPage extends React.Component {
 
@@ -54,30 +56,42 @@ class ConfigPage extends React.Component {
     super(props, context);
 
     this.styles = getStyles(this.props.muiTheme);
-
+    this.state = {
+    	pages: [],
+    	currentPage: {},
+    };
   }
 
-  getPageInfo = (path) => {
-  	for( let i = 0; i < pages.length; i++){
-  		if(path === pages[i].path)
-  			return pages[i];
+  setCurrentPage = (pageName) => {
+  	let currentPage = null, key;
+
+  	for( key of Object.keys(pages) ){
+  	  if( pageName == key){
+  	  	pages[key].disabled = true;
+  	  	pages[key].visible = true;
+  	  	currentPage = pages[key];
+  	  }else{
+  	  	pages[key].disabled = false;
+  	  	pages[key].visible = true;
+  	  }
   	}
-  	return pages[0];
+  	
+  	let state = { pages: Object.values(pages), currentPage };
+  	this.setState(state);
   }
 
-	handleTouchJump = (path) => {
-		this.props.router.push(path);
+	handleTouchJump = (pathinfo) => {
+		this.props.router.push(pathinfo.path);
 	}
 
   render() {
-  	let path = this.props.location.pathname;
-    let currentPage = this.getPageInfo(path);
+  	let { currentPage, pages } = this.state;
   	let buttons = pages.map((item) => {
 
   		return <IconButton key={item.path}
-	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
-	  					iconStyle={currentPage.path != item.path ? this.styles.btnIconStyle : null}
-	  					disabled={currentPage.path == item.path}>
+	  					onTouchTap={this.handleTouchJump.bind(this, item)}
+	  					iconStyle={ !item.disabled ? this.styles.btnIconStyle : this.styles.activeBtnIconStyle}
+	  					disabled={ item.disabled }>
 				      {item.icon}
 				    </IconButton>;
   	});
@@ -91,7 +105,9 @@ class ConfigPage extends React.Component {
 	  			</div>
   			</div>
   			<Divider/>
-		  	{this.props.children}
+		  	{this.props.children && React.cloneElement(this.props.children, {
+           setCurrentPage: this.setCurrentPage
+         })}
   		</div>
   	);
   }

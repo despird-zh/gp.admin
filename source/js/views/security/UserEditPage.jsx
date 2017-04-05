@@ -42,7 +42,7 @@ function getStyles (muiTheme) {
 	};
 }
 
-class UserInfoPage extends React.Component {
+class UserEditPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
@@ -74,8 +74,8 @@ class UserInfoPage extends React.Component {
   }
 
   handleSave = () => {
-  	let { userinfo } = this.props;
-  	let postdata = userinfo.get('user').toJS();
+  	let { useredit } = this.props;
+  	let postdata = useredit.get('user').toJS();
   	this.props.rpcInvoke(SecurityApis.UserSave, postdata, 
   	(json)=>{
   		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
@@ -249,7 +249,7 @@ class UserInfoPage extends React.Component {
 }
 
 const NewComponent = AuthConnect(
-  UserInfoPage, 
+  UserEditPage, 
   (state) => ({
     useredit: state.security.get('useredit'),
     storages: state.app.get('storages')

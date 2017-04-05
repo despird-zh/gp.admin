@@ -22,6 +22,12 @@ class ProfilePage extends React.Component {
     super(props, context);
   }
   
+  componentWillMount() {
+    if(this.props.setCurrentPage)
+      this.props.setCurrentPage('profile');
+    this.props.rpcInvoke(ConfigApis.EntProfileQuery, {},
+      profileSaveAction);
+  }
   handleTouchTap = () => {
 
   	console.log('auth result:' + this.props.authenticated);
@@ -30,7 +36,7 @@ class ProfilePage extends React.Component {
 
   handleRefresh = () => {
     this.props.rpcInvoke(ConfigApis.EntProfileQuery, {},
-      this.props.profileSaveAction);
+      profileSaveAction);
   };
   
   render() {
@@ -109,8 +115,8 @@ class ProfilePage extends React.Component {
 const NewComponent = AuthConnect(
   ProfilePage, 
   (state) => ({
-            profile: state.config.get('profile'),
-          }), 
-  {profileSaveAction});
+    profile: state.config.get('profile'),
+  }), 
+  {});
 
 export default muiThemeable()(NewComponent);

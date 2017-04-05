@@ -55,9 +55,9 @@ const pages = {
 	},
 	useredit: {
 		path: '/security/userinfo/',
-		title: 'Internal Users',
+		title: 'Edit User',
 		icon: <SocialPerson/> ,
-    description: 'The internal users list',
+    description: 'Edit user information',
     visible: true,
     disabled: false,
 	}
