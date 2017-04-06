@@ -1,20 +1,59 @@
 import React from 'react';
-import { Link } from 'react-router';
+import TextField from 'material-ui/TextField';
+import {orange500, blue500} from 'material-ui/styles/colors';
 
-// Since this component is simple and static, there's no parent container for it.
-const AboutPage = () => {
-  return (
-    <div>
-      <h2 className='alt-header'>About <Link to="/">home</Link></h2>
-      <p>
-        This example app is part of the <a href='https://github.com/coryhouse/react-slingshot'>React-Slingshot
-        starter kit</a>.
-      </p>
-      <p>
-        <Link to='/badlink'>Click this bad link</Link> to see the 404 page.
-      </p>
-    </div>
-  );
+const styles = {
+  errorStyle: {
+    color: orange500,
+  },
+  underlineStyle: {
+    borderColor: orange500,
+  },
+  floatingLabelStyle: {
+    color: orange500,
+  },
+  floatingLabelFocusStyle: {
+    color: blue500,
+  },
 };
 
-export default AboutPage;
+const TextFieldExampleCustomize = () => (
+  <div>
+    <div style={{ display: 'flex'}}>
+      <TextField
+        floatingLabelText="Styled Floating Label Text"
+        floatingLabelFixed={true}
+        hintText="Styled Hint Text"
+        hintStyle={styles.errorStyle}
+      />
+      <TextField
+        floatingLabelText="Styled Floating Label Text"
+        floatingLabelFixed={true}
+        hintText="Custom error color"
+        errorText="This field is required."
+        errorStyle={styles.errorStyle}
+      />
+    </div>
+    <div style={{ display: 'flex'}}>
+      <TextField
+      floatingLabelText="Styled Floating Label Text"
+        hintText="Custom Underline Color"
+        underlineStyle={styles.underlineStyle}
+      />
+      <TextField
+      floatingLabelText="Styled Floating Label Text"
+        hintText="Custom Underline Focus Color"
+        underlineFocusStyle={styles.underlineStyle}
+      />
+    </div>
+    <div style={{ display: 'flex'}}>
+      <TextField
+        floatingLabelText="Styled Floating Label Text"
+        floatingLabelStyle={styles.floatingLabelStyle}
+        floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+      />
+    </div>
+  </div>
+);
+
+export default TextFieldExampleCustomize;

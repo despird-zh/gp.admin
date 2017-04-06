@@ -13,33 +13,34 @@ import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 function getStyles (muiTheme) {
 	const {baseTheme} = muiTheme;
 	return{
-  root: {
-    display: 'flex', 
-    position: 'relative',
-    marginTop: 10
-  },
-  spacer: { flex: 1 },
-  container: {
-  	display: 'flex'
-  },
-  left: {
-  	marginRight: baseTheme.spacing.desktopGutter,
-  	flexBasis: '50%'
-  },
-  right: {
-  	flexBasis: '50%'
-  },
-  panelTitle: {
-  	color: baseTheme.palette.textColor,
-  	fontSize: 16, 
-  	marginBottom: 5
-  },
-  inputItem: {
-  	width: 240,
-  	marginLeft: baseTheme.spacing.desktopGutterMini,
-  	marginRight: baseTheme.spacing.desktopGutterMini
-  }
-};
+	  root: {
+	    display: 'flex', 
+	    position: 'relative',
+	    marginTop: 10
+	  },
+	  spacer: { flex: 1 },
+	  container: {
+	  	display: 'flex'
+	  },
+	  left: {
+	  	marginRight: baseTheme.spacing.desktopGutter,
+	  	flexBasis: '50%'
+	  },
+	  right: {
+	  	flexBasis: '50%'
+	  },
+	  panelTitle: {
+	  	color: baseTheme.palette.textColor,
+	  	fontSize: 16, 
+	  	marginBottom: 5
+	  },
+	  inputItem: {
+	  	width: 240,
+	  	marginLeft: baseTheme.spacing.desktopGutterMini,
+	  	marginRight: baseTheme.spacing.desktopGutterMini
+	  }
+
+	};
 }
 
 class UserInfoPage extends React.Component {
@@ -120,136 +121,137 @@ class UserInfoPage extends React.Component {
 	       <div style={styles.left}>
 	       	<h3 style={ styles.panelTitle }>Base Information</h3>
 	       	<Divider/>
-	       	<TextField
-	       		style= {styles.inputItem}
-			      hintText="Account"
-			      floatingLabelText="Fixed Floating Label Text"
-			      errorText={ this.state.errtips.account }
-			      value={ account }
-			      onChange={ this.handleFieldChange.bind(null, 'account') }
-			      floatingLabelFixed={true}
-			    />
-			    <TextField
-			    	style={ styles.inputItem }
-			      hintText="Name"
-			      errorText={ this.state.errtips.fullname }
-			      value={ name }
-			      onChange={ this.handleFieldChange.bind(null, 'name') }
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			    />
-			    <TextField
-			    	style={ styles.inputItem }
-			      hintText="Password"
-			      value={ password }
-			      onChange={ this.handleFieldChange.bind(null, 'password') }
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			    />
-			    <TextField
-			    	style={ styles.inputItem }
-			      hintText="Confirm"
-			      value={ confirm }
-			      onChange={ this.handleFieldChange.bind(null, 'confirm') }
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			    />
-			     <SelectField
-			     style={ styles.inputItem }
-	          floatingLabelText="Status"
-	          floatingLabelFixed={true}
-	          errorText={ this.state.errtips.status }
-	          value={ state }
-	          onChange={this.handleFieldChange.bind(null, 'state')}>
-	          <MenuItem value={'ACTIVE'} primaryText="Active" />
-	          <MenuItem value={'DEACTIVE'} primaryText="Deactive" />
-	          <MenuItem value={'FROZEN'} primaryText="Frozen" />
-	        </SelectField>
-	        <SelectField
-			     style={ styles.inputItem }
-	          floatingLabelText="Type"
-	          floatingLabelFixed={true}
-	          errorText={ this.state.errtips.type }
-	          value={ type }
-	          onChange={this.handleFieldChange.bind(null, 'type')}>
-	          <MenuItem value={'INLINE'} primaryText="InLine" />
-	          <MenuItem value={'LDAP'} primaryText="LDAP" />
-	          <MenuItem value={'OAuth2'} primaryText="OAuth2" />
-	        </SelectField>
-			    <TextField
-			    style={ styles.inputItem }
-			      hintText="Email"
-			      floatingLabelText="Fixed Floating Label Text"
-			      errorText={ this.state.errtips.email }
-			      value={ email }
-			      onChange={ this.handleFieldChange.bind(null, 'email') }
-			      floatingLabelFixed={true}
-			    /><br/>
-			    <TextField
-			    style={ styles.inputItem }
-			      hintText="Mobile"
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			      value={ mobile }
-			      onChange={ this.handleFieldChange.bind(null, 'mobile') }
-			    />
-			    <TextField
-			    style={ styles.inputItem }
-			      hintText="Phone"
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			      value={ phone }
-			      onChange={ this.handleFieldChange.bind(null, 'phone') }
-			    />
+	       	<div style={styles.container}>
+		       	<TextField
+		       		style= {styles.inputItem}
+				      hintText="16 letters"
+				      floatingLabelText="Account"
+				      errorText={ this.state.errtips.account }
+				      value={ account }
+				      onChange={ this.handleFieldChange.bind(null, 'account') }
+				    />
+				    <TextField
+				    	style={ styles.inputItem }
+				      hintText="no more than 32 letters"
+				      errorText={ this.state.errtips.fullname }
+				      value={ name }
+				      onChange={ this.handleFieldChange.bind(null, 'name') }
+				      floatingLabelText="Name"
+				    />
+			    </div>
+			    <div style={styles.container}>
+				    <TextField
+				    	style={ styles.inputItem }
+				      hintText="1-6 a-z A-Z"
+				      value={ password }
+				      onChange={ this.handleFieldChange.bind(null, 'password') }
+				      floatingLabelText="Password"
+				    />
+				    <TextField
+				    	style={ styles.inputItem }
+				      hintText="Confirm"
+				      value={ confirm }
+				      onChange={ this.handleFieldChange.bind(null, 'confirm') }
+				      floatingLabelText="Confirm"
+				    />
+			    </div>
+			    <div style={styles.container}>
+				    <SelectField
+				     style={ styles.inputItem }
+		          floatingLabelText="Status"
+		          errorText={ this.state.errtips.status }
+		          value={ state }
+		          onChange={this.handleFieldChange.bind(null, 'state')}>
+		          <MenuItem value={'ACTIVE'} primaryText="Active" />
+		          <MenuItem value={'DEACTIVE'} primaryText="Deactive" />
+		          <MenuItem value={'FROZEN'} primaryText="Frozen" />
+		        </SelectField>
+		        <SelectField
+				     style={ styles.inputItem }
+		          floatingLabelText="Type"
+		          errorText={ this.state.errtips.type }
+		          value={ type }
+		          onChange={this.handleFieldChange.bind(null, 'type')}>
+		          <MenuItem value={'INLINE'} primaryText="InLine" />
+		          <MenuItem value={'LDAP'} primaryText="LDAP" />
+		          <MenuItem value={'OAuth2'} primaryText="OAuth2" />
+		        </SelectField>
+	        </div>
+	        <div style={styles.container}>
+				    <TextField
+				    style={ styles.inputItem }
+				      hintText="eg. foo@bar.com"
+				      floatingLabelText="Email"
+				      errorText={ this.state.errtips.email }
+				      value={ email }
+				      onChange={ this.handleFieldChange.bind(null, 'email') }
+				    />
+			    </div>
+			    <div style={styles.container}>
+				    <TextField
+				    style={ styles.inputItem }
+				      hintText="The 11 digits number"
+				      floatingLabelText="Mobile Number"
+				      value={ mobile }
+				      onChange={ this.handleFieldChange.bind(null, 'mobile') }
+				    />
+				    <TextField
+				    style={ styles.inputItem }
+				      hintText="Phone"
+				      floatingLabelText="Phone"
+				      value={ phone }
+				      onChange={ this.handleFieldChange.bind(null, 'phone') }
+				    />
+			    </div>
 	       </div>
 	       <div style={styles.right}>
 	       	<h3 style={styles.panelTitle }>Storage Information</h3>
 	       	<Divider/>
-	       	<TextField
-	       	style={ styles.inputItem }
-			      hintText="Public Cab"
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			      value={ pubcapacity }
-			      onChange={ this.handleFieldChange.bind(null, 'pubcapacity') }
-			    />
-			    <TextField
-			    style={ styles.inputItem }
-			      hintText="Private Cab"
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			      value={ pricapacity }
-			      onChange={ this.handleFieldChange.bind(null, 'pricapacity') }
-			    />
-			    <SelectField
-			     style={ styles.inputItem }
-	          floatingLabelText="Storage"
-	          floatingLabelFixed={true}
-	          value={ storageId }
-			      onChange={ this.handleFieldChange.bind(null, 'storageId') }>
-	          { storageItems }
-	        </SelectField>
-	        <div style={{ display: 'inline-block', width: 200 }}/>
-			    <SelectField
-			     style={ styles.inputItem }
-	          floatingLabelText="Language"
-	          floatingLabelFixed={true}
-	          value={ language }
-	          onChange={this.handleFieldChange.bind(null, 'language')}
-		        >
-	          <MenuItem value={'en_US'} primaryText="English" />
-	          <MenuItem value={'zh_CN'} primaryText="Chinese" />
-	        </SelectField>
-			    <SelectField
-			     style={ styles.inputItem }
-	          floatingLabelText="Timezone"
-	          floatingLabelFixed={true}
-	          value={ timezone }
-	          onChange={this.handleFieldChange.bind(null, 'timezone')}
-		        >
-	          <MenuItem value={'GMT+08:00'} primaryText="China Shanghai" />
-	          <MenuItem value={'GMT+09:00'} primaryText="Singapore" />
-	        </SelectField>
+	       	<div style={styles.container}>
+		       	<TextField
+		       	style={ styles.inputItem }
+				      hintText="mega bytes unit"
+				      floatingLabelText="Public cabinet size"
+				      value={ pubcapacity }
+				      onChange={ this.handleFieldChange.bind(null, 'pubcapacity') }
+				    />
+				    <TextField
+				    style={ styles.inputItem }
+				      hintText="mega bytes unit"
+				      floatingLabelText="Private cabinet size"
+				      value={ pricapacity }
+				      onChange={ this.handleFieldChange.bind(null, 'pricapacity') }
+				    />
+			    </div>
+			    <div style={styles.container}>
+				    <SelectField
+				     style={ styles.inputItem }
+		          floatingLabelText="Storage"
+		          value={ storageId }
+				      onChange={ this.handleFieldChange.bind(null, 'storageId') }>
+		          { storageItems }
+		        </SelectField>
+				    <SelectField
+				     style={ styles.inputItem }
+		          floatingLabelText="Language"
+		          value={ language }
+		          onChange={this.handleFieldChange.bind(null, 'language')}
+			        >
+		          <MenuItem value={'en_US'} primaryText="English" />
+		          <MenuItem value={'zh_CN'} primaryText="Chinese" />
+		        </SelectField>
+	        </div>
+	        <div style={styles.container}>
+				    <SelectField
+				     style={ styles.inputItem }
+		          floatingLabelText="Timezone"
+		          value={ timezone }
+		          onChange={this.handleFieldChange.bind(null, 'timezone')}
+			        >
+		          <MenuItem value={'GMT+08:00'} primaryText="China Shanghai" />
+		          <MenuItem value={'GMT+09:00'} primaryText="Singapore" />
+		        </SelectField>
+	        </div>
 	       </div>
 	      </div>
   		</div>
