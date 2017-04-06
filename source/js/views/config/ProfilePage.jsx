@@ -14,6 +14,9 @@ const styles = {
     marginTop: 10
   },
   spacer: { flex: 1 },
+  container: {
+    display: 'flex',
+  },
 }
 
 class ProfilePage extends React.Component {
@@ -28,6 +31,7 @@ class ProfilePage extends React.Component {
     this.props.rpcInvoke(ConfigApis.EntProfileQuery, {},
       profileSaveAction);
   }
+
   handleTouchTap = () => {
 
   	console.log('auth result:' + this.props.authenticated);
@@ -46,13 +50,26 @@ class ProfilePage extends React.Component {
     const  input = {
       marginRight: gutter
     }
+    let {
+      'last-modified': lastModified,
+      'modifier': modifier,
+      'entity-code': entityCode,
+      'node-code': nodeCode,
+      'short-name': shortName,
+      'abbr': abbr,
+      'name': name,
+      'admin': admin,
+      'service-url': serviceUrl,
+      'binary-url': binaryUrl,
+      'description': description
+    } = this.props.profile.toJS();
 
   	return (
 		  <div>
         <div style={styles.root}>
           <Chip
             style={{margin: 6}}>
-            {this.props.profile.get('lastModified')} Modified By {profile.get('modifier')}
+            { lastModified } Modified By { modifier }
           </Chip>
           <div style={styles.spacer}/>
           <div>
@@ -61,51 +78,55 @@ class ProfilePage extends React.Component {
           </div>
         </div>
         <div>
-          <TextField style={ input }
-            defaultValue="Default Value"
-            floatingLabelText="Entity code"
-            value={ profile.get('entityCode')}
-            floatingLabelFixed={true}/>
-          <TextField style={ input }
-            hintText="Hint Text"
-            floatingLabelText="Node code"
-            value={ profile.get('nodeCode')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ input }
-            hintText="Hint Text"
-            floatingLabelText="Short Name"
-            value={ profile.get('shortName')}
-            floatingLabelFixed={true}/>
-          <TextField style={ Object.assign({},input,{width:100}) }
-            hintText="Hint Text"
-            floatingLabelText="Abbreviation"
-            value={ profile.get('abbr')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
-            hintText="Hint Text"
-            floatingLabelText="Entity Name"
-            value={ profile.get('name')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ input }
-            hintText="Hint Text"
-            floatingLabelText="Administrator"
-            value={ profile.get('admin')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
-            hintText="Hint Text"
-            floatingLabelText="Service URL"
-            value={ profile.get('serviceUrl')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
-            hintText="Hint Text"
-            floatingLabelText="Binary URL"
-            value={ profile.get('binaryUrl')}
-            floatingLabelFixed={true}/><br/>
-          <TextField style={ Object.assign({}, input,{ width: 512 + gutter})}
-            hintText="Hint Text"
-            value={ profile.get('description')}
-            floatingLabelText="Description"
-            floatingLabelFixed={true}/>
+          <div style={styles.container}>
+            <TextField style={ input }
+              floatingLabelText="Entity code"
+              value={ entityCode }/>
+            <TextField style={ input }
+              hintText="Hint Text"
+              floatingLabelText="Node code"
+              value={ nodeCode }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ input }
+              hintText="Hint Text"
+              floatingLabelText="Short Name"
+              value={ shortName }/>
+            <TextField style={ Object.assign({},input,{width:100}) }
+              hintText="Hint Text"
+              floatingLabelText="Abbreviation"
+              value={ abbr }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+              hintText="Hint Text"
+              floatingLabelText="Entity Name"
+              value={ name }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ input }
+              hintText="Hint Text"
+              floatingLabelText="Administrator"
+              value={ admin }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+              hintText="Hint Text"
+              floatingLabelText="Service URL"
+              value={ serviceUrl }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
+              hintText="Hint Text"
+              floatingLabelText="Binary URL"
+              value={ binaryUrl }/>
+          </div>
+          <div style={styles.container}>
+            <TextField style={ Object.assign({}, input,{ width: 512 + gutter})}
+              hintText="Hint Text"
+              value={ description }
+              floatingLabelText="Description"/>
+          </div>
         </div>
   		</div>
   	);
