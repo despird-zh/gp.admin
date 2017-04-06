@@ -63,16 +63,15 @@ class ConfigPage extends React.Component {
   }
 
   setCurrentPage = (pageName) => {
+    
   	let currentPage = null, key;
 
   	for( key of Object.keys(pages) ){
   	  if( pageName == key){
   	  	pages[key].disabled = true;
-  	  	pages[key].visible = true;
   	  	currentPage = pages[key];
   	  }else{
   	  	pages[key].disabled = false;
-  	  	pages[key].visible = true;
   	  }
   	}
   	
