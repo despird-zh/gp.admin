@@ -4,6 +4,7 @@ export const CFG_SAVE_SETTINGS = 'CFG_SAVE_SETTINGS';
 
 export const ConfigApis = {
   EntProfileQuery: 'ent-profile-query.do',
+  EntProfileSave: 'ent-profile-save.do',
   SysOptsQuery: 'sys-opts-query.do'
 };
 

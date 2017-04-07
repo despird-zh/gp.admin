@@ -32,11 +32,23 @@ class ProfilePage extends React.Component {
       profileSaveAction);
   }
 
-  handleTouchTap = () => {
-
-  	console.log('auth result:' + this.props.authenticated);
-    this.props.testAction();
+  handleSave = () => {
+    let postdata = this.props.profile.toJS();
+  	this.props.rpcInvoke(ConfigApis.EntProfileSave, postdata, 
+    (json)=>{
+      this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
+    }, 
+    false, 
+    true);
   }
+
+  handleFieldChange = (key, event, newVal, payload) => {
+
+    let data = {};
+    data[key] = newVal;
+    
+    this.props.profileSaveAction(data);
+  };
 
   handleRefresh = () => {
     this.props.rpcInvoke(ConfigApis.EntProfileQuery, {},
@@ -74,57 +86,66 @@ class ProfilePage extends React.Component {
           <div style={styles.spacer}/>
           <div>
               <RaisedButton label="Refresh" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
-              <RaisedButton label="Save" primary={true} style={{margin: 4}} />
+              <RaisedButton label="Save" primary={true} style={{margin: 4}} onTouchTap ={this.handleSave} />
           </div>
         </div>
         <div>
           <div style={styles.container}>
             <TextField style={ input }
               floatingLabelText="Entity code"
+              onChange={ this.handleFieldChange.bind(null, 'entity-code') }
               value={ entityCode }/>
             <TextField style={ input }
               hintText="Hint Text"
               floatingLabelText="Node code"
+              onChange={ this.handleFieldChange.bind(null, 'node-code') }
               value={ nodeCode }/>
           </div>
           <div style={styles.container}>
             <TextField style={ input }
               hintText="Hint Text"
               floatingLabelText="Short Name"
+              onChange={ this.handleFieldChange.bind(null, 'short-name') }
               value={ shortName }/>
             <TextField style={ Object.assign({},input,{width:100}) }
               hintText="Hint Text"
               floatingLabelText="Abbreviation"
+              onChange={ this.handleFieldChange.bind(null, 'abbr') }
               value={ abbr }/>
           </div>
           <div style={styles.container}>
             <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
               hintText="Hint Text"
               floatingLabelText="Entity Name"
+               onChange={ this.handleFieldChange.bind(null, 'name') }
               value={ name }/>
           </div>
           <div style={styles.container}>
             <TextField style={ input }
               hintText="Hint Text"
               floatingLabelText="Administrator"
+               onChange={ this.handleFieldChange.bind(null, 'admin') }
               value={ admin }/>
           </div>
           <div style={styles.container}>
             <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
               hintText="Hint Text"
               floatingLabelText="Service URL"
+               onChange={ this.handleFieldChange.bind(null, 'service-url') }
               value={ serviceUrl }/>
           </div>
           <div style={styles.container}>
             <TextField style={ Object.assign({}, input,{ width: 512 + gutter}) }
               hintText="Hint Text"
               floatingLabelText="Binary URL"
+               onChange={ this.handleFieldChange.bind(null, 'binary-url') }
               value={ binaryUrl }/>
           </div>
           <div style={styles.container}>
             <TextField style={ Object.assign({}, input,{ width: 512 + gutter})}
               hintText="Hint Text"
               value={ description }
+               onChange={ this.handleFieldChange.bind(null, 'description') }
               floatingLabelText="Description"/>
           </div>
         </div>
@@ -138,6 +159,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     profile: state.config.get('profile'),
   }), 
-  {});
+  {profileSaveAction});
 
 export default muiThemeable()(NewComponent);

@@ -61,7 +61,7 @@ class UserInfoPage extends React.Component {
   
   handleFieldChange = (key, event, newVal, payload) => {
 
-    let selects = ['state', 'type', 'language', 'timezone','storageId'];
+    let selects = ['state', 'type', 'language', 'timezone','storage-id'];
     let data = {};
     if(selects.indexOf(key) >= 0){
     	data[key] = payload;
@@ -83,11 +83,8 @@ class UserInfoPage extends React.Component {
   		let { meta, data} = json;
 
   		if(meta.state == 'fail' && meta.code == 'invalid'){
-  			let vitem, validmsg = {};
-  			for(vitem of data){
-  				validmsg[vitem.property.toLowerCase()] = vitem.message;
-  			}
-  			this.setState({errtips: validmsg});
+  			
+  			this.setState({errtips: data});
   		}
   		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
   	}, false, true);
@@ -97,15 +94,15 @@ class UserInfoPage extends React.Component {
  
   	let styles = getStyles(this.props.muiTheme);
   	let {
-			account, createDate, email, imagePath,	language,
+			account, 'create-date':createDate, email, 'image-path':imagePath,	language,
 			mobile,	name,	password, confirm,	phone,	pricapacity,
-			pubcapacity,	signature,	sourceId,	sourceName,	state,
-			storageId,	storageName,	timezone,	type, modifier, lastModified
+			pubcapacity,	signature,	sourceId,	'source-name':sourceName,	state,
+			'storage-id':storageId,	'storage-name':storageName,	timezone,	type, modifier, 'last-modified':lastModified
   	} = this.props.useradd.get('user').toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
-  		let obj = item.toJS();
-  		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
+  		let {'storage-id': storageId, name} = item.toJS();
+  		return <MenuItem key={storageId} value={storageId} primaryText={name} />
   	});
 
   	return (
@@ -133,7 +130,7 @@ class UserInfoPage extends React.Component {
 				    <TextField
 				    	style={ styles.inputItem }
 				      hintText="no more than 32 letters"
-				      errorText={ this.state.errtips.fullname }
+				      errorText={ this.state.errtips['full-name'] }
 				      value={ name }
 				      onChange={ this.handleFieldChange.bind(null, 'name') }
 				      floatingLabelText="Name"
@@ -228,7 +225,7 @@ class UserInfoPage extends React.Component {
 				     style={ styles.inputItem }
 		          floatingLabelText="Storage"
 		          value={ storageId }
-				      onChange={ this.handleFieldChange.bind(null, 'storageId') }>
+				      onChange={ this.handleFieldChange.bind(null, 'storage-id') }>
 		          { storageItems }
 		        </SelectField>
 				    <SelectField

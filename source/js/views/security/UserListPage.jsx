@@ -89,15 +89,15 @@ class UserListPage extends React.Component {
     let styles = getStyles(this.props.muiTheme);
 
     let rows = users.map((item, index) => {
-
-      return <TableRow key={item.account}>
-              <TableRowColumn>{item.account} - {item.name}</TableRowColumn>
-              <TableRowColumn>{item.email}</TableRowColumn>
-              <TableRowColumn>{item.mobile}</TableRowColumn>
-              <TableRowColumn>{item.state}</TableRowColumn>
-              <TableRowColumn>{item.sourceName}</TableRowColumn>
+      let {account, email, name, mobile, state, 'source-name':sourceName,'user-id':userId} = item;
+      return <TableRow key={account}>
+              <TableRowColumn>{account} - {name}</TableRowColumn>
+              <TableRowColumn>{email}</TableRowColumn>
+              <TableRowColumn>{mobile}</TableRowColumn>
+              <TableRowColumn>{state}</TableRowColumn>
+              <TableRowColumn>{sourceName}</TableRowColumn>
               <TableRowColumn style={{ width: 80}}>
-                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, item.userId)}><ModeEditIcon/></IconButton >
+                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, userId)}><ModeEditIcon/></IconButton >
               </TableRowColumn>
             </TableRow>;
     });

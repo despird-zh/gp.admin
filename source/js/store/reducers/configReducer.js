@@ -15,7 +15,7 @@ const actionsMap = {
   // Loader Action
   [CFG_SAVE_PROFILE]: (state, {type, data}) => {
 
-    return state.merge({
+    return state.mergeDeep({
       profile: data,
     });
   },

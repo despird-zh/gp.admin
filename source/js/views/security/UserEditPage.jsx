@@ -59,7 +59,7 @@ class UserEditPage extends React.Component {
   
   handleFieldChange = (key, event, newVal, payload) => {
 
-    let selects = ['state', 'type', 'language', 'timezone','storageId'];
+    let selects = ['state', 'type', 'language', 'timezone','storage-id'];
     let data = {};
     if(selects.indexOf(key) >= 0){
     	data[key] = payload;
@@ -88,15 +88,15 @@ class UserEditPage extends React.Component {
  
   	let styles = getStyles(this.props.muiTheme);
   	let {
-			account, createDate, email, imagePath,	language,
+			account, 'create-date':createDate, email, 'image-path':imagePath,	language,
 			mobile,	name,	password, confirm,	phone,	pricapacity,
-			pubcapacity,	signature,	sourceId,	sourceName,	state,
-			storageId,	storageName,	timezone,	type, modifier, lastModified
+			pubcapacity,	signature,	sourceId,	'source-name':sourceName,	state,
+			'storage-id':storageId,	'storage-name':storageName,	timezone,	type, modifier, 'last-modified':lastModified
   	} = this.props.useredit.get('user').toJS();
 
   	let storageItems = this.props.storages.map((item, index) => {
-  		let obj = item.toJS();
-  		return <MenuItem key={obj.storageId} value={obj.storageId} primaryText={obj.name} />
+  		let {'storage-id':storageId, name} = item.toJS();
+  		return <MenuItem key={storageId} value={storageId} primaryText={name} />
   	});
 
   	return (
@@ -217,7 +217,7 @@ class UserEditPage extends React.Component {
 	          floatingLabelText="Storage"
 	          floatingLabelFixed={true}
 	          value={ storageId }
-			      onChange={ this.handleFieldChange.bind(null, 'storageId') }>
+			      onChange={ this.handleFieldChange.bind(null, 'storage-id') }>
 	          { storageItems }
 	        </SelectField>
 	        <div style={{ display: 'inline-block', width: 200 }}/>
