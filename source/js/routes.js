@@ -12,7 +12,8 @@ import UserListPage from './views/security/UserListPage';
 import UserEditPage from './views/security/UserEditPage';
 import UserAddPage from './views/security/UserAddPage';
 
-import WGroupInfoPage from './views/wgroup/WGroupInfoPage';
+import WGroupAddPage from './views/wgroup/WGroupAddPage';
+import WGroupEditPage from './views/wgroup/WGroupEditPage';
 import WGroupListPage from './views/wgroup/WGroupListPage';
 import WGroupPage from './views/wgroup/WGroupPage';
 
@@ -63,8 +64,9 @@ export default (
     </Route>
     <Route path='wgroup' component={ WGroupPage }>
       <IndexRoute component={ WGroupListPage } />
-      <Route path='grouplist' component={ WGroupListPage } />
-      <Route path='groupinfo/:wgroupId' component={ WGroupInfoPage } />
+      <Route path='wgrouplist' component={ WGroupListPage } />
+      <Route path='wgroupadd' component={ WGroupAddPage } />
+      <Route path='wgroupedit/:wgroupId' component={ WGroupEditPage } />
     </Route>
     <Route path='master' component={ MasterPage }>
       <IndexRoute component={ DictListPage } />

@@ -41,6 +41,11 @@ class WGroupListPage extends React.Component {
     super(props, context);
   }
 
+  componentWillMount() {
+    if(this.props.setCurrentPage)
+      this.props.setCurrentPage('wgrouplist');
+  }
+
   handleFilter = (key, event, newVal)=>{
     let filter = {};
     if(key=='search'){

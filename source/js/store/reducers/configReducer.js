@@ -22,9 +22,7 @@ const actionsMap = {
 
   [CFG_SAVE_SETTINGS]: (state, {type, data}) => {
 
-    return state.merge({
-      settings: data,
-    });
+    return state.set('settings', data);
   },
 };
 

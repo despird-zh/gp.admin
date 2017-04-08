@@ -6,6 +6,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AuthConnect from '../../components/AuthConnect';
+import SettingDialog from './SettingDialog';
+
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import { settingsSaveAction,ConfigApis } from '../../store/actions/configActions';
 
@@ -27,10 +29,6 @@ function  getStyles(muiTheme) {
     },
     leftTable: {
       flex: 1,
-      marginRight: baseTheme.spacing.desktopGutter,
-    },
-    rightDetail: {
-      width: 256,
     },
   }
 }
@@ -41,7 +39,6 @@ class SettingPage extends React.Component {
     super(props, context);
 
     this.state = {
-      settings: [],
       setting: {
         optionId: 0,
         description: '',
@@ -57,23 +54,22 @@ class SettingPage extends React.Component {
   }
 
   handleClick = (option) => {
-    let idx = this.state.settings.findIndex((item) => {return item.option == option });
-    let setting = this.state.settings[idx];
+
+    let idx = this.props.settings.findIndex((item) => {return item.option == option });
+    let setting = this.props.settings[idx];
     let state = Object.assign(this.state, {setting});
     this.setState(state);
+    this.settingDialog.handleOpen(setting);
   }
 
   handleRefresh = () => {
-    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},(json)=>{
-      let state = Object.assign(this.state, {settings: json.data});
-      this.setState(state);
-    },true, true);
+    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},settingsSaveAction,false);
   }
 
   render() {
     
     let styles = getStyles(this.props.muiTheme);
-    let rows = this.state.settings.map((item, index) => {
+    let rows = this.props.settings.map((item, index) => {
       
       return <TableRow key={ item.option } >
               <TableRowColumn style={{ width: 120}}>{ item.group }</TableRowColumn>
@@ -116,29 +112,9 @@ class SettingPage extends React.Component {
               {rows}
             </TableBody>
           </Table>
-          <div style={styles.rightDetail}>
-            <TextField
-              defaultValue="Group"
-              floatingLabelText="Option Group"
-              value={this.state.setting.group}
-              floatingLabelFixed={true}/>
-            <TextField
-              defaultValue="Default Value"
-              floatingLabelText="Option code"
-              value={this.state.setting.option}
-              floatingLabelFixed={true}/>
-            <TextField
-              defaultValue="Default Value"
-              floatingLabelText="Option value"
-              value={this.state.setting.value}
-              floatingLabelFixed={true}/>
-            <TextField
-              defaultValue="Default Value"
-              floatingLabelText="Description"
-              value={this.state.setting.description}
-              floatingLabelFixed={true}/>
-            <RaisedButton label="Save" primary={true} style={{margin: 4}} />
-          </div>
+          <SettingDialog innerRef={(inputEl) => {
+            this.settingDialog = inputEl;
+          }} />
         </div>
   		</div>
   	);
@@ -148,7 +124,7 @@ class SettingPage extends React.Component {
 const NewComponent = AuthConnect(
   SettingPage, 
   (state) => ({
-            profile: state.config.get('profile'),
+            settings: state.config.get('settings'),
           }), 
   {});
 

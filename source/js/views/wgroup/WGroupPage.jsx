@@ -33,53 +33,76 @@ function getStyles(muiTheme) {
 	};
 };
 
-const pages = [
-	{
-		path: '/wgroup/groupinfo/_blank_',
-		title: 'System Profile',
+const pages = {
+	wgroupadd:{
+		path: '/wgroup/wgroupadd/',
+		title: 'Workgroup Add',
 		icon: <ActionLaptop />,
-    description: 'Review the information of System'
+    description: 'Review the information of System',
+    visible: true,
+    disabled: false,
 	},
-	{
-		path: '/wgroup/grouplist',
-    title: 'System Settings',
+	wgroupedit:{
+		path: '/wgroup/wgroupedit/',
+		title: 'Workgroup Edit',
+		icon: <ActionLaptop />,
+    description: 'Review the information of System',
+    visible: true,
+    disabled: false,
+	},
+	wgrouplist:{
+		path: '/wgroup/wgrouplist',
+    title: 'Workgroup List',
     icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    description: 'Review the settings of System',
+    visible: true,
+    disabled: false,
 	},
-];
+};
 
 class WGroupPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-
     this.styles = getStyles(this.props.muiTheme);
-
+		this.state = {
+    	pages: [],
+    	currentPage: {},
+    };
   }
 
-  getPageInfo = (path) => {
-  	for( let i = 0; i < pages.length; i++){
-  		if(path === pages[i].path)
-  			return pages[i];
+  setCurrentPage = (pageName) => {
+  	let currentPage = null, key;
+
+  	for( key of Object.keys(pages) ){
+  	  if( pageName == key){
+  	  	pages[key].disabled = true;
+  	  	pages[key].visible = true;
+  	  	currentPage = pages[key];
+  	  }else{
+  	  	pages[key].disabled = false;
+  	  	pages[key].visible = true;
+  	  }
   	}
-  	return pages[0];
+  	
+  	let state = { pages: Object.values(pages), currentPage };
+  	this.setState(state);
   }
 
-	handleTouchJump = (path) => {
-		this.props.router.push(path);
+	handleTouchJump = (pathinfo) => {
+		this.props.router.push(pathinfo.path);
 	}
 
   render() {
-  	let path = this.props.location.pathname;
-    let currentPage = this.getPageInfo(path);
+  	let { currentPage, pages } = this.state;
   	let buttons = pages.map((item) => {
 
-  		return <IconButton key={item.path}
-	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
-	  					iconStyle={currentPage.path != item.path ? this.styles.btnIconStyle : null}
-	  					disabled={currentPage.path == item.path}>
+  		return item.visible? <IconButton key={item.path}
+	  					onTouchTap={this.handleTouchJump.bind(this, item)}
+	  					iconStyle={ !item.disabled ? this.styles.btnIconStyle : this.activeBtnIconStyle}
+	  					disabled={ item.disabled }>
 				      {item.icon}
-				    </IconButton>;
+				    </IconButton> : null;
   	});
 
   	return (
@@ -91,7 +114,9 @@ class WGroupPage extends React.Component {
 	  			</div>
   			</div>
   			<Divider/>
-		  	{this.props.children}
+		  	{this.props.children && React.cloneElement(this.props.children, {
+           setCurrentPage: this.setCurrentPage
+         })}
   		</div>
   	);
   }

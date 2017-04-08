@@ -71,6 +71,7 @@ export default (ComposedComponent, stateMap, actions) => {
 	  render() {
 
 	    return <ComposedComponent { ...this.props }
+	    	ref={this.props.innerRef}
 	      { ...this.state } 
 	      tokenState = { this.tokenState }
 	      rpcInvoke = { this.rpcInvoke }
