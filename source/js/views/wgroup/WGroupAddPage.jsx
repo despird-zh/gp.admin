@@ -3,7 +3,7 @@ import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import AvatarEditor from 'react-avatar-editor'
+import AvatarEditor from '../../components/AvatarEditor/AvatarEditor'
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
@@ -36,16 +36,7 @@ class WGroupAddPage extends React.Component {
   render() {
   	return (
   		<div>
-  		<AvatarEditor
-	  		ref={this.setEditorRef}
-	        image="assets/img/book2.jpg"
-	        width={200}
-	        height={200}
-	        border={50}
-	        color={[255, 255, 255, 0.6]} // RGBA 
-	        scale={1.1}
-	        rotate={0}/>
-	      <RaisedButton label="save" style={{margin: 4}} onTouchTap ={this.onClickSave}/>
+  		<AvatarEditor/>
   		</div>
   	);
   }
