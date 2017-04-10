@@ -50,6 +50,7 @@ export default (
   <Route path='/' component={ App }>
     <IndexRoute component={ HomePage } />
     <Route path='dev' component={ DevPage } />
+    <Route path='dev-img' component={ WGroupAddPage } />
     <Route path='about' component={ AboutPage } />
     <Route path='config' component={ ConfigPage }>
       <IndexRoute component={ ProfilePage } />

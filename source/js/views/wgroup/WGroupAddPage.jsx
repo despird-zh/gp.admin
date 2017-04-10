@@ -4,6 +4,7 @@ import Chip from 'material-ui/Chip';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import AvatarEditor from '../../components/AvatarEditor/AvatarEditor'
+import AvatarEditDialog from '../../components/AvatarEditor/AvatarEditDialog'
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
@@ -29,6 +30,9 @@ class WGroupAddPage extends React.Component {
     const canvasScaled = this.editor.getImageScaledToCanvas()
   }
 
+  handleOpen = ()=>{
+    this.refs.avatarDialog.show();
+  }
   setEditorRef = (editor) => {
     this.editor = editor
   }
@@ -37,6 +41,11 @@ class WGroupAddPage extends React.Component {
   	return (
   		<div>
   		<AvatarEditor/>
+      <RaisedButton
+           containerElement='label'
+           onTouchTap ={this.handleOpen}
+           label='Dialog'/>
+      <AvatarEditDialog ref="avatarDialog"/>
   		</div>
   	);
   }

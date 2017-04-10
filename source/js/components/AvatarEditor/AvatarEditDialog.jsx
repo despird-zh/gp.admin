@@ -1,22 +1,50 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Dialog from 'material-ui/Dialog';
 import Slider from 'material-ui/Slider';
 import ReactAvatarEditor from 'react-avatar-editor'
 import RaisedButton from 'material-ui/RaisedButton';
 import 'whatwg-fetch';
 
-export default class AvatarEditor extends React.Component {
-  state = {
-    position: { x: 0.5, y: 0.5 },
-    scale: 1,
-    rotate: 0,
-    borderRadius: 0,
-    preview: null,
-    width: 150,
-    height: 150,
-    imgsrc: 'assets/img/book2.jpg'
-  }
+const styles = {
+  content: {
+    width: 410,
+  },
+  title: {
+    paddingBottom: 10
+  },
+  body: {
+    paddingBottom: 20,
+    display: 'block',
+  },
+  slider: {
+  	marginTop: 10,
+    marginBottom:15,
+  },
+  msg: {
+    marginTop: 0,
+    marginBottom: 10
+  },
+};
 
+export default class AvatarEditDialog extends React.Component {
+
+	constructor(props, context) {
+    super(props, context);
+    this.state = {
+	    position: { x: 0.5, y: 0.5 },
+	    scale: 1,
+	    rotate: 0,
+	    borderRadius: 0,
+	    preview: null,
+	    width: 150,
+	    height: 150,
+	    imgsrc: 'assets/img/book2.jpg',
+	    message: 'message',
+	    opening: false,
+	  }
+  };
+  
   handleSave = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL()
 
@@ -40,7 +68,6 @@ export default class AvatarEditor extends React.Component {
   }
 
   handlePositionChange = position => {
-    console.log('Position set to', position)
     this.setState({ position })
   }
   
@@ -55,9 +82,29 @@ export default class AvatarEditor extends React.Component {
     
   }
 
+  hide = () => {
+    let newState = Object.assign({}, this.state, {opening: false});
+  	this.setState(newState);
+  	console.log(this.state.opening);
+  };
+  show= () =>{
+  	let newState = Object.assign({}, this.state, {opening: true});
+  	this.setState(newState);
+  }
   render () {
     return (
-      <div>
+      <Dialog
+      	title="Customize the Avatar"
+          titleStyle={styles.title}
+          actionsContainerStyle={styles.actions}
+          bodyStyle={styles.body}
+          contentStyle={styles.content}
+          onRequestClose={this.hide}
+          modal={false}
+          open={this.state.opening} >
+      	{ !this.state.message == '' && 
+      		<div style={styles.msg}><span>{this.state.message}</span></div>
+      	}
         <ReactAvatarEditor
           ref={this.setEditorRef}
           scale={parseFloat(this.state.scale)}
@@ -74,17 +121,30 @@ export default class AvatarEditor extends React.Component {
           onImageLoad={this.logCallback.bind(this, 'onImageLoad')}
           onDropFile={this.logCallback.bind(this, 'onDropFile')}
           image={this.state.imgsrc}
-        />
-        <br />
-        Zoom:
+        /> 
+        <div style={{float: 'right'}}>
+        { !!this.state.preview &&
+          <img
+            src={this.state.preview.img}
+            style={{ width:100,height:100,}}
+          />
+        }
+        <br/>
+        { !!this.state.preview &&
+          <img
+            src={this.state.preview.img}
+            style={{ width:50,height:50,}}
+          />
+        }
+        </div>
         <Slider
           min={0.5}
           max={2.5}
           step={0.05}
           defaultValue={1}
+          sliderStyle={styles.slider}
           onChange={this.handleSlider}
         />
-        <br />
         <RaisedButton
            containerElement='label'
            label='Choose'
@@ -94,17 +154,9 @@ export default class AvatarEditor extends React.Component {
         <RaisedButton
            containerElement='label'
            onTouchTap ={this.handleSave}
-           label='Preview'/>
-        <br />
-        { !!this.state.preview &&
-          <img
-            src={this.state.preview.img}
-            style={{ width:30,height:30,borderRadius: `${(Math.min(this.state.preview.height, this.state.preview.width) + 10) * ((this.state.preview.borderRadius / 2) / 100)}px` }}
-          />
-        }
+           label='Preview'/> 
 
-      </div>
+      </Dialog>
     )
   }
 }
-
