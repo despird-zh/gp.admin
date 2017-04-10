@@ -40,7 +40,7 @@ export default class AvatarEditDialog extends React.Component {
 	    width: 150,
 	    height: 150,
 	    imgsrc: 'assets/img/book2.jpg',
-	    message: 'message',
+	    message: '',
 	    opening: false,
 	  }
   };
@@ -74,7 +74,27 @@ export default class AvatarEditDialog extends React.Component {
   handleFileChange = (e) => {
 
     let file = e.target.files[0], reader = new FileReader();
+
+    let ext = file.name.match(/\.([^\.]+)$/)[1], pass = false;
+    
+    switch(ext.toLowerCase())
+    {
+      case 'jpg':
+      case 'bmp':
+      case 'png':
+      case 'tif':
+        pass = true;
+        break;
+      default:
+        pass = false;
+    }
+    if(!pass){
+      let newState = Object.assign({}, this.state, {message: 'chosen file is not supported'});
+      this.setState(newState);
+      return;
+    }
     reader.onload =  (evt) => {
+
       let newState = Object.assign({}, this.state, {imgsrc: evt.target.result});
       this.setState(newState);
     }
