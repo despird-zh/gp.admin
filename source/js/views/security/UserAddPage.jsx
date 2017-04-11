@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Paper from 'material-ui/Paper';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
@@ -38,8 +39,15 @@ function getStyles (muiTheme) {
 	  	width: 240,
 	  	marginLeft: baseTheme.spacing.desktopGutterMini,
 	  	marginRight: baseTheme.spacing.desktopGutterMini
-	  }
-
+	  },
+	  avatarCard : {
+		  height: 70,
+		  width: 70,
+		  marginTop: 20,
+		  marginBottom: 10,
+		  textAlign: 'center',
+		  display: 'inline-block',
+		}
 	};
 }
 
@@ -48,7 +56,8 @@ class UserInfoPage extends React.Component {
 	constructor(props, context) {
     super(props, context);
     this.state = {
-    	errtips: {}
+    	errtips: {},
+    	avatar: 'assets/img/book2.jpg'
     };
   }
 
@@ -202,6 +211,16 @@ class UserInfoPage extends React.Component {
 			    </div>
 	       </div>
 	       <div style={styles.right}>
+	       	<h3 style={styles.panelTitle }>Avatar Information</h3>
+	       	<Divider/>
+	       	<div>
+	       		<Paper style={styles.avatarCard} zDepth={1}>
+	       			<img
+		            src={this.state.avatar}
+		            style={{ width:70,height:70,}}
+		          />
+	       		</Paper>
+	       	</div>
 	       	<h3 style={styles.panelTitle }>Storage Information</h3>
 	       	<Divider/>
 	       	<div style={styles.container}>

@@ -4,7 +4,6 @@ import Dialog from 'material-ui/Dialog';
 import Slider from 'material-ui/Slider';
 import ReactAvatarEditor from 'react-avatar-editor'
 import RaisedButton from 'material-ui/RaisedButton';
-import 'whatwg-fetch';
 
 const styles = {
   content: {
@@ -45,7 +44,7 @@ export default class AvatarEditDialog extends React.Component {
 	  }
   };
   
-  handleSave = (data) => {
+  handlePreview = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL()
 
     this.setState({
@@ -55,12 +54,19 @@ export default class AvatarEditDialog extends React.Component {
     })
   }
 
+  handleSave = (data) => {
+    const img = this.editor.getImageScaledToCanvas().toDataURL()
+
+    if(this.props.onSave) this.props.onSave(img);
+    this.hide();
+  }
+
   handleSlider = (event, value) => {
     this.setState({scale: value});
   };
 
   logCallback (e) {
-    console.log('callback', e)
+    //console.log('callback', e)
   }
 
   setEditorRef = (editor) => {
@@ -80,6 +86,7 @@ export default class AvatarEditDialog extends React.Component {
     switch(ext.toLowerCase())
     {
       case 'jpg':
+      case 'jpeg':
       case 'bmp':
       case 'png':
       case 'tif':
@@ -114,7 +121,7 @@ export default class AvatarEditDialog extends React.Component {
   render () {
     return (
       <Dialog
-      	title="Customize the Avatar"
+      	title="Customize Avatar"
           titleStyle={styles.title}
           actionsContainerStyle={styles.actions}
           bodyStyle={styles.body}
@@ -173,8 +180,13 @@ export default class AvatarEditDialog extends React.Component {
         </RaisedButton>
         <RaisedButton
            containerElement='label'
-           onTouchTap ={this.handleSave}
+           onTouchTap ={this.handlePreview}
            label='Preview'/> 
+        <RaisedButton
+           containerElement='label'
+           onTouchTap ={this.handleSave}
+           label='Save'
+           style={{float:'right'}}/> 
 
       </Dialog>
     )
