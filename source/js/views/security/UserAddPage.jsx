@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
+import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog'
 import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 
@@ -44,6 +45,8 @@ function getStyles (muiTheme) {
 		  height: 70,
 		  width: 70,
 		  marginTop: 20,
+		  marginRight: 20,
+		  marginLeft: 10,
 		  marginBottom: 10,
 		  textAlign: 'center',
 		  display: 'inline-block',
@@ -97,6 +100,19 @@ class UserInfoPage extends React.Component {
   		}
   		this.props.snackOnlyAction({show:true, snackTip: json.meta.message});
   	}, false, true);
+  }
+
+	onAvatarSave = (img) => {
+    let newState = Object.assign({}, this.state, {avatar: img});
+    this.setState(newState);
+  }
+
+  handleAvatarOpen = ()=>{
+    this.editor.show();
+  }
+
+  setEditorRef = (editor) => {
+    this.editor = editor
   }
 
   render() {
@@ -213,13 +229,17 @@ class UserInfoPage extends React.Component {
 	       <div style={styles.right}>
 	       	<h3 style={styles.panelTitle }>Avatar Information</h3>
 	       	<Divider/>
-	       	<div>
+	       	<div style={{display: 'flex'}}>
 	       		<Paper style={styles.avatarCard} zDepth={1}>
 	       			<img
 		            src={this.state.avatar}
 		            style={{ width:70,height:70,}}
 		          />
 	       		</Paper>
+	       		<div style={{display: 'flex', flexDirection: 'column-reverse', width: 100}}>
+	       			<RaisedButton label="Change" style={{marginBottom: 10}} onTouchTap ={this.handleAvatarOpen}/>
+	       		</div>
+	       		<AvatarEditDialog ref={this.setEditorRef} onSave={this.onAvatarSave}/>
 	       	</div>
 	       	<h3 style={styles.panelTitle }>Storage Information</h3>
 	       	<Divider/>
