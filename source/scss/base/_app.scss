@@ -54,7 +54,7 @@ body {
 
     > .body{
         padding-top: $header-height;
-        margin-bottom: $footer-height;
+        margin-bottom: $footer-height + 20px;
         position: relative; /* or static */
         z-index:1;
     }
