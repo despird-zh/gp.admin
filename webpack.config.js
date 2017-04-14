@@ -182,6 +182,9 @@ module.exports = {
       path.resolve(__dirname, 'node_modules'),
       jsSourcePath,
     ],
+    alias: {
+      'assets': path.resolve(__dirname, 'source/assets'),
+    }
   },
   plugins,
   devServer: {
