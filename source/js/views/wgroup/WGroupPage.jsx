@@ -1,7 +1,9 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import ActionLaptop from 'material-ui/svg-icons/hardware/laptop';
+import ActDeviceHub from 'material-ui/svg-icons/hardware/device-hub';
+import ActCaseHub from 'material-ui/svg-icons/hardware/cast';
+import ActCastCntHub from 'material-ui/svg-icons/hardware/cast-connected';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import typography from 'material-ui/styles/typography';
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -37,7 +39,7 @@ const pages = {
 	wgroupadd:{
 		path: '/wgroup/wgroupadd/',
 		title: 'Workgroup Add',
-		icon: <ActionLaptop />,
+		icon: <ActCastCntHub/>,
     description: 'Review the information of System',
     visible: true,
     disabled: false,
@@ -45,7 +47,7 @@ const pages = {
 	wgroupedit:{
 		path: '/wgroup/wgroupedit/',
 		title: 'Workgroup Edit',
-		icon: <ActionLaptop />,
+		icon: <ActCaseHub/>,
     description: 'Review the information of System',
     visible: true,
     disabled: false,
@@ -53,7 +55,7 @@ const pages = {
 	wgrouplist:{
 		path: '/wgroup/wgrouplist',
     title: 'Workgroup List',
-    icon: <ActionSettings />,
+    icon: <ActDeviceHub/>,
     description: 'Review the settings of System',
     visible: true,
     disabled: false,
@@ -84,7 +86,9 @@ class WGroupPage extends React.Component {
   	  	pages[key].visible = true;
   	  }
   	}
-  	
+  	if( pageName != 'wgroupedit'){
+      pages['wgroupedit'].visible = false;
+    }
   	let state = { pages: Object.values(pages), currentPage };
   	this.setState(state);
   }

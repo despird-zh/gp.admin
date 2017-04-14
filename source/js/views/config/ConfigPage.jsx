@@ -1,7 +1,7 @@
 import React from 'react';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import ActionLaptop from 'material-ui/svg-icons/hardware/laptop';
+import ActionShop from 'material-ui/svg-icons/action/shop';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import typography from 'material-ui/styles/typography';
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -37,14 +37,14 @@ const pages = {
 	profile: {
 		path: '/config/profile',
 		title: 'System Profile',
-		icon: <ActionLaptop />,
+		icon: <ActionShop/>,
     description: 'Review the information of System',
     disabled: false
 	},
 	settings: {
 		path: '/config/setting',
     title: 'System Settings',
-    icon: <ActionSettings />,
+    icon: <ActionSettings/>,
     description: 'Review the settings of System',
     disabled: false
 	},

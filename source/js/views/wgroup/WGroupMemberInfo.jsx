@@ -132,29 +132,29 @@ class WGroupMemberInfo extends React.Component {
 	       		value={ group }
 	       		onChange={this.handleGroupChange}>
 	       		<ListItem
-			        leftAvatar={<Avatar icon={<SocialGrp />} />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear /></IconButton>}
+			        leftAvatar={<Avatar icon={<SocialGrp/>} />}
+			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear/></IconButton>}
 			        primaryText="All"
 			        secondaryText="33"
 			        value={1}
 			      />
 			      <ListItem
 			        leftAvatar={<Avatar icon={<SocialGrp />} />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear/></IconButton>}
 			        primaryText="Photos"
 			        secondaryText="33"
 			        value={2}
 			      />
 			      <ListItem
 			        leftAvatar={<Avatar icon={<SocialGrp />} />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear/></IconButton>}
 			        primaryText="Recipes"
 			        secondaryText="2"
 			        value={3}
 			      />
 			      <ListItem
 			        leftAvatar={<Avatar icon={<SocialGrp />} />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleGroupDelete }><ContentClear/></IconButton>}
 			        primaryText="Work"
 			        secondaryText="1"
 			        value={4}
@@ -170,31 +170,31 @@ class WGroupMemberInfo extends React.Component {
 			      <ListItem
 			        primaryText="Brendan Lim"
 			        leftAvatar={<Avatar src="assets/img/ok-128.jpg" />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear/></IconButton>}
 			        value={1}
 			      />
 			      <ListItem
 			        primaryText="Eric Hoffman"
 			        leftAvatar={<Avatar src="assets/img/kolage-128.jpg" />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleMemberRemove }><ContentRemove /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleMemberRemove }><ContentRemove/></IconButton>}
 			        value={2}
 			      />
 			      <ListItem
 			        primaryText="Grace Ng - 永东科技"
 			        leftAvatar={<Avatar src="assets/img/uxceo-128.jpg" />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear/></IconButton>}
 			        value={3}
 			      />
 			      <ListItem
 			        primaryText="Kerem Suer"
 			        leftAvatar={<Avatar src="assets/img/kerem-128.jpg" />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear/></IconButton>}
 			        value={4}
 			      />
 			      <ListItem
 			        primaryText="Raquel Parrado"
 			        leftAvatar={<Avatar src="assets/img/raquelromanp-128.jpg" />}
-			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear /></IconButton>}
+			        rightIconButton={<IconButton onTouchTap={ this.handleMemberDelete }><ContentClear/></IconButton>}
 			        value={5}
 			      />
 			    </SelectableList>
