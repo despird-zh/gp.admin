@@ -2,7 +2,10 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import ActionLaptop from 'material-ui/svg-icons/hardware/laptop';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ActionShop from 'material-ui/svg-icons/action/shop';
+import ImgPhoto from 'material-ui/svg-icons/image/photo';
+import DevStorage from 'material-ui/svg-icons/device/storage';
+import AVLibBooks from 'material-ui/svg-icons/av/library-books';
 import typography from 'material-ui/styles/typography';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
@@ -33,65 +36,85 @@ function getStyles(muiTheme) {
 	};
 };
 
-const pages = [
-	{
+const pages = {
+	dictlist: {
 		path: '/master/dictlist',
-		title: 'System Profile',
-		icon: <ActionLaptop />,
-    description: 'Review the information of System'
+		title: 'Dictionary Information',
+		icon: <AVLibBooks/>,
+    description: 'System dictionary list',
+    visible: true,
+    disabled: false
 	},
-	{
+	entitylist: {
 		path: '/master/entitylist',
-    title: 'System Settings',
-    icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    title: 'Entities Information',
+    icon: <ActionShop />,
+    description: 'System entity list',
+    visible: true,
+    disabled: false
 	},
-	{
+	imagelist: {
 		path: '/master/imagelist',
-    title: 'System Settings',
-    icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    title: 'Image Information',
+    icon: <ImgPhoto />,
+    description: 'System image list',
+    visible: true,
+    disabled: false
 	},
-	{
+	storagelist: {
 		path: '/master/storagelist',
-    title: 'System Settings',
-    icon: <ActionSettings />,
-    description: 'Review the settings of System'
+    title: 'Storage Information',
+    icon: <DevStorage />,
+    description: 'System storage list',
+    visible: true,
+    disabled: false
 	},
-];
+};
 
 class MasterPage extends React.Component {
 
 	constructor(props, context) {
     super(props, context);
-
     this.styles = getStyles(this.props.muiTheme);
-
+    this.state = {
+    	pages: [],
+    	currentPage: {},
+    };
   }
 
-  getPageInfo = (path) => {
-  	for( let i = 0; i < pages.length; i++){
-  		if(path === pages[i].path)
-  			return pages[i];
+  setCurrentPage = (pageName) => {
+  	let currentPage = null, key;
+
+  	for( key of Object.keys(pages) ){
+  	  if( pageName == key){
+  	  	pages[key].disabled = true;
+  	  	pages[key].visible = true;
+  	  	currentPage = pages[key];
+  	  }else{
+  	  	pages[key].disabled = false;
+  	  	pages[key].visible = true;
+  	  }
   	}
-  	return pages[0];
+  	
+  	let state = { pages: Object.values(pages), currentPage };
+  	this.setState(state);
   }
 
-	handleTouchJump = (path) => {
-		this.props.router.push(path);
+	handleTouchJump = (pathinfo) => {
+		this.props.router.push(pathinfo.path);
 	}
 
   render() {
-  	let path = this.props.location.pathname;
-    let currentPage = this.getPageInfo(path);
+  	let { currentPage, pages } = this.state;
   	let buttons = pages.map((item) => {
 
-  		return <IconButton key={item.path}
-	  					onTouchTap={this.handleTouchJump.bind(this, item.path)}
-	  					iconStyle={currentPage.path != item.path ? this.styles.btnIconStyle : null}
-	  					disabled={currentPage.path == item.path}>
+  		return item.visible? <IconButton key={item.path}
+	  					onTouchTap={this.handleTouchJump.bind(this, item)}
+	  					iconStyle={ !item.disabled ? this.styles.btnIconStyle : this.activeBtnIconStyle}
+	  					tooltip={ item.description }
+	  					disabled={ item.disabled }>
 				      {item.icon}
-				    </IconButton>;
+				    </IconButton> : null;
   	});
 
   	return (
@@ -103,7 +126,9 @@ class MasterPage extends React.Component {
 	  			</div>
   			</div>
   			<Divider/>
-		  	{this.props.children}
+		  	{this.props.children && React.cloneElement(this.props.children, {
+           setCurrentPage: this.setCurrentPage
+         })}
   		</div>
   	);
   }

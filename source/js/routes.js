@@ -74,7 +74,7 @@ export default (
       <Route path='dictlist' component={ DictListPage } />
       <Route path='imagelist' component={ ImageListPage } />
       <Route path='entitylist' component={ EntityListPage } />
-      <Route path='storageist' component={ StorageListPage } />
+      <Route path='storagelist' component={ StorageListPage } />
     </Route>
     <Route path='audit' component={ AuditPage }>
       <IndexRoute component={ WGroupAuditPage } />

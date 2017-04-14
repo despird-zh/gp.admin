@@ -38,6 +38,12 @@ class WGroupAddPage extends React.Component {
       avatar: 'assets/img/book2.jpg',
       content: 'member',
     };
+    this.initialHandler();
+  }
+
+  initialHandler = () => {
+  	this.switchInfo = () => this.handleSwith('info');
+  	this.switchMember = () => this.handleSwith('member');
   }
 
   componentWillMount() {
@@ -58,24 +64,35 @@ class WGroupAddPage extends React.Component {
     this.editor = editor
   }
 
-  handleSwith = () =>{
-  	let { content } = this.state;
-  	content = content == 'info' ? 'member' : 'info';
+  handleSwith = (content) =>{
+
+  	let current = this.state.content;
+  	if(content == current) return;
+
   	let newState = Object.assign({}, this.state, { content });
-  	console.log(newState);
     this.setState(newState);
   }
 
   render() {
   	let styles = getStyles(this.props.muiTheme);
+  	let { content } = this.state;
   	return (
   		<div>
       	<div style={styles.root}>
       		<div>
-      			<IconButton iconStyle={ this.state.content == 'info' ? styles.activeBtnIconStyle : styles.btnIconStyle }
-      			onTouchTap ={this.handleSwith}><ActSubject/></IconButton>
-	  				<IconButton iconStyle={ this.state.content == 'member' ? styles.activeBtnIconStyle : styles.btnIconStyle }
-	  				onTouchTap ={this.handleSwith}><ActSuperAccnt/></IconButton>
+      			<IconButton 
+      			iconStyle={ content == 'info' ? styles.activeBtnIconStyle : styles.btnIconStyle }
+      			onTouchTap ={ this.switchInfo }
+      			disabled= { content == 'info' }
+      			>
+      				<ActSubject/>
+      			</IconButton>
+	  				<IconButton 
+	  				iconStyle={ content == 'member' ? styles.activeBtnIconStyle : styles.btnIconStyle }
+	  				onTouchTap ={this.switchMember }
+	  				disabled= { content == 'member' }>
+	  					<ActSuperAccnt/>
+	  				</IconButton>
       		</div>
           <div style={styles.spacer}/>
           <div>

@@ -10,7 +10,6 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 
 function getStyles (muiTheme) {
 	const { baseTheme: { spacing, palette } } = muiTheme;
-	console.log(palette)
 	return{
 	  container: {
 	  	display: 'flex',
