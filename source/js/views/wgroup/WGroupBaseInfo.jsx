@@ -104,17 +104,19 @@ const WGroupBaseInfo = ({ errtips, onChange, baseinfo, setEditorRef, onAvatarSav
 			    
 		    </div>
 		   	<div style={{display:'flex', flexDirection: 'row'}}>
-	       	<Checkbox
-			      label="Topic1"
-			      style={{width:'30%',marginTop: 38}}
+		   		<Toggle
+			      label="Topic on/off"
+			      style={{width:'50%', marginTop: 40, paddingRight: 30, paddingLeft: 10}}
 			    />
-			    <Checkbox
-			      label="Share"
-			      style={{width:'30%',marginTop: 38}}
+			    <Toggle
+			      label="Share on/off"
+			      style={{width:'50%', marginTop: 40, paddingRight: 30, paddingLeft: 10}}
 			    />
-			    <Checkbox
-			      label="Link"
-			      style={{width:'30%',marginTop: 38}}
+		    </div>
+		    <div style={{display:'flex', flexDirection: 'row'}}>
+			    <Toggle
+			      label="Link on/off"
+			      style={{width:'50%', marginTop: 40, paddingRight: 30, paddingLeft: 10}}
 			    />
 		    </div>
        </div>
@@ -152,8 +154,8 @@ const WGroupBaseInfo = ({ errtips, onChange, baseinfo, setEditorRef, onAvatarSav
 		    </div>
 		    <div style={styles.container}>
 		    	<Toggle
-			      label="Public Cabinet"
-			      style={{width:'50%', marginTop: 40, paddingRight: 40, paddingLeft: 10}}
+			      label="Public Cabinet on/off"
+			      style={{width:'50%', marginTop: 40, paddingRight: 30, paddingLeft: 10}}
 			    />
 			    <TextField
 			    	style={ styles.inputItem }
@@ -164,8 +166,8 @@ const WGroupBaseInfo = ({ errtips, onChange, baseinfo, setEditorRef, onAvatarSav
 		    </div>
 		    <div style={styles.container}>
 	       	<Toggle
-			      label="Private Cabinet"
-			      style={{width:'50%', marginTop: 40, paddingRight: 40, paddingLeft: 10}}
+			      label="Private Cabinet on/off"
+			      style={{width:'50%', marginTop: 40, paddingRight: 30, paddingLeft: 10}}
 			    />
 			    <TextField
 			    	style={ styles.inputItem }
