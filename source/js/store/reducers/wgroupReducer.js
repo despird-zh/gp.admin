@@ -19,7 +19,7 @@ const actionsMap = {
   // Loader Action
   [WGRP_SAVE_GRPS]: (state, {type, data}) => {
 
-    return state.setIn(['userlist','users'], data);
+    return state.setIn(['grouplist','groups'], data);
 
   },
  	[WGRP_SAVE_FILTER]: (state, {type, data}) => {

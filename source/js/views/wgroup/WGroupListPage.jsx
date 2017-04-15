@@ -9,7 +9,7 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
-import { groupsSaveAction, groupSaveAction, filterSaveAction, searchClearAction } from '../../store/actions/wgroupActions';
+import { groupsSave, groupSave, filterSave, searchClear, WorkgroupApis } from '../../store/actions/wgroupActions';
 
 
 function getStyles (muiTheme) {
@@ -56,13 +56,52 @@ class WGroupListPage extends React.Component {
     this.props.filterSaveAction(filter);
   }
 
+  handleClear = () => {
+    let filter = { 
+      search: '', 
+      internal: false, 
+      external: false,
+    };
+
+    this.props.searchClear(filter);
+  }
+
+  handleJump = (wgroupId) => {
+
+    let url = '/wgroup/wgroupedit/' + wgroupId;
+    hashHistory.push(url);
+  }
+
+  handleQuery = () => {
+
+    let search = this.props.grouplist.search;
+    let params = {filterkey: search, state: 'ALL', type: 'ALL'};
+
+    this.props.rpcInvoke(WorkgroupApis.GroupsQuery, params, groupsSave);
+  }
+
   render() {
 
     let styles = getStyles(this.props.muiTheme);
-    let users = this.props.grouplist.get('groups').toJS();
-    let internal = this.props.grouplist.get('internal');
-    let external = this.props.grouplist.get('external');
-    let search = this.props.grouplist.get('search');
+    let {groups, internal, external, search} = this.props.grouplist.toJS();
+
+    let rows = groups.map((item, index) => {
+      let {'workgroup-id':wgroupId, 'workgroup-name':wgroupName, 
+        'source-name':sourceName, admin, manager,
+        state, description, 'create-date':createDate } = item;
+
+      return <TableRow key={wgroupId}>
+              <TableRowColumn>{wgroupName}</TableRowColumn>
+              <TableRowColumn>{sourceName}</TableRowColumn>
+              <TableRowColumn>{admin} - {manager}</TableRowColumn>
+              <TableRowColumn>{state}</TableRowColumn>
+              <TableRowColumn>{description}</TableRowColumn>
+              <TableRowColumn style={{ width: 130}}>{createDate}</TableRowColumn>
+              <TableRowColumn style={{ width: 80}}>
+                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, wgroupId)}><ModeEditIcon/></IconButton >
+              </TableRowColumn>
+            </TableRow>;
+    });
 
     return (
       <div>
@@ -86,8 +125,8 @@ class WGroupListPage extends React.Component {
           />
           <div style={styles.spacer}/>
           <div>
-            <RaisedButton label="Clear" style={{margin: 4}} />
-              <RaisedButton label="Query" style={{margin: 4}} />
+            <RaisedButton label="Clear" style={{margin: 4}}  onTouchTap ={ this.handleClear }/>
+              <RaisedButton label="Query" style={{margin: 4}} onTouchTap ={ this.handleQuery }/>
           </div>
         </div>
         <Table>
@@ -96,25 +135,17 @@ class WGroupListPage extends React.Component {
               adjustForCheckbox={ false }
               enableSelectAll={ false } >
             <TableRow>
-              <TableHeaderColumn>Account/Name</TableHeaderColumn>
-              <TableHeaderColumn>Email</TableHeaderColumn>
-              <TableHeaderColumn>Mobile</TableHeaderColumn>
+              <TableHeaderColumn>Wgroup Name</TableHeaderColumn>
+              <TableHeaderColumn>Source</TableHeaderColumn>
+              <TableHeaderColumn>Admin/Manager</TableHeaderColumn>
               <TableHeaderColumn>State</TableHeaderColumn>
-              <TableHeaderColumn>Entity</TableHeaderColumn>
-              <TableHeaderColumn  style={{ width: 80}}>OP.</TableHeaderColumn>
+              <TableHeaderColumn>Description</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: 130}}>Create</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: 80}}>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
-            <TableRow >
-              <TableRowColumn>xxx</TableRowColumn>
-              <TableRowColumn>xxx</TableRowColumn>
-              <TableRowColumn>xxx</TableRowColumn>
-              <TableRowColumn>xxx</TableRowColumn>
-              <TableRowColumn>xxxx</TableRowColumn>
-              <TableRowColumn style={{ width: 80}}>
-                <IconButton iconStyle={styles.iconStyle} ><ModeEditIcon/></IconButton >
-              </TableRowColumn>
-            </TableRow>;
+            { rows }
           </TableBody>
         </Table>
       </div>
@@ -127,6 +158,6 @@ const NewComponent = AuthConnect(
   (state) => ({
             grouplist: state.wgroup.get('grouplist'),
           }), 
-  {groupsSaveAction, groupSaveAction, filterSaveAction, searchClearAction});
+  {groupsSave, groupSave, filterSave, searchClear});
 
 export default muiThemeable()(NewComponent);
