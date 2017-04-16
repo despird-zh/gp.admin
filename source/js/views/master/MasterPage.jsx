@@ -3,6 +3,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import ActionLaptop from 'material-ui/svg-icons/hardware/laptop';
 import ActionShop from 'material-ui/svg-icons/action/shop';
+import ActionExtension from 'material-ui/svg-icons/action/extension';
 import ImgPhoto from 'material-ui/svg-icons/image/photo';
 import DevStorage from 'material-ui/svg-icons/device/storage';
 import AVLibBooks from 'material-ui/svg-icons/av/library-books';
@@ -48,7 +49,7 @@ const pages = {
 	entitylist: {
 		path: '/master/entitylist',
     title: 'Entities Information',
-    icon: <ActionShop />,
+    icon: <ActionShop/>,
     description: 'System entity list',
     visible: true,
     disabled: false
@@ -56,7 +57,7 @@ const pages = {
 	imagelist: {
 		path: '/master/imagelist',
     title: 'Image Information',
-    icon: <ImgPhoto />,
+    icon: <ImgPhoto/>,
     description: 'System image list',
     visible: true,
     disabled: false
@@ -64,11 +65,19 @@ const pages = {
 	storagelist: {
 		path: '/master/storagelist',
     title: 'Storage Information',
-    icon: <DevStorage />,
+    icon: <DevStorage/>,
     description: 'System storage list',
     visible: true,
     disabled: false
 	},
+  orghier: {
+    path: '/master/orghier',
+    title: 'Org. Hierarchy',
+    icon: <ActionExtension/>,
+    description: 'Organization Hierarchy',
+    visible: true,
+    disabled: false
+  },
 };
 
 class MasterPage extends React.Component {

@@ -57,6 +57,7 @@ class SettingDialog extends React.Component {
     const actions = [
       <FlatButton
         label="Close"
+        style={{marginRight: 15}}
         onTouchTap={this.handleClose}
       />,
       <FlatButton

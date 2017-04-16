@@ -160,7 +160,7 @@ class HeaderBar extends React.Component {
         <IconButton style={this.styles.iconButtonStyle} 
           iconStyle={this.styles.iconButtonIconStyle}
           onTouchTap={this.handleTouchJump.bind(this, '/')}
-          >
+          tooltip="Home Page">
           <ActionHomeMenu style={Object.assign({}, this.styles.iconButtonIconStyle)} />
         </IconButton>
         {titleElement}
@@ -169,7 +169,7 @@ class HeaderBar extends React.Component {
             style={iconRightFirstStyle}
             iconStyle={this.styles.iconButtonIconStyle}
             onTouchTap={this.handleTouchJump.bind(this, '/audit')}
-            ref="wgroup">
+            tooltip="Audit Controll&Information">
             <ActionTrackChgs style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
@@ -178,7 +178,7 @@ class HeaderBar extends React.Component {
             style={this.styles.iconButtonStyle}
             iconStyle={this.styles.iconButtonIconStyle}
             onTouchTap={this.handleTouchJump.bind(this, '/master')}
-            ref="wgroup">
+            tooltip="Master Controll&Information">
             <DeviceWidgets style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
@@ -187,7 +187,7 @@ class HeaderBar extends React.Component {
             style={this.styles.iconButtonStyle}
             iconStyle={this.styles.iconButtonIconStyle}
             onTouchTap={this.handleTouchJump.bind(this, '/wgroup')}
-            ref="wgroup">
+            tooltip="Workgroup Controll&Information">
             <HardwareDvcHub style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
@@ -195,7 +195,8 @@ class HeaderBar extends React.Component {
           <IconButton
             style={this.styles.iconButtonStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleTouchJump.bind(this, '/security')}>
+            onTouchTap={this.handleTouchJump.bind(this, '/security')}
+            tooltip="Security Controll&Information">
             <HardwareSecurity style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
@@ -203,7 +204,8 @@ class HeaderBar extends React.Component {
           <IconButton
             style={this.styles.iconButtonStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleTouchJump.bind(this, '/config')}>
+            onTouchTap={this.handleTouchJump.bind(this, '/config')}
+            tooltip="Config Controll&Information">
             <ActionSettings style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }
@@ -211,14 +213,16 @@ class HeaderBar extends React.Component {
           <IconButton
             style={iconRightLastStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleSignoff}>
+            onTouchTap={this.handleSignoff}
+            tooltip="Sign off">
             <ActionLaunch style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
          :
           <IconButton
             style={iconRightLastStyle}
             iconStyle={this.styles.iconButtonIconStyle}
-            onTouchTap={this.handleSignin}>
+            onTouchTap={this.handleSignin}
+            tooltip="Sign in">
             <ActionOpenBrowser style={Object.assign({}, this.styles.iconButtonIconStyle)} />
           </IconButton>
         }

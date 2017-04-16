@@ -21,6 +21,7 @@ import DictListPage from './views/master/DictListPage';
 import EntityListPage from './views/master/EntityListPage';
 import ImageListPage from './views/master/ImageListPage';
 import StorageListPage from './views/master/StorageListPage';
+import OrgHierPage from './views/master/OrgHierPage';
 import MasterPage from './views/master/MasterPage';
 
 import UserAuditPage from './views/audit/UserAuditPage';
@@ -75,6 +76,7 @@ export default (
       <Route path='imagelist' component={ ImageListPage } />
       <Route path='entitylist' component={ EntityListPage } />
       <Route path='storagelist' component={ StorageListPage } />
+      <Route path='orghier' component={ OrgHierPage } />
     </Route>
     <Route path='audit' component={ AuditPage }>
       <IndexRoute component={ WGroupAuditPage } />
