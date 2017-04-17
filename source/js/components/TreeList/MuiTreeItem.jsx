@@ -1,7 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import ListItem from 'material-ui/List/ListItem'
+import OpenIcon from 'material-ui/svg-icons/navigation/expand-more'
+import CloseIcon from 'material-ui/svg-icons/navigation/expand-less'
+import FolderIcon from 'material-ui/svg-icons/file/folder'
+import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file'
 
-class TreeItem extends Component {
+class MuiTreeItem extends Component {
 
   constructor(props) {
     super(props)
@@ -26,12 +30,12 @@ class TreeItem extends Component {
 
   render(){
 
-  	const { key, title, style, depth } = this.props;
+  	const { key, title, style, depth, root ,active, disabled } = this.props;
     const nodeHeight = (this.props.nodeHeight) ? this.props.nodeHeight : '48px'
 
     let baseStyle = {
       paddingLeft: depth * 16,
-      backgroundColor: active ? 'rgba(0,0,0,0.2)' : null,
+      backgroundColor: (active) ? 'rgba(0,0,0,0.2)' : null,
       height: nodeHeight,
       cursor: disabled ? 'not-allowed' : 'pointer',
       color: disabled ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.87)',
@@ -40,19 +44,23 @@ class TreeItem extends Component {
     }
 
     return (
-      <ListItem
-        key={'treeListItem-' + i}
-        primaryText={ title }
-        style={Object.assign({}, baseStyle, style)}
-        leftIcon={getLeftIcon()}
-        rightIcon={ (!children) ? <OpenIcon /> : <CloseIcon /> }
-        onTouchTap={ this.handleTouchTap }>
-        {React.Children.map(children, (item, index) => {
-              return props.root.renderTreeNode(item, index, depth +1, key);
-            }, props.root)}
-      <ListItem>
+      <div>
+        <ListItem
+          key={'treeListItem-' + key}
+          primaryText={ title }
+          style={Object.assign({}, baseStyle, style)}
+          leftIcon={ this.getLeftIcon()}
+          rightIcon={ (!this.props.children) ? <OpenIcon /> : <CloseIcon /> }
+          onTouchTap={ this.handleTouchTap }>
+          
+        </ListItem>
+        {React.Children.map(this.props.children, (item, index) => {
+          console.log(item);
+              return root.renderTreeNode(item, index, depth +1, key);
+            }, root)}
+      </div>
 	  )
   }
 }
 
-export default TreeItem;
+export default MuiTreeItem;

@@ -7,7 +7,7 @@ import CloseIcon from 'material-ui/svg-icons/navigation/expand-less'
 import FolderIcon from 'material-ui/svg-icons/file/folder'
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file'
 
-class TreeList extends Component {
+class MuiTreeList extends Component {
     constructor(props) {
         super(props)
 
@@ -26,9 +26,7 @@ class TreeList extends Component {
 
   renderTreeNode(child, index, depth = 0, pkey = '') {
 
-    const key = `${pkey}-${child.props.key}`;
-    const state = this.state;
-    const props = this.props;
+    const key = `${pkey}-${child.key}`;
 
     const cloneProps = {
       ref: `treeNode-${key}`,
@@ -41,12 +39,12 @@ class TreeList extends Component {
   }
 
     render() {
+        console.log(this.props);
         // required props
-        const {children, listItems, contentKey} = this.props
+        const {children} = this.props
         // optional props
         const style = (this.props.style) ? this.props.style : {}
         const listHeight = (this.props.listHeight) ? this.props.listHeight : '48px'
-
 
         // styles for entire wrapper
         const styles = {
@@ -58,11 +56,11 @@ class TreeList extends Component {
         }
 
         return (
-    			<div style={Object.assign({}, styles.root, style)}>
-            {React.Children.map(props.children, this.renderTreeNode, this)}
+    		<div style={Object.assign({}, styles.root, style)}>
+            {React.Children.map(children, this.renderTreeNode, this)}
         	</div>
         );
     }
 }
 
-export default TreeList
+export default MuiTreeList

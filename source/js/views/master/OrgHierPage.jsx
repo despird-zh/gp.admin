@@ -1,6 +1,6 @@
 import React from 'react';
 import MuiTreeList from '../../components/TreeList/MuiTreeList'
-import MuiTreeNode from '../../components/TreeList/MuiTreeItem'
+import MuiTreeItem from '../../components/TreeList/MuiTreeItem'
 var nodes = [
   {
     key: 'k1',
@@ -39,20 +39,21 @@ class OrgHierPage extends React.Component {
       return data.map((item) => {
         if (item.children) {
           return (
-            <MuiTreeNode
+            <MuiTreeItem
               key={item.key} title={item.title}
             >
               {loop(item.children)}
-            </MuiTreeNode>
+            </MuiTreeItem>
           );
         }
-        return <MuiTreeNode key={item.key} title={item.title} />;
+        return <MuiTreeItem key={item.key} title={item.title} />;
       });
     };
+    console.log(loop(nodes));
     return (
       <div>
         <MuiTreeList>
-          loop(nodes)
+          { loop(nodes) }
         </MuiTreeList>
       </div>
     );
