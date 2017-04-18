@@ -35,25 +35,10 @@ class OrgHierPage extends React.Component {
   }
 
   render() {
-    const loop = data => {
-      return data.map((item) => {
-        if (item.children) {
-          return (
-            <MuiTreeItem
-              key={item.key} title={item.title}
-            >
-              {loop(item.children)}
-            </MuiTreeItem>
-          );
-        }
-        return <MuiTreeItem key={item.key} title={item.title} />;
-      });
-    };
-    console.log(loop(nodes));
+   
     return (
       <div>
-        <MuiTreeList>
-          { loop(nodes) }
+        <MuiTreeList nodes={nodes}>
         </MuiTreeList>
       </div>
     );
