@@ -63,6 +63,7 @@ class MuiTreeItem extends Component {
         overflow: 'hidden',
         transform: 'translateZ(0)'                       
       };
+      
     return (
       <div>
         <ListItem
