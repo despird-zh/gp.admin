@@ -84,9 +84,4 @@ MuiTreeList.propTypes = {
     useFolderIcons: PropTypes.bool
 };
 
-const TreeItem = (...props ) => {
-  return (
-    <h1/>
-  );
-};
 export default MuiTreeList
