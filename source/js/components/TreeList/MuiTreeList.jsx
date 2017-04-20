@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
-import MuiTreeItem from './MuiTreeItem'
+import { List,ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField'
 import OpenIcon from 'material-ui/svg-icons/navigation/expand-more'
 import CloseIcon from 'material-ui/svg-icons/navigation/expand-less'
 import FolderIcon from 'material-ui/svg-icons/file/folder'
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file'
+
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import ContentDrafts from 'material-ui/svg-icons/content/drafts';
+import ContentSend from 'material-ui/svg-icons/content/send';
+import Subheader from 'material-ui/Subheader';
 
 class MuiTreeList extends Component {
   constructor(props) {
@@ -23,7 +29,7 @@ class MuiTreeList extends Component {
 
   renderTreeNode(child, index, depth = 0, pNodePath) {
 
-    const {useFolderIcons, listHeight} = this.props;
+    const {useFolderIcons} = this.props;
     const nodePath = (pNodePath) ? `${pNodePath}-${child.key}` : `${child.key}`;
     
     const cloneProps = {
@@ -31,7 +37,6 @@ class MuiTreeList extends Component {
       root: this,
       nodePath,
       depth,
-      nodeHeight: listHeight,
       useFolderIcons
     };
 
@@ -42,51 +47,40 @@ class MuiTreeList extends Component {
 
     const loopNodes = data => {
       return data.map((item) => {
+
         if (item.children) {
+          let nestedNodes = loopNodes (item.children);
           return (
-            <MuiTreeItem key={ item.key } nodeItem={ item } style={ this.props.itemStyle }>
-              { loopNodes (item.children) }
-            </MuiTreeItem>
+            <ListItem 
+              key={ item.key } 
+              primaryText={item.title}
+              style={ this.props.itemStyle }
+              leftIcon={<ActionGrade />}
+              primaryTogglesNestedList={true}
+              nestedItems={ nestedNodes }
+            />
           );
         }
-        return <MuiTreeItem key={ item.key } nodeItem={ item } style={ this.props.itemStyle }/>;
+        return <MuiTreeItem key={ item.key } nodeItem ={ item }leftIcon={<ContentSend />} primaryText={item.title} style={ this.props.itemStyle }/>;
       });
     };
 
-    // required props
     const rootChildren = loopNodes(this.state.nodes);
-    // optional props
-    const style = (this.props.style) ? this.props.style : {}
-
-    // styles for entire wrapper
-    const baseStyle = {
-      padding: 0,
-      paddingBottom: 8,
-      paddingTop: (rootChildren) ? 0 : 8,
-    }
 
     return (
-		  <div style={Object.assign({}, baseStyle, style)}>
-        {React.Children.map(rootChildren, this.renderTreeNode, this)}
-    	</div>
+      <List>
+        <Subheader>Nested List Items</Subheader>
+        {rootChildren}
+      </List>
     );
   }
 }
 
-MuiTreeList.propTypes = {
-    nodes: PropTypes.array.isRequired,
-    style: PropTypes.object,
-    itemStyle: PropTypes.object,
-    handleTouchTap: PropTypes.func,
-    handleTouchTapInSearchMode: PropTypes.func,
-    handleSearch: PropTypes.func,
-    listHeight: PropTypes.number,
-    useFolderIcons: PropTypes.bool
+const MuiTreeItem = ({nodeItem, ...rest }) => {
+  console.log(nodeItem);
+  return (<ListItem
+            {...rest}
+          />);
 };
 
-const TreeItem = (...props ) => {
-  return (
-    <h1/>
-  );
-};
 export default MuiTreeList

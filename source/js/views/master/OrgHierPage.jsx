@@ -38,8 +38,8 @@ class OrgHierPage extends React.Component {
   render() {
    
     return (
-      <div>
-        <MuiTreeList nodes={nodes}>
+      <div style={{width: 400}}>
+        <MuiTreeList nodes={nodes} useFolderIcons={true}>
         </MuiTreeList>
       </div>
     );

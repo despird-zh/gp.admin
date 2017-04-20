@@ -31,10 +31,10 @@ class MuiTreeItem extends Component {
     super(props)
   }
 
-  getLeftIcon = () => {
+  getLeftIcon = (nodeItem) => {
   	let { useFolderIcons, icon } = this.props;
     if (useFolderIcons) {
-      if (children) {
+      if (nodeItem.children) {
           return <FolderIcon />
       } else {
           return <FileIcon />
@@ -52,30 +52,27 @@ class MuiTreeItem extends Component {
     
   	const { nodePath, nodeItem, style, depth, root ,active, disabled } = this.props;
 
-    const nodeHeight = (this.props.nodeHeight) ? this.props.nodeHeight : '48px'
-
     let baseStyle = {
-        paddingLeft: depth * 16,
-        backgroundColor: (active) ? 'rgba(0,0,0,0.2)' : null,
-        height: nodeHeight,
         cursor: disabled ? 'not-allowed' : 'pointer',
         color: disabled ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.87)',
         overflow: 'hidden',
         transform: 'translateZ(0)'                       
       };
-      
+    
     return (
       <div>
         <ListItem
-          style={ Object.assign({}, baseStyle, style) }
-          leftIcon={ this.getLeftIcon() }
-          rightIcon={ (!this.props.children) ? <OpenIcon /> : <CloseIcon /> }
-          onTouchTap={ this.handleTouchTap }>
+          leftIcon={ this.getLeftIcon(nodeItem) }
+          onTouchTap={ this.handleTouchTap }
+          primaryTogglesNestedList={ (nodeItem.children) ? true : false }
+          nestedItems={ 
+            React.Children.map(this.props.children, (item, index) => {
+              return root.renderTreeNode(item, index, depth + 1, nodePath);
+            }, root)}
+          >
           <div style={ styles.contentStyle }> <span style={ styles.titleStyle }>{ nodeItem.title} </span><SocialGrp style={ styles.iconStyle }/></div>
         </ListItem>
-        {React.Children.map(this.props.children, (item, index) => {
-          return root.renderTreeNode(item, index, depth + 1, nodePath);
-        }, root)}
+
       </div>
 	  )
   }
