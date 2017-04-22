@@ -1,7 +1,9 @@
 import React from 'react';
 import SocialGrp from 'material-ui/svg-icons/social/group';
-import MuiTreeList from '../../components/TreeList/MuiTreeList';
+
 import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
+import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
@@ -9,6 +11,8 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Avatar from 'material-ui/Avatar';
 import muiThemeable from 'material-ui/styles/muiThemeable';
+
+import MuiTreeList from '../../components/TreeList/MuiTreeList';
 
 var nodes = [
   {
@@ -48,6 +52,11 @@ const getStyles = (muiTheme) => {
       display: 'flex', 
       marginTop: 10
     },
+    inputItem: {
+      width: 320,
+      marginLeft: spacing.desktopGutterMini,
+      marginRight: spacing.desktopGutterMini
+    },
     panelTitle: {
       color: palette.secondaryTextColor,
       fontSize: 16, 
@@ -55,7 +64,7 @@ const getStyles = (muiTheme) => {
       marginTop: spacing.desktopGutterMini,
     },
     halfStyle: {
-      flexBasis: '50%',
+      flexBasis: '33.33%',
       paddingLeft: spacing.desktopGutterMini,
       paddingRight: spacing.desktopGutterMini
     }
@@ -128,10 +137,60 @@ class OrgHierPage extends React.Component {
                 />
               </SelectableList>
             </div>
+            <div style={ styles.halfStyle }>
+              <h3 style={ styles.panelTitle }>Members </h3>
+              <Divider/>
+              <OrgHierInfo
+               styles={styles}
+               onHandleClear={()=>{}}
+               onHandleSave={()=>{}}/>
+            </div>
           </div>
       </div>
     );
   };
 }
 
+const OrgHierInfo = ({ styles, onHandleClear, onHandleSave, ...props }) => {
+  return (
+  <div>
+    <TextField
+      style= {styles.inputItem}
+      hintText="16 letters"
+      floatingLabelText="Current Entity Node"
+    />
+    <TextField
+      style={ styles.inputItem }
+      hintText="no more than 32 letters"
+      floatingLabelText="Org. Node Name"
+    />
+    <AutoComplete 
+      style={ styles.inputItem }
+      hintText="no more than 32 letters"
+      dataSource={['aa','bb','cc']}
+      floatingLabelText="Administrator"
+    />
+    <AutoComplete 
+      style={ styles.inputItem }
+      hintText="no more than 32 letters"
+      dataSource={['aa','bb','cc']}
+      floatingLabelText="Manager"
+    />
+    <TextField
+      style={ styles.inputItem }
+      hintText="no more than 32 letters"
+      floatingLabelText="Contact Mail"
+    />
+    <TextField
+      style={ styles.inputItem }
+      hintText="no more than 32 letters"
+      floatingLabelText="Description"
+    />
+    <div style={{marginTop: 10}}>
+        <RaisedButton label="Clear" style={{margin: 4}} onTouchTap ={ onHandleClear }/>
+        <RaisedButton label="Save" style={{margin: 4, float: 'right'}} primary={true} onTouchTap ={ onHandleSave }/>
+    </div>
+  </div>
+  );
+}
 export default muiThemeable()(OrgHierPage);
