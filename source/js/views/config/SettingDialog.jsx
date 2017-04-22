@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -113,4 +113,4 @@ const NewComponent = AuthConnect(
   null, 
   null);
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;

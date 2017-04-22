@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+
 import AuthConnect from '../../components/AuthConnect';
 
 class WGroupEditPage extends React.Component {
@@ -35,4 +35,4 @@ class WGroupEditPage extends React.Component {
   }
 }
 
-export default muiThemeable()(WGroupEditPage);
+export default WGroupEditPage;

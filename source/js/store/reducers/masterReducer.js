@@ -7,7 +7,22 @@ import {
 const initialState = Map({
   storagelist: Map({ 
   	storages: List(), 
-  })
+  }),
+  dictlist: Map({
+    entries: List(),
+
+  }),
+  entitylist: Map({
+    entities: List(),
+
+  }),
+  imagelist: Map({
+    images: List(),
+
+  }),
+  orghier: Map({
+    orgtree: {},
+  }),
 });
 
 const actionsMap = {

@@ -6,6 +6,7 @@ import auth from './authReducer';
 import config from './configReducer';
 import security from './securityReducer';
 import wgroup from './wgroupReducer';
+import master from './masterReducer';
 //import routing from './routeReducer';
 import { routerReducer } from 'react-router-redux'
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   config,
   security,
   wgroup,
+  master,
   routing:routerReducer,
 });
 

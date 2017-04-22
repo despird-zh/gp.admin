@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+
 import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AuthConnect from '../../components/AuthConnect';
@@ -112,9 +112,12 @@ class SettingPage extends React.Component {
               {rows}
             </TableBody>
           </Table>
-          <SettingDialog innerRef={(inputEl) => {
-            this.settingDialog = inputEl;
-          }} />
+          <SettingDialog 
+            innerRef={(inputEl) => {
+              this.settingDialog = inputEl;
+            }}
+            muiTheme={this.props.muiTheme}
+          />
         </div>
   		</div>
   	);
@@ -128,4 +131,4 @@ const NewComponent = AuthConnect(
           }), 
   {});
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;

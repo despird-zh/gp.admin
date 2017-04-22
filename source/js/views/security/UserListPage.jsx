@@ -7,7 +7,6 @@ import { hashHistory } from 'react-router';
 import { List } from 'immutable';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { saveUsers, 
   saveUsersFilter, 
@@ -158,4 +157,4 @@ const NewComponent = AuthConnect(
   }), 
   { saveUsersFilter, clearUsersFilter });
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;

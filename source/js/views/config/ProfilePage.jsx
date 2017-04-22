@@ -3,7 +3,7 @@ import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+
 import AuthConnect from '../../components/AuthConnect';
 import { profileSaveAction,ConfigApis } from '../../store/actions/configActions';
 
@@ -161,4 +161,4 @@ const NewComponent = AuthConnect(
   }), 
   {profileSaveAction});
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;

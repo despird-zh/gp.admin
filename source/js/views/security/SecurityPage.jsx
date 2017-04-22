@@ -122,7 +122,8 @@ class SecurityPage extends React.Component {
   			</div>
   			<Divider/>
 		  	{this.props.children && React.cloneElement(this.props.children, {
-           setCurrentPage: this.setCurrentPage
+           setCurrentPage: this.setCurrentPage,
+           muiTheme: this.props.muiTheme
          })}
   		</div>
   	);

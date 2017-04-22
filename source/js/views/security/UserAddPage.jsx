@@ -6,7 +6,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog'
 import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
@@ -303,4 +302,4 @@ const NewComponent = AuthConnect(
    }), 
   { saveAddUser });
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;

@@ -5,7 +5,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import AuthConnect from '../../components/AuthConnect';
 import { saveEditUser, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
@@ -256,4 +255,4 @@ const NewComponent = AuthConnect(
    }), 
   { saveEditUser });
 
-export default muiThemeable()(NewComponent);
+export default NewComponent;
