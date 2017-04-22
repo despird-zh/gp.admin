@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-
+import IconButton from 'material-ui/IconButton';
 import { List,ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField'
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import FolderIcon from 'material-ui/svg-icons/file/folder'
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file'
@@ -55,6 +56,9 @@ class MuiTreeList extends Component {
     }
 
     const loopNodes = data => {
+
+      let {nodeRemovable, onNodeRemove, itemStyle} = this.props;
+
       return data.map((item) => {
         let leftIcon = getLeftIcon( item );
 
@@ -64,7 +68,7 @@ class MuiTreeList extends Component {
           return (
             <MuiTreeItems 
               key={ item.key } 
-              style={ this.props.itemStyle }
+              style={ itemStyle }
               leftIcon={leftIcon}
               nodeItem={ item }
               innerDivStyle={ styles.innerDivStyle }
@@ -84,7 +88,9 @@ class MuiTreeList extends Component {
             onTouchTap={ this.handleTouchTap }
             innerDivStyle={ styles.innerDivStyle }
             primaryText={ item.title }
-            style={ this.props.itemStyle } >
+            nodeRemovable={ nodeRemovable }
+            onNodeRemove={ onNodeRemove }
+            style={ itemStyle } >
           </MuiTreeItem>
         );
       });
@@ -100,13 +106,17 @@ class MuiTreeList extends Component {
   }
 }
 
-const MuiTreeItem = ({nodeItem, onTouchTap, ...rest }) => {
+const MuiTreeItem = ({nodeItem, onTouchTap, nodeRemovable,onNodeRemove, ...rest }) => {
   const handleTouchTap = ()=>{
     if(onTouchTap) onTouchTap(nodeItem);
+  }
+  const handleRemove = ()=>{
+    if(onNodeRemove) onNodeRemove(nodeItem);
   }
   return (
     <ListItem
       onTouchTap={ handleTouchTap }
+      rightIconButton={ nodeRemovable && <IconButton onTouchTap={ handleRemove }><ContentClear/></IconButton> }
       {...rest}
     />);
 };
@@ -121,5 +131,10 @@ const MuiTreeItems = ({nodeItem, onNestedListToggle, ...rest }) => {
       {...rest}
     />);
 };
+
+MuiTreeList.propTypes = {
+  nodeRemovable: PropTypes.boolean,
+  onNodeRemove: PropTypes.func,
+}
 
 export default MuiTreeList

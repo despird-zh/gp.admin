@@ -5,7 +5,8 @@ export const APP_ONLY_SNACK  = 'APP_ONLY_SNACK';
 export const CMN_FETCH_STORAGES = 'CMN_FETCH_STORAGES';
 
 export const AppApis = {
-  StoragesQuery: 'storages-query.do'
+  StoragesQuery: 'storages-query.do',
+  
 };
 
 export function storagesSaveAction(storages) {

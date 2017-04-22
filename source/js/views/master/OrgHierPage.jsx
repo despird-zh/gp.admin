@@ -1,18 +1,20 @@
 import React from 'react';
 import SocialGrp from 'material-ui/svg-icons/social/group';
-
+import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Avatar from 'material-ui/Avatar';
 import muiThemeable from 'material-ui/styles/muiThemeable';
+import SocialGrpAdd from 'material-ui/svg-icons/social/group-add';
+import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
 
 import MuiTreeList from '../../components/TreeList/MuiTreeList';
+import UserAutoComplete from '../common/UserAutoComplete';
 
 var nodes = [
   {
@@ -40,7 +42,7 @@ var nodes = [
 
 const SelectableList = makeSelectable(List);
 
-const getStyles = (muiTheme) => {
+const getStyles = function (muiTheme) {
   const { baseTheme: { spacing, palette } } = muiTheme;
   return {
     rootStyle: {
@@ -67,7 +69,22 @@ const getStyles = (muiTheme) => {
       flexBasis: '33.33%',
       paddingLeft: spacing.desktopGutterMini,
       paddingRight: spacing.desktopGutterMini
-    }
+    },
+    iconBtnStyle: {
+      float: 'right', 
+      width: 28,
+      height: 28,
+      padding: 2,
+      marginRight: 16
+    },
+    activeBtnIconStyle: {
+      fill: palette.disabledColor,
+      color: palette.disabledColor,
+    },
+    btnIconStyle: {
+      fill: palette.primary2Color,
+      color: palette.primary2Color,
+    },
   };
 }
 class OrgHierPage extends React.Component { 
@@ -83,7 +100,7 @@ class OrgHierPage extends React.Component {
 
   render() {
     let styles = getStyles(this.props.muiTheme);
-
+    let infomode = 'mbr-add';
     return (
       <div >
         <div style={styles.topFull}>
@@ -96,7 +113,10 @@ class OrgHierPage extends React.Component {
           <div style={ styles.halfStyle }>
             <h3 style={ styles.panelTitle }>Hierarchy </h3>
             <Divider/>
-            <MuiTreeList nodes={ nodes } useFolderIcons={true}>
+            <MuiTreeList 
+              nodes={ nodes } 
+              useFolderIcons={true}
+              nodeRemovable={true}>
             </MuiTreeList>
           </div>
           <div style={ styles.halfStyle }>
@@ -138,12 +158,28 @@ class OrgHierPage extends React.Component {
               </SelectableList>
             </div>
             <div style={ styles.halfStyle }>
-              <h3 style={ styles.panelTitle }>Members </h3>
+              <h3 style={ styles.panelTitle }>Members 
+                <IconButton 
+                  style={styles.iconBtnStyle} 
+                  iconStyle={ infomode == 'grp-add' ? styles.activeBtnIconStyle : styles.btnIconStyle } 
+                  disabled={ infomode == 'grp-add' }
+                  onTouchTap={ this.handleGroupAdd }>
+                  <SocialGrpAdd></SocialGrpAdd>
+                </IconButton>
+                <IconButton 
+                  style={styles.iconBtnStyle} 
+                  iconStyle={ infomode == 'mbr-add' ? styles.activeBtnIconStyle : styles.btnIconStyle } 
+                  disabled={ infomode == 'mbr-add' }
+                  onTouchTap={ this.handleMemberAdd }>
+                  <SocialPsnAdd></SocialPsnAdd>
+                </IconButton>
+              </h3>
               <Divider/>
               <OrgHierInfo
                styles={styles}
                onHandleClear={()=>{}}
-               onHandleSave={()=>{}}/>
+               onHandleSave={()=>{}}
+               muiTheme={this.props.muiTheme}/>
             </div>
           </div>
       </div>
@@ -151,7 +187,7 @@ class OrgHierPage extends React.Component {
   };
 }
 
-const OrgHierInfo = ({ styles, onHandleClear, onHandleSave, ...props }) => {
+const OrgHierInfo = ({ styles, onHandleClear, onHandleSave,muiTheme, ...props }) => {
   return (
   <div>
     <TextField
@@ -164,10 +200,9 @@ const OrgHierInfo = ({ styles, onHandleClear, onHandleSave, ...props }) => {
       hintText="no more than 32 letters"
       floatingLabelText="Org. Node Name"
     />
-    <AutoComplete 
-      style={ styles.inputItem }
-      hintText="no more than 32 letters"
-      dataSource={['aa','bb','cc']}
+    <UserAutoComplete
+      muiTheme={muiTheme}
+      hintText="Assign a user as administrator"
       floatingLabelText="Administrator"
     />
     <AutoComplete 
