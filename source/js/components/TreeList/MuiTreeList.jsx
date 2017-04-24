@@ -133,7 +133,7 @@ const MuiTreeItems = ({nodeItem, onNestedListToggle, ...rest }) => {
 };
 
 MuiTreeList.propTypes = {
-  nodeRemovable: PropTypes.boolean,
+  nodeRemovable: PropTypes.bool,
   onNodeRemove: PropTypes.func,
 }
 

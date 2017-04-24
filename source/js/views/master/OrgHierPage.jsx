@@ -9,10 +9,10 @@ import {List, ListItem, makeSelectable} from 'material-ui/List';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Avatar from 'material-ui/Avatar';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+
 import SocialGrpAdd from 'material-ui/svg-icons/social/group-add';
 import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
-
+import AuthConnect from '../../components/AuthConnect';
 import MuiTreeList from '../../components/TreeList/MuiTreeList';
 import UserAutoComplete from '../common/UserAutoComplete';
 
@@ -101,6 +101,7 @@ class OrgHierPage extends React.Component {
   render() {
     let styles = getStyles(this.props.muiTheme);
     let infomode = 'mbr-add';
+    console.log(styles)
     return (
       <div >
         <div style={styles.topFull}>
@@ -116,7 +117,8 @@ class OrgHierPage extends React.Component {
             <MuiTreeList 
               nodes={ nodes } 
               useFolderIcons={true}
-              nodeRemovable={true}>
+              nodeRemovable={true}
+              onNodeRemove={()=>{}}>
             </MuiTreeList>
           </div>
           <div style={ styles.halfStyle }>
@@ -179,6 +181,7 @@ class OrgHierPage extends React.Component {
                styles={styles}
                onHandleClear={()=>{}}
                onHandleSave={()=>{}}
+               rpcInvoke={this.props.rpcInvoke}
                muiTheme={this.props.muiTheme}/>
             </div>
           </div>
@@ -187,7 +190,7 @@ class OrgHierPage extends React.Component {
   };
 }
 
-const OrgHierInfo = ({ styles, onHandleClear, onHandleSave,muiTheme, ...props }) => {
+const OrgHierInfo = ({ styles, onHandleClear, onHandleSave,muiTheme, rpcInvoke, ...props }) => {
   return (
   <div>
     <TextField
@@ -201,14 +204,17 @@ const OrgHierInfo = ({ styles, onHandleClear, onHandleSave,muiTheme, ...props })
       floatingLabelText="Org. Node Name"
     />
     <UserAutoComplete
+      style={ styles.inputItem }
       muiTheme={muiTheme}
+      rpcInvoke = {rpcInvoke}
       hintText="Assign a user as administrator"
       floatingLabelText="Administrator"
     />
-    <AutoComplete 
+    <UserAutoComplete 
       style={ styles.inputItem }
-      hintText="no more than 32 letters"
-      dataSource={['aa','bb','cc']}
+      muiTheme={muiTheme}
+      rpcInvoke = {rpcInvoke}
+      hintText="Assign a manager to org node"
       floatingLabelText="Manager"
     />
     <TextField
@@ -228,4 +234,13 @@ const OrgHierInfo = ({ styles, onHandleClear, onHandleSave,muiTheme, ...props })
   </div>
   );
 }
-export default muiThemeable()(OrgHierPage);
+
+const NewComponent = AuthConnect(
+  OrgHierPage, 
+  (state) => ({
+    useradd: state.security.get('useradd'),
+    storages: state.app.get('storages')
+   }), 
+  null);
+
+export default NewComponent;

@@ -1,19 +1,8 @@
 import React from 'react';
-
+import PropTypes from 'prop-types'
 import AutoComplete from 'material-ui/AutoComplete';
-import AuthConnect from '../../components/AuthConnect';
-import { AppApis } from '../../store/actions/appActions';
 
-const getStyles = function(muiTheme){
-	const { baseTheme: { spacing, palette } } = muiTheme;
-	return {
-		inputItem: {
-      width: 320,
-      marginLeft: spacing.desktopGutterMini,
-      marginRight: spacing.desktopGutterMini
-    }
-	};
-};
+import { AppApis } from '../../store/actions/appActions';
 
 class UserAutoComplete extends React.Component { 
 
@@ -24,42 +13,37 @@ class UserAutoComplete extends React.Component {
 	    searchText: this.props.searchText,
 	    newReqIndex: -1,
 	  };
+
   }
 
   handleUpdateInput = (value) => {
-    this.setState({
-      dataSource: [
-        value,
-        value + value,
-        value + value + value,
-      ],
-    });
+    let { rpcInvoke } = this.props;
+    rpcInvoke(
+      AppApis.UsersQuery, 
+      {user_name: value, instanceId: null}, 
+      (json)=>{
+        let entries = json.map((item) => ({ text: item.name, value: item.account, id: item['user-id']}));
+        this.setState({
+          dataSource: entries
+        });
+      }
+    );
   };
 
   handleNewRequest = (chosenRequest, index) => {
-    console.log(chosenRequest + ' / ' + index);
     this.setState({newReqIndex: index});
   };
 
-  handlePopoverClose = () => {
-  	
-  	if(this.state.newReqIndex == -1)
-  		this.refs['autoComplete'].setState({searchText: ''});
-
-  	console.log(this.state);
-  }
-
   render(){
-  	let {muiTheme, hintText, floatingLabelText} = this.props;
-  	let styles = getStyles(muiTheme);
 
+  	let {style, hintText, floatingLabelText} = this.props;
+    console.log(style)
   	return (
 
   		<AutoComplete ref="autoComplete"
-	      style={ styles.inputItem }
+	      textFieldStyle={ style }
 	      searchText={this.state.searchText}
 	      dataSource={this.state.dataSource}
-	      onClose={this.handlePopoverClose}
 	      onNewRequest={this.handleNewRequest}
         onUpdateInput={this.handleUpdateInput}
 	      hintText={hintText}
@@ -69,9 +53,10 @@ class UserAutoComplete extends React.Component {
   }
 }
 
-const NewComponent = AuthConnect(
-  UserAutoComplete, 
-  null, 
-  {});
+UserAutoComplete.propTypes = {
+  rpcInvoke: PropTypes.func,
+  onChange: PropTypes.func,
+  searchText:PropTypes.string
+};
 
-export default NewComponent;
+export default UserAutoComplete;

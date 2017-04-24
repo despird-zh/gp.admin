@@ -53,6 +53,7 @@ function purgeToken() {
 }
 
 function trapCatch(dispatch, error, isAuthRpc = false) {
+
   if(isAuthRpc){
     dispatch(authEnd({
       meta: {

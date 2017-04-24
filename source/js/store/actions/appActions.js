@@ -6,7 +6,8 @@ export const CMN_FETCH_STORAGES = 'CMN_FETCH_STORAGES';
 
 export const AppApis = {
   StoragesQuery: 'storages-query.do',
-  
+  AvailUsersQuery: 'common-avail-user-list.do',
+  UsersQuery: 'common-user-list.do',
 };
 
 export function storagesSaveAction(storages) {
