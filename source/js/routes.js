@@ -31,57 +31,61 @@ import AuditPage from './views/audit/AuditPage';
 import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
-const ensureAuthenticated = (nextState, replace) => {
-  if (!store.getState().auth.token) {
-    replace('/login');
-  }
-};
-const skipIfAuthenticated = (nextState, replace) => {
-  if (store.getState().auth.token) {
-    replace('/');
-  }
-};
-const clearMessages = () => {
-  store.dispatch({
-    type: 'CLEAR_MESSAGES',
-  });
-};
-/* <Route path='about' component={ AboutPage } onEnter={skipIfAuthenticated} onLeave={clearMessages} />*/
-export default (
-  <Route path='/' component={ App }>
-    <IndexRoute component={ HomePage } />
-    <Route path='dev' component={ DevPage } />
-    <Route path='about' component={ AboutPage } />
-    <Route path='config' component={ ConfigPage }>
-      <IndexRoute component={ ProfilePage } />
-      <Route path='setting' component={ SettingPage } />
-      <Route path='profile' component={ ProfilePage } />
-    </Route>
-    <Route path='security' component={ SecurityPage }>
-      <IndexRoute component={ UserListPage } />
-      <Route path='userlist' component={ UserListPage } />
-      <Route path='useredit/:userId' component={ UserEditPage } />
-      <Route path='useradd' component={ UserAddPage } />
-    </Route>
-    <Route path='wgroup' component={ WGroupPage }>
-      <IndexRoute component={ WGroupListPage } />
-      <Route path='wgrouplist' component={ WGroupListPage } />
-      <Route path='wgroupadd' component={ WGroupAddPage } />
-      <Route path='wgroupedit/:wgroupId' component={ WGroupEditPage } />
-    </Route>
-    <Route path='master' component={ MasterPage }>
-      <IndexRoute component={ DictListPage } />
-      <Route path='dictlist' component={ DictListPage } />
-      <Route path='imagelist' component={ ImageListPage } />
-      <Route path='entitylist' component={ EntityListPage } />
-      <Route path='storagelist' component={ StorageListPage } />
-      <Route path='orghier' component={ OrgHierPage } />
-    </Route>
-    <Route path='audit' component={ AuditPage }>
-      <IndexRoute component={ WGroupAuditPage } />
-      <Route path='wgroupaudit' component={ WGroupAuditPage } />
-      <Route path='useraudit' component={ UserAuditPage } />
-    </Route>
-  </Route>
-);
+export const getRoutes = (store) => {
+  const ensureAuthenticated = (nextState, replace) => { // eslint-disable-line no-unused-vars
+    if (!store.getState().auth.token) {
+      replace('/login');
+    }
+  };
 
+  const skipIfAuthenticated = (nextState, replace) => { // eslint-disable-line no-unused-vars
+    if (store.getState().auth.token) {
+      replace('/');
+    }
+  };
+
+  const clearMessages = () => { // eslint-disable-line no-unused-vars
+    store.dispatch({
+      type: 'CLEAR_MESSAGES',
+    });
+  };
+
+  /* <Route path='about' component={ AboutPage } onEnter={skipIfAuthenticated} onLeave={clearMessages} />*/
+  return (
+    <Route path='/' component={ App }>
+      <IndexRoute component={ HomePage } />
+      <Route path='dev' component={ DevPage } />
+      <Route path='about' component={ AboutPage } />
+      <Route path='config' component={ ConfigPage }>
+        <IndexRoute component={ ProfilePage } />
+        <Route path='setting' component={ SettingPage } />
+        <Route path='profile' component={ ProfilePage } />
+      </Route>
+      <Route path='security' component={ SecurityPage }>
+        <IndexRoute component={ UserListPage } />
+        <Route path='userlist' component={ UserListPage } />
+        <Route path='useredit/:userId' component={ UserEditPage } />
+        <Route path='useradd' component={ UserAddPage } />
+      </Route>
+      <Route path='wgroup' component={ WGroupPage }>
+        <IndexRoute component={ WGroupListPage } />
+        <Route path='wgrouplist' component={ WGroupListPage } />
+        <Route path='wgroupadd' component={ WGroupAddPage } />
+        <Route path='wgroupedit/:wgroupId' component={ WGroupEditPage } />
+      </Route>
+      <Route path='master' component={ MasterPage }>
+        <IndexRoute component={ DictListPage } />
+        <Route path='dictlist' component={ DictListPage } />
+        <Route path='imagelist' component={ ImageListPage } />
+        <Route path='entitylist' component={ EntityListPage } />
+        <Route path='storagelist' component={ StorageListPage } />
+        <Route path='orghier' component={ OrgHierPage } />
+      </Route>
+      <Route path='audit' component={ AuditPage }>
+        <IndexRoute component={ WGroupAuditPage } />
+        <Route path='wgroupaudit' component={ WGroupAuditPage } />
+        <Route path='useraudit' component={ UserAuditPage } />
+      </Route>
+    </Route>
+  );
+};

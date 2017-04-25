@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import { List, ListItem } from 'material-ui/List';
-import TextField from 'material-ui/TextField';
+
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import FolderIcon from 'material-ui/svg-icons/file/folder';
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file';
-import Subheader from 'material-ui/Subheader';
 
 const MuiIcons = require('material-ui/svg-icons');
 
@@ -100,6 +99,15 @@ class MuiTreeList extends Component {
   }
 }
 
+MuiTreeList.propTypes = {
+  nodes: PropTypes.object,
+  style: PropTypes.object,
+  itemStyle: PropTypes.object,
+  nodeRemovable: PropTypes.bool,
+  useFolderIcons: PropTypes.bool,
+  onNodeRemove: PropTypes.func,
+};
+
 const MuiTreeItem = ({ nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...rest }) => {
   const handleTouchTap = () => {
     if (onTouchTap) onTouchTap(nodeItem);
@@ -115,6 +123,13 @@ const MuiTreeItem = ({ nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...res
     />);
 };
 
+MuiTreeItem.propTypes = {
+  nodeItem: PropTypes.object,
+  nodeRemovable: PropTypes.func,
+  onTouchTap: PropTypes.func,
+  onNodeRemove: PropTypes.func,
+};
+
 const MuiTreeItems = ({ nodeItem, onNestedListToggle, ...rest }) => {
   const handleNestedListToggle = (e) => {
     if (onNestedListToggle) onNestedListToggle(e, nodeItem);
@@ -123,12 +138,12 @@ const MuiTreeItems = ({ nodeItem, onNestedListToggle, ...rest }) => {
     <ListItem
       onNestedListToggle={ handleNestedListToggle }
       { ...rest }
-    />);
+    />
+  );
 };
-
-MuiTreeList.propTypes = {
-  nodeRemovable: PropTypes.bool,
-  onNodeRemove: PropTypes.func,
+MuiTreeItems.propTypes = {
+  nodeItem: PropTypes.object,
+  onNestedListToggle: PropTypes.func,
 };
 
 export default MuiTreeList;

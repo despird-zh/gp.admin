@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'babel-polyfill';
-import routes from './routes';
+import { getRoutes } from './routes';
 import configureStore from './store/configureStore';
 
 import '../scss/app.scss'; // Yep, that's right.
@@ -21,6 +21,8 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 render(
   <Provider store={ store }>
-    <Router history={ history } routes={ routes } />
+    <Router history={ history }>
+      { getRoutes(store) }
+    </Router>
   </Provider>, document.getElementById('root')
 );

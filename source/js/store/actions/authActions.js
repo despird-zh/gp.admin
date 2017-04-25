@@ -96,16 +96,16 @@ export function reIssueToken({ headers, apiname, postbody, action, silent = true
     .then(response => response.json())
     .then(json => {
       dispatch(saveToken(json.data));
-
-      headers.Authorization = `Bearer: ${ json.data }`,
+      const newHeaders = Object.assign({}, headers);
+      newHeaders.Authorization = `Bearer: ${ json.data }`;
       url = BASE_URL + apiname;
       fetch(url, {
         method: 'POST',
-        headers,
+        newHeaders,
         body: JSON.stringify(postbody),
       })
       .then(response => response.json())
-      .then(json => trapResolve(dispatch, json, action, raw))
+      .then(newJson => trapResolve(dispatch, newJson, action, raw))
       .catch(error => trapCatch(dispatch, error));
     })
     .catch(error => trapCatch(dispatch, error));
@@ -139,7 +139,7 @@ export function reFetchToken({ authbody, apiname, postbody, action, silent = tru
         body: JSON.stringify(postbody),
       })
       .then(response => response.json())
-      .then(json => trapResolve(dispatch, json, action, raw))
+      .then(newJson => trapResolve(dispatch, newJson, action, raw))
       .catch(error => trapCatch(dispatch, error));
     })
     .catch(error => trapCatch(dispatch, error));
@@ -199,6 +199,7 @@ export function signoff({ principal }) {
     return fetch(url, {
       method: 'GET',
       headers,
+      body: { principal },
     })
     .then(response => response.json())
     .then(json => {

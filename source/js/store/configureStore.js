@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import { logger } from './dev';
 import rootReducer from './reducers';
 
-
 function configureStoreProd(initialState) {
   const middlewares = [
     thunk,
