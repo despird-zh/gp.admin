@@ -95,9 +95,9 @@ export function reIssueToken({ headers, apiname, postbody, action, silent = true
     })
     .then(response => response.json())
     .then(json => {
-      dispatch(saveToken(response.data));
+      dispatch(saveToken(json.data));
 
-      headers.Authorization = `Bearer: ${ response.data }`,
+      headers.Authorization = `Bearer: ${ json.data }`,
       url = BASE_URL + apiname;
       fetch(url, {
         method: 'POST',
