@@ -1,4 +1,4 @@
-import React , { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -14,19 +14,19 @@ const styles = {
     width: 310,
   },
   title: {
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   body: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   actions: {
-    paddingBottom:25,
+    paddingBottom: 25,
     paddingLeft: 30,
     paddingRight: 30,
   },
   loading: {
     float: 'left',
-    marginTop: 6
+    marginTop: 6,
   },
   msg: {
     marginTop: 10,
@@ -44,12 +44,12 @@ class SigninDialog extends React.Component {
       account: 'dev1',
       password: '1',
       ready: false,
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSignin = this.handleSignin.bind(this);
-  };
+  }
 
   handleOpen = () => {
     this.props.openSignin(true);
@@ -60,65 +60,66 @@ class SigninDialog extends React.Component {
   };
 
   handleChange = (e) => {
-    let newstate = this.state;
+    const newstate = this.state;
     newstate[e.target.name] = e.target.value;
     this.setState(newstate);
   };
 
   handleSignin = () => {
-    let authbody = {
+    const authbody = {
       principal: this.state.account,
       credential: this.state.password,
-      audience: this.props.audience
+      audience: this.props.audience,
     };
 
     this.props.signin(authbody);
   }
   render() {
-
     const actions = [
-      (this.props.authing ? <FontIcon className="fa fa-spinner fa-spin" style={styles.loading}></FontIcon> : null),
+      (this.props.authing ? <FontIcon className='fa fa-spinner fa-spin' style={ styles.loading } /> : null),
       <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
+        label='Cancel'
+        primary={ true }
+        onTouchTap={ this.handleClose }
       />,
       <FlatButton
-        label="Signin"
-        primary={true}
-        onTouchTap={this.handleSignin}
-        disabled={this.state.account === '' || this.state.password === ''}
-      >
-      </FlatButton>,
+        label='Signin'
+        primary={ true }
+        onTouchTap={ this.handleSignin }
+        disabled={ this.state.account === '' || this.state.password === '' }
+      />,
     ];
     return (
       <div>
         <Dialog
-          title="Welcome to GPress"
-          titleStyle={styles.title}
-          actions={actions}
-          actionsContainerStyle={styles.actions}
-          modal={true}
-          bodyStyle={styles.body}
-          contentStyle={styles.content}
-          open={this.props.opening}
-          onRequestClose={this.handleClose}>
-          {this.props.message === '' ? null : <span style={styles.msg}>{this.props.message}</span>}
+          title='Welcome to GPress'
+          titleStyle={ styles.title }
+          actions={ actions }
+          actionsContainerStyle={ styles.actions }
+          modal={ true }
+          bodyStyle={ styles.body }
+          contentStyle={ styles.content }
+          open={ this.props.opening }
+          onRequestClose={ this.handleClose }
+        >
+          {this.props.message === '' ? null : <span style={ styles.msg }>{this.props.message}</span>}
           <TextField
-            hintText="The user account"
-            floatingLabelText="Account"
-            floatingLabelFixed={true}
-            name="account"
-            defaultValue={this.state.account}
-            onChange={this.handleChange}/>
+            hintText='The user account'
+            floatingLabelText='Account'
+            floatingLabelFixed={ true }
+            name='account'
+            defaultValue={ this.state.account }
+            onChange={ this.handleChange }
+          />
           <TextField
-            hintText="Please input password"
-            type="password"
-            name="password"
-            defaultValue={this.state.password}
-            floatingLabelText="Password"
-            floatingLabelFixed={true}
-            onChange={this.handleChange}/>
+            hintText='Please input password'
+            type='password'
+            name='password'
+            defaultValue={ this.state.password }
+            floatingLabelText='Password'
+            floatingLabelFixed={ true }
+            onChange={ this.handleChange }
+          />
         </Dialog>
       </div>
     );

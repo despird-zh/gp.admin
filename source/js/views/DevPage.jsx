@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import { testAction, testAsync } from '../store/actions/devActions';
 import { snackAction, loaderAction } from '../store/actions/appActions';
 
-import { Link } from 'react-router';
 import bookImg from '../../assets/img/book2.jpg';
 
 class DevPage extends Component {
@@ -22,7 +23,6 @@ class DevPage extends Component {
   }
 
   handleTestButtonClick() {
-
     console.log(this.props);
 
     this.props.testAction();
@@ -31,13 +31,13 @@ class DevPage extends Component {
   handleLoaderTap = () => {
     this.props.loaderAction({
       shown: true,
-      loaderTip: 'this is a loading, Please wait...'
+      loaderTip: 'this is a loading, Please wait...',
     });
   }
   handleSnackTap = () => {
     this.props.snackAction({
       shown: true,
-      snackTip: 'this is a snack message'
+      snackTip: 'this is a snack message',
     });
   }
   render() {
@@ -50,7 +50,7 @@ class DevPage extends Component {
 
     return (
       <div className='Dashboard'>
-        <h2>Development <Link to="/about">about</Link></h2>
+        <h2>Development <Link to='/about'>about</Link></h2>
         <hr />
         <div>
           <h3>Synchronous action</h3>
@@ -58,9 +58,9 @@ class DevPage extends Component {
           <button onClick={ this.handleTestButtonClick }>
             Increase counter
           </button>
-          <RaisedButton label="Loader" primary={true} onTouchTap ={this.handleLoaderTap}/>
-          <RaisedButton label="Snack" primary={true} onTouchTap ={this.handleSnackTap}/>
-          
+          <RaisedButton label='Loader' primary={ true } onTouchTap={ this.handleLoaderTap } />
+          <RaisedButton label='Snack' primary={ true } onTouchTap={ this.handleSnackTap } />
+
         </div>
         <hr />
         <div>
@@ -93,6 +93,8 @@ DevPage.propTypes = {
   asyncError: PropTypes.object,
   asyncLoading: PropTypes.bool,
   counter: PropTypes.number,
+  loaderAction: PropTypes.func,
+  snackAction: PropTypes.func,
   // from react-redux connect
   testAction: PropTypes.func,
   testAsync: PropTypes.func,
@@ -109,7 +111,7 @@ export default connect(
     bindActionCreators({
       testAction,
       testAsync,
-      snackAction, 
+      snackAction,
       loaderAction,
     }, dispatch)
   )

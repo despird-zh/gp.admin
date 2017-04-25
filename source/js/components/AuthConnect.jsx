@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import jwtDecode from 'jwt-decode';
 import { snackOnlyAction } from '../store/actions/appActions';
-import { openSignin, 
-				 signoff, 
-				 reIssueToken, 
-				 reFetchToken, 
+import { openSignin,
+				 signoff,
+				 reIssueToken,
+				 reFetchToken,
 				 callRpcApi } from '../store/actions/authActions';
 /**
  * here create a new HOC to complete the connect and api invoking
@@ -14,24 +14,22 @@ import { openSignin,
  * actions is the object of actions to be mapped
  */
 export default (ComposedComponent, stateMap, actions) => {
-
-	class NewComponent extends React.Component {
+  class NewComponent extends React.Component {
 	  constructor(props) {
 	    super(props);
 	    this.state = {};
 	  }
-	  
+
 	  rpcHeaders = () => {
 	  	return {
-        Authorization: 'Bearer: ' + this.props.jwttoken,
-        Accept: 'application/json'
-      };
+    Authorization: `Bearer: ${ this.props.jwttoken }`,
+    Accept: 'application/json',
+  };
 	  }
 
 	  tokenState = () => {
-
-		  let parseToken = jwtDecode(this.props.jwttoken);
-		  let currTimestamp = Math.floor(Date.now() / 1000);
+		  const parseToken = jwtDecode(this.props.jwttoken);
+		  const currTimestamp = Math.floor(Date.now() / 1000);
 
 		  if (currTimestamp - parseToken.exp < 5 * 60 && currTimestamp - parseToken.exp > 0) {
 		    return 'TO_BE_EXPIRE';
@@ -39,58 +37,56 @@ export default (ComposedComponent, stateMap, actions) => {
 		    return 'EXPIRED';
 		  }
 		  return 'NORMAL';
-
-		};
+  };
 
 	  rpcInvoke = (apiname, postbody, action, silent = true, raw = false) => {
-
 	    if (this.props.authenticated) {
-        let _tokenState = this.tokenState();
+      const _tokenState = this.tokenState();
 
-        if ( _tokenState === 'TO_BE_EXPIRE' ) {
-        	let headers = this.rpcHeaders();
+      if (_tokenState === 'TO_BE_EXPIRE') {
+        	const headers = this.rpcHeaders();
 
-          this.props.reIssueToken({	headers, apiname, postbody, action, silent, raw });
-        } else if ( _tokenState === 'EXPIRED' ) {
-        	let authbody = {
+        this.props.reIssueToken({	headers, apiname, postbody, action, silent, raw });
+      } else if (_tokenState === 'EXPIRED') {
+        	const authbody = {
 			      principal: this.props.account,
 			      credential: this.props.credential,
-			      audience: this.props.audience
+			      audience: this.props.audience,
 			    };
-          this.props.reFetchToken({	authbody, apiname, postbody, action, silent, raw });
-        }else{
-        	let headers = this.rpcHeaders();
+        this.props.reFetchToken({	authbody, apiname, postbody, action, silent, raw });
+      } else {
+        	const headers = this.rpcHeaders();
 
         	this.props.callRpcApi({ headers, apiname, postbody, action, silent, raw });
       	}
-      }else{
-      	this.props.snackOnlyAction({show:true, snackTip: 'Please logon firstly!'});
-      }
+    } else {
+      	this.props.snackOnlyAction({ show: true, snackTip: 'Please logon firstly!' });
+    }
 	  }
 
 	  render() {
-
-	    return <ComposedComponent { ...this.props }
-	    	ref={this.props.innerRef}
-	      { ...this.state } 
-	      tokenState = { this.tokenState }
-	      rpcInvoke = { this.rpcInvoke }
-	      rpcHeaders = { this.rpcHeaders }
-	    />;
+	    return (<ComposedComponent
+  { ...this.props }
+  ref={ this.props.innerRef }
+  { ...this.state }
+  tokenState={ this.tokenState }
+  rpcInvoke={ this.rpcInvoke }
+  rpcHeaders={ this.rpcHeaders }
+	    />);
 	  }
-	};
+	}
 
-	return connect(
+  return connect(
 	  (state) => {
-	    let extraStateMap = stateMap ? stateMap(state) : null;
+	    const extraStateMap = stateMap ? stateMap(state) : null;
 	    return {
 	        account: state.auth.get('account'),
 	        credential: state.auth.get('credential'),
 	        audience: state.auth.get('audience'),
 	        jwttoken: state.auth.get('jwttoken'),
 	        authenticated: state.auth.get('authenticated'),
-	        ...extraStateMap
-	      }
+	        ...extraStateMap,
+	      };
 	  },
 	  (dispatch) => (
 	    bindActionCreators({
@@ -100,8 +96,8 @@ export default (ComposedComponent, stateMap, actions) => {
 	      reFetchToken,
 	      callRpcApi,
 	      snackOnlyAction,
-	      ...actions
+	      ...actions,
 	    }, dispatch)
 	  )
 	)(NewComponent);
-}
+};

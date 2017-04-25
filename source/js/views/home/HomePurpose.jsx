@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component } from 'react';
 import withWidth from 'material-ui/utils/withWidth';
 import typography from 'material-ui/styles/typography';
 import { grey200 } from 'material-ui/styles/colors';
@@ -24,26 +24,25 @@ const styles = {
 
 class HomePurpose extends Component {
 
-	render() {
-
-		return (
+  render() {
+    return (
       <FullWidthSection
-        style={styles.root}
-        useContent={true}
-        contentStyle={styles.content}
-        contentType="p"
-        className="home-purpose"
+        style={ styles.root }
+        useContent={ true }
+        contentStyle={ styles.content }
+        contentType='p'
+        className='home-purpose'
       >
         Material-UI came about from our love of&nbsp;
-        <a href="http://facebook.github.io/react/">React</a> and&nbsp;
-        <a href="https://www.google.com/design/spec/material-design/introduction.html">
-         Google's Material Design
-        </a>. We're currently using it on a project at&nbsp;
-        <a href="https://www.call-em-all.com/Careers">Call-Em-All</a> and plan on adding to it
+        <a href='http://facebook.github.io/react/'>React</a> and&nbsp;
+        <a href='https://www.google.com/design/spec/material-design/introduction.html'>
+          { 'Google\'s Material Design '}
+        </a>. {'We\'re currently using it on a project at&nbsp;'}
+        <a href='https://www.call-em-all.com/Careers'>Call-Em-All</a> and plan on adding to it
         and making it better in the coming months.
       </FullWidthSection>
     );
-	}
+  }
 }
 
 export default withWidth()(HomePurpose);

@@ -32,10 +32,10 @@ import DevPage from './views/DevPage';
 import AboutPage from './views/AboutPage';
 
 const ensureAuthenticated = (nextState, replace) => {
-    if (!store.getState().auth.token) {
-      replace('/login');
-    }
-  };
+  if (!store.getState().auth.token) {
+    replace('/login');
+  }
+};
 const skipIfAuthenticated = (nextState, replace) => {
   if (store.getState().auth.token) {
     replace('/');
@@ -43,10 +43,10 @@ const skipIfAuthenticated = (nextState, replace) => {
 };
 const clearMessages = () => {
   store.dispatch({
-    type: 'CLEAR_MESSAGES'
+    type: 'CLEAR_MESSAGES',
   });
 };
-/*<Route path='about' component={ AboutPage } onEnter={skipIfAuthenticated} onLeave={clearMessages} />*/
+/* <Route path='about' component={ AboutPage } onEnter={skipIfAuthenticated} onLeave={clearMessages} />*/
 export default (
   <Route path='/' component={ App }>
     <IndexRoute component={ HomePage } />

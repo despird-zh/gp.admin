@@ -6,13 +6,6 @@ export const TEST_ASYNC_ACTION_START = 'TEST_ASYNC_ACTION_START';
 export const TEST_ASYNC_ACTION_ERROR = 'TEST_ASYNC_ACTION_ERROR';
 export const TEST_ASYNC_ACTION_SUCCESS = 'TEST_ASYNC_ACTION_SUCCESS';
 
-// Test action
-
-export function testAction() {
-  return {
-    type: TEST_ACTION,
-  };
-}
 
 // Async action example
 
@@ -36,12 +29,13 @@ function testAsyncError(error) {
   };
 }
 
-export function testAsync() {
-  return function (dispatch) {
-    dispatch(testAsyncStart());
+// Test action
 
-    API.devService.testAsync()
-      .then(data => dispatch(testAsyncSuccess(data)))
-      .catch(error => dispatch(testAsyncError(error)));
+export function testAction() {
+  testAsyncStart();
+  testAsyncSuccess();
+  testAsyncError();
+  return {
+    type: TEST_ACTION,
   };
 }

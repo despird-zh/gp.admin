@@ -73,8 +73,8 @@ const rules = [
     test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/,
     use: 'url-loader?limit=10000&mimetype=application/octet-stream&name=[name].[ext]',
   },
-  { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 
-    use: 'url-loader?limit=10000&mimetype=image/svg+xml'
+  { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+    use: 'url-loader?limit=10000&mimetype=image/svg+xml',
   },
   {
     test: /\.ico$/,
@@ -184,7 +184,7 @@ module.exports = {
     ],
     alias: {
       'assets': path.resolve(__dirname, 'source/assets'),
-    }
+    },
   },
   plugins,
   devServer: {

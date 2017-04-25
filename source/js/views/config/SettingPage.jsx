@@ -1,28 +1,27 @@
 import React from 'react';
-import Divider from 'material-ui/Divider';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+
 import AuthConnect from '../../components/AuthConnect';
 import SettingDialog from './SettingDialog';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import { settingsSaveAction,ConfigApis } from '../../store/actions/configActions';
+import { settingsSave, ConfigApis } from '../../store/actions/configActions';
 
-function  getStyles(muiTheme) {
-
-  const {baseTheme} = muiTheme;
+function getStyles(muiTheme) {
+  const { baseTheme: { spacing } } = muiTheme;
   return {
     root: {
-      display: 'flex', 
+      display: 'flex',
       position: 'relative',
-      marginTop: 10
+      marginTop: spacing.desktopGutterMini,
     },
     spacer: { flex: 1 },
     iconStyle: {
-      height:20
+      height: 20,
     },
     container: {
       display: 'flex',
@@ -30,12 +29,12 @@ function  getStyles(muiTheme) {
     leftTable: {
       flex: 1,
     },
-  }
+  };
 }
 
 class SettingPage extends React.Component {
 
-	constructor(props, context) {
+  constructor(props, context) {
     super(props, context);
 
     this.state = {
@@ -45,90 +44,105 @@ class SettingPage extends React.Component {
         group: '',
         option: '',
         value: '',
-      }
+      },
     };
   }
   componentWillMount() {
-    if(this.props.setCurrentPage)
-      this.props.setCurrentPage('settings');
+    if (this.props.setCurrentPage) { this.props.setCurrentPage('settings'); }
   }
 
   handleClick = (option) => {
-
-    let idx = this.props.settings.findIndex((item) => {return item.option == option });
-    let setting = this.props.settings[idx];
-    let state = Object.assign(this.state, {setting});
+    const idx = this.props.settings.findIndex((item) => { return item.option === option; });
+    const setting = this.props.settings[idx];
+    const state = Object.assign(this.state, { setting });
     this.setState(state);
     this.settingDialog.handleOpen(setting);
   }
 
   handleRefresh = () => {
-    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {},settingsSaveAction,false);
+    this.props.rpcInvoke(ConfigApis.SysOptsQuery, {}, settingsSave, false);
   }
 
   render() {
-    
-    let styles = getStyles(this.props.muiTheme);
-    let rows = this.props.settings.map((item, index) => {
-      
-      return <TableRow key={ item.option } >
-              <TableRowColumn style={{ width: 120}}>{ item.group }</TableRowColumn>
-              <TableRowColumn>{ item.option }</TableRowColumn>
-              <TableRowColumn>{ item.value }</TableRowColumn>
-              <TableRowColumn>{ item.description }</TableRowColumn>
-              <TableRowColumn style={{ width: 80}}>
-                <IconButton iconStyle={styles.iconStyle} onClick={ this.handleClick.bind(null, item.option) }><ModeEditIcon/></IconButton >
-              </TableRowColumn>
-            </TableRow>;
+    const styles = getStyles(this.props.muiTheme);
+    const rows = this.props.settings.map((item) => {
+      return (<SettingListRow rowData={ item } onHandleJump={ this.handleClick } />);
     });
 
-  	return (
-		  <div >
-		  	<div style={styles.root}>
-		  	  <TextField hintText="Search"/>
-          <div style={styles.spacer}/>
+    return (
+      <div >
+        <div style={ styles.root }>
+          <TextField hintText='Search' />
+          <div style={ styles.spacer } />
           <div>
-              <RaisedButton label="Query" style={{margin: 4}} onTouchTap ={this.handleRefresh}/>
+            <RaisedButton label='Query' style={ { margin: 4 } } onTouchTap={ this.handleRefresh } />
           </div>
-  			</div>
-        <div style={styles.container}>
-          <Table 
-            wrapperStyle={styles.leftTable}
-            >
+        </div>
+        <div style={ styles.container }>
+          <Table
+            wrapperStyle={ styles.leftTable }
+          >
             <TableHeader
               displaySelectAll={ false }
               adjustForCheckbox={ false }
-              enableSelectAll={ false } >
+              enableSelectAll={ false }
+            >
               <TableRow>
-                <TableHeaderColumn style={{ width: 120}}>Category</TableHeaderColumn>
+                <TableHeaderColumn style={ { width: 120 } }>Category</TableHeaderColumn>
                 <TableHeaderColumn>Option</TableHeaderColumn>
                 <TableHeaderColumn>Value</TableHeaderColumn>
                 <TableHeaderColumn>Description</TableHeaderColumn>
-                <TableHeaderColumn style={{ width: 80}}>OP.</TableHeaderColumn>
+                <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
-              displayRowCheckbox={false}>
+              displayRowCheckbox={ false }
+            >
               {rows}
             </TableBody>
           </Table>
-          <SettingDialog 
-            innerRef={(inputEl) => {
+          <SettingDialog
+            innerRef={ (inputEl) => {
               this.settingDialog = inputEl;
-            }}
-            muiTheme={this.props.muiTheme}
+            } }
+            muiTheme={ this.props.muiTheme }
           />
         </div>
-  		</div>
-  	);
+      </div>
+    );
   }
 }
 
+SettingPage.propTypes = {
+  setCurrentPage: PropTypes.func,
+  rpcInvoke: PropTypes.func,
+  muiTheme: PropTypes.object,
+  settings: PropTypes.object,
+};
+
+/*eslint-disable */
+const SettingListRow = ({ rowData, onHandleJump }) => {
+  const { option, group, value, description } = rowData;
+
+  const handleJump = () => { onHandleJump(option); };
+
+  return (<TableRow key={ option } >
+        <TableRowColumn style={ { width: 120 } }>{ group }</TableRowColumn>
+        <TableRowColumn>{ option }</TableRowColumn>
+        <TableRowColumn>{ value }</TableRowColumn>
+        <TableRowColumn>{ description }</TableRowColumn>
+        <TableRowColumn style={ { width: 80 } }>
+          <IconButton iconStyle={ styles.iconStyle } onClick={ handleJump }><ModeEditIcon /></IconButton >
+        </TableRowColumn>
+      </TableRow>);
+};
+/*eslint-enable */
+
 const NewComponent = AuthConnect(
-  SettingPage, 
+  SettingPage,
   (state) => ({
-            settings: state.config.get('settings'),
-          }), 
+    settings: state.config.get('settings'),
+  }),
   {});
 
 export default NewComponent;

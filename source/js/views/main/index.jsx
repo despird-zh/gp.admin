@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, IndexLink } from 'react-router';
+
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -20,32 +20,30 @@ const styles = {
   },
   footer: {
     background: rootTheme.appBar.color,
-  }
+  },
 };
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 class App extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
+
   render() {
     return (
       <MuiThemeProvider muiTheme={ rootTheme }>
-        <div className="wrapper">
-          <Paper  style={ styles.header } className="header">
-            <HeaderBar/>
+        <div className='wrapper'>
+          <Paper style={ styles.header } className='header'>
+            <HeaderBar />
           </Paper>
-          <div className="body">
-            <div className="content">
+          <div className='body'>
+            <div className='content'>
               {this.props.children}
             </div>
-            <SigninDialog/>
-            <AffiliateBars/>
+            <SigninDialog />
+            <AffiliateBars />
           </div>
-          <Paper style={ styles.footer } className="footer">
-            <FooterBar/>
+          <Paper style={ styles.footer } className='footer'>
+            <FooterBar />
           </Paper>
         </div>
       </MuiThemeProvider>

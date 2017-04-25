@@ -8,40 +8,40 @@ export const SecurityApis = {
   UsersQuery: 'users-query.do',
   UserSave: 'user-save.do',
   UserAdd: 'user-add.do',
-  UserInfo: 'user-info.do'
+  UserInfo: 'user-info.do',
 };
 
 export function saveUsers(userlist) {
   return {
     type: SEC_SAVE_USERS,
-    data: userlist
+    data: userlist,
   };
 }
 
 export function saveUsersFilter(filter) {
   return {
     type: SEC_SAVE_USERS_FILTER,
-    data: filter
+    data: filter,
   };
 }
 
 export function saveEditUser(userinfo) {
   return {
     type: SEC_SAVE_EDIT_USER,
-    data: userinfo
+    data: userinfo,
   };
 }
 
 export function saveAddUser(userinfo) {
   return {
     type: SEC_SAVE_ADD_USER,
-    data: userinfo
+    data: userinfo,
   };
 }
 
 export function clearUsersFilter(filter) {
   return {
     type: SEC_CLEAR_USERS_FILTER,
-    data: filter
+    data: filter,
   };
 }

@@ -1,8 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import Slider from 'material-ui/Slider';
-import ReactAvatarEditor from 'react-avatar-editor'
+import ReactAvatarEditor from 'react-avatar-editor';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
@@ -10,7 +10,7 @@ const styles = {
     width: 410,
   },
   title: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   body: {
     paddingBottom: 20,
@@ -18,17 +18,17 @@ const styles = {
   },
   slider: {
   	marginTop: 10,
-    marginBottom:15,
+    marginBottom: 15,
   },
   msg: {
     marginTop: 0,
-    marginBottom: 10
+    marginBottom: 10,
   },
 };
 
 export default class AvatarEditDialog extends React.Component {
 
-	constructor(props, context) {
+  constructor(props, context) {
     super(props, context);
     this.state = {
 	    position: { x: 0.5, y: 0.5 },
@@ -41,50 +41,50 @@ export default class AvatarEditDialog extends React.Component {
 	    imgsrc: 'assets/img/book2.jpg',
 	    message: '',
 	    opening: false,
-	  }
-  };
-  
+	  };
+  }
+
   handlePreview = (data) => {
-    const img = this.editor.getImageScaledToCanvas().toDataURL()
+    const img = this.editor.getImageScaledToCanvas().toDataURL();
 
     this.setState({
       preview: {
-        img
-      }
-    })
+        img,
+      },
+    });
   }
 
   handleSave = (data) => {
-    const img = this.editor.getImageScaledToCanvas().toDataURL()
+    const img = this.editor.getImageScaledToCanvas().toDataURL();
 
-    if(this.props.onSave) this.props.onSave(img);
+    if (this.props.onSave) this.props.onSave(img);
     this.hide();
   }
 
   handleSlider = (event, value) => {
-    this.setState({scale: value});
+    this.setState({ scale: value });
   };
 
-  logCallback (e) {
-    //console.log('callback', e)
+  logCallback(e) {
+    // console.log('callback', e)
   }
 
   setEditorRef = (editor) => {
-    if (editor) this.editor = editor
+    if (editor) this.editor = editor;
   }
 
   handlePositionChange = position => {
-    this.setState({ position })
+    this.setState({ position });
   }
-  
+
   handleFileChange = (e) => {
+    let file = e.target.files[0],
+      reader = new FileReader();
 
-    let file = e.target.files[0], reader = new FileReader();
+    let ext = file.name.match(/\.([^\.]+)$/)[1],
+      pass = false;
 
-    let ext = file.name.match(/\.([^\.]+)$/)[1], pass = false;
-    
-    switch(ext.toLowerCase())
-    {
+    switch (ext.toLowerCase()) {
       case 'jpg':
       case 'jpeg':
       case 'bmp':
@@ -95,100 +95,102 @@ export default class AvatarEditDialog extends React.Component {
       default:
         pass = false;
     }
-    if(!pass){
-      let newState = Object.assign({}, this.state, {message: 'chosen file is not supported'});
+    if (!pass) {
+      const newState = Object.assign({}, this.state, { message: 'chosen file is not supported' });
       this.setState(newState);
       return;
     }
-    reader.onload =  (evt) => {
-
-      let newState = Object.assign({}, this.state, {imgsrc: evt.target.result});
+    reader.onload = (evt) => {
+      const newState = Object.assign({}, this.state, { imgsrc: evt.target.result });
       this.setState(newState);
-    }
+    };
     reader.readAsDataURL(file);
-    
   }
 
   hide = () => {
-    let newState = Object.assign({}, this.state, {opening: false});
+    const newState = Object.assign({}, this.state, { opening: false });
   	this.setState(newState);
   	console.log(this.state.opening);
   };
-  show= () =>{
-  	let newState = Object.assign({}, this.state, {opening: true});
+  show= () => {
+  	const newState = Object.assign({}, this.state, { opening: true });
   	this.setState(newState);
   }
-  render () {
+  render() {
     return (
       <Dialog
-      	title="Customize Avatar"
-          titleStyle={styles.title}
-          actionsContainerStyle={styles.actions}
-          bodyStyle={styles.body}
-          contentStyle={styles.content}
-          onRequestClose={this.hide}
-          modal={false}
-          open={this.state.opening} >
-      	{ !this.state.message == '' && 
-      		<div style={styles.msg}><span>{this.state.message}</span></div>
+        title='Customize Avatar'
+        titleStyle={ styles.title }
+        actionsContainerStyle={ styles.actions }
+        bodyStyle={ styles.body }
+        contentStyle={ styles.content }
+        onRequestClose={ this.hide }
+        modal={ false }
+        open={ this.state.opening }
+      >
+        { !this.state.message == '' &&
+        <div style={ styles.msg }><span>{this.state.message}</span></div>
       	}
         <ReactAvatarEditor
-          ref={this.setEditorRef}
-          scale={parseFloat(this.state.scale)}
-          width={this.state.width}
-          height={this.state.height}
-          position={this.state.position}
-          onPositionChange={this.handlePositionChange}
-          rotate={parseFloat(this.state.rotate)}
-          borderRadius={this.state.borderRadius}
-          onSave={this.handleSave}
-          onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
-          onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
-          onImageReady={this.logCallback.bind(this, 'onImageReady')}
-          onImageLoad={this.logCallback.bind(this, 'onImageLoad')}
-          onDropFile={this.logCallback.bind(this, 'onDropFile')}
-          image={this.state.imgsrc}
-        /> 
-        <div style={{float: 'right'}}>
-        { !!this.state.preview &&
+          ref={ this.setEditorRef }
+          scale={ parseFloat(this.state.scale) }
+          width={ this.state.width }
+          height={ this.state.height }
+          position={ this.state.position }
+          onPositionChange={ this.handlePositionChange }
+          rotate={ parseFloat(this.state.rotate) }
+          borderRadius={ this.state.borderRadius }
+          onSave={ this.handleSave }
+          onLoadFailure={ this.logCallback.bind(this, 'onLoadFailed') }
+          onLoadSuccess={ this.logCallback.bind(this, 'onLoadSuccess') }
+          onImageReady={ this.logCallback.bind(this, 'onImageReady') }
+          onImageLoad={ this.logCallback.bind(this, 'onImageLoad') }
+          onDropFile={ this.logCallback.bind(this, 'onDropFile') }
+          image={ this.state.imgsrc }
+        />
+        <div style={ { float: 'right' } }>
+          { !!this.state.preview &&
           <img
-            src={this.state.preview.img}
-            style={{ width:100,height:100,}}
+            src={ this.state.preview.img }
+            style={ { width: 100, height: 100 } }
           />
         }
-        <br/>
-        { !!this.state.preview &&
+          <br />
+          { !!this.state.preview &&
           <img
-            src={this.state.preview.img}
-            style={{ width:50,height:50,}}
+            src={ this.state.preview.img }
+            style={ { width: 50, height: 50 } }
           />
         }
         </div>
         <Slider
-          min={0.5}
-          max={2.5}
-          step={0.05}
-          defaultValue={1}
-          sliderStyle={styles.slider}
-          onChange={this.handleSlider}
+          min={ 0.5 }
+          max={ 2.5 }
+          step={ 0.05 }
+          defaultValue={ 1 }
+          sliderStyle={ styles.slider }
+          onChange={ this.handleSlider }
         />
         <RaisedButton
-           containerElement='label'
-           label='Choose'
-           style={{marginRight: 16}}>
-           <input type="file" style={{display:'none'}} accept="image/*" onChange={this.handleFileChange}/>
+          containerElement='label'
+          label='Choose'
+          style={ { marginRight: 16 } }
+        >
+          <input type='file' style={ { display: 'none' } } accept='image/*' onChange={ this.handleFileChange } />
         </RaisedButton>
         <RaisedButton
-           containerElement='label'
-           onTouchTap ={this.handlePreview}
-           label='Preview'/> 
+          containerElement='label'
+          onTouchTap={ this.handlePreview }
+          label='Preview'
+        />
         <RaisedButton
-           containerElement='label'
-           onTouchTap ={this.handleSave}
-           label='Save'
-           style={{float:'right'}}/> 
+          containerElement='label'
+          onTouchTap={ this.handleSave }
+          label='Save'
+          style={ { float: 'right' } }
+        />
 
       </Dialog>
-    )
+    );
   }
 }

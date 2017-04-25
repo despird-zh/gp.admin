@@ -1,12 +1,13 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import withWidth, {LARGE} from 'material-ui/utils/withWidth';
-import spacing from 'material-ui/styles/spacing';
+import withWidth, { LARGE } from 'material-ui/utils/withWidth';
+
 import typography from 'material-ui/styles/typography';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import {cyan500, grey200, darkWhite} from 'material-ui/styles/colors';
+import { cyan500, darkWhite } from 'material-ui/styles/colors';
 import { openSignin } from '../../store/actions/authActions';
 import FullWidthSection from '../../components/FullWidthSection';
 
@@ -18,7 +19,7 @@ const styles = {
     overflow: 'hidden',
   },
   svgLogo: {
-    marginLeft: 1060 * 0.5 - 210, //window.innerWidth * 0.5 - 130,
+    marginLeft: 1060 * 0.5 - 210, // eslint-disable-line no-mixed-operators
     width: 420,
     height: 157,
   },
@@ -71,7 +72,7 @@ class HomeHero extends Component {
     super(props, context);
     this.handleSignin = this.handleSignin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
-  };
+  }
 
   handleSignin = () => {
     this.props.openSignin(true);
@@ -80,8 +81,7 @@ class HomeHero extends Component {
     console.log('-=sdfadf');
   };
 
-	render() {
-
+  render() {
     styles.h2 = Object.assign({}, styles.h1, styles.h2);
 
     if (this.props.width === LARGE) {
@@ -90,41 +90,42 @@ class HomeHero extends Component {
       styles.h2 = Object.assign({}, styles.h2, styles.h2WhenLarge);
     }
 
-		return (
-      
-      <FullWidthSection useContent={true} style={styles.root}>
-        <img style={styles.svgLogo} src={ bookImg } />
-        <div style={styles.tagline}>
-          <h1 style={styles.h1}>Material-UI</h1>
-          <h2 style={styles.h2}>
-            A Set of React Components <span style={styles.nowrap}>
-            that Implement</span> <span style={styles.nowrap}>
+    return (
+
+      <FullWidthSection useContent={ true } style={ styles.root }>
+        <img style={ styles.svgLogo } src={ bookImg } role='presentation' />
+        <div style={ styles.tagline }>
+          <h1 style={ styles.h1 }>Material-UI</h1>
+          <h2 style={ styles.h2 }>
+            A Set of React Components <span style={ styles.nowrap }>
+            that Implement</span> <span style={ styles.nowrap }>
             Google&apos;s Material Design</span>
           </h2>
-          { this.props.authenticated ? '':
+          { this.props.authenticated ? '' :
           <RaisedButton
-            className="demo-button"
-            label="Signin"
-            onTouchTap={this.handleSignin}
-            style={styles.demoStyle}
-            labelStyle={styles.label}
+            className='demo-button'
+            label='Signin'
+            onTouchTap={ this.handleSignin }
+            style={ styles.demoStyle }
+            labelStyle={ styles.label }
           />
           }
           <RaisedButton
-            className="demo-button"
-            label="Signup"
-            onTouchTap={this.handleSignup}
-            style={styles.demoStyle}
-            labelStyle={styles.label}
+            className='demo-button'
+            label='Signup'
+            onTouchTap={ this.handleSignup }
+            style={ styles.demoStyle }
+            labelStyle={ styles.label }
           />
         </div>
       </FullWidthSection>
     );
-	}
+  }
 }
 HomeHero.propTypes = {
   authenticated: PropTypes.bool,
   openSignin: PropTypes.func,
+  width: PropTypes.int,
 };
 export default connect(
   (state) => ({

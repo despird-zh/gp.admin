@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 
 import {
   CFG_SAVE_PROFILE,
-  CFG_SAVE_SETTINGS
+  CFG_SAVE_SETTINGS,
 } from '../actions/configActions';
 
 const initialState = Map({
@@ -13,15 +13,13 @@ const initialState = Map({
 const actionsMap = {
 
   // Loader Action
-  [CFG_SAVE_PROFILE]: (state, {type, data}) => {
-
+  [CFG_SAVE_PROFILE]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({
       profile: data,
     });
   },
 
-  [CFG_SAVE_SETTINGS]: (state, {type, data}) => {
-
+  [CFG_SAVE_SETTINGS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.set('settings', data);
   },
 };

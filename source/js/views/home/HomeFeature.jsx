@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
-import withWidth, {MEDIUM, LARGE} from 'material-ui/utils/withWidth';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import withWidth, { MEDIUM, LARGE } from 'material-ui/utils/withWidth';
 import spacing from 'material-ui/styles/spacing';
 import transitions from 'material-ui/styles/transitions';
 import typography from 'material-ui/styles/typography';
-import {grey200} from 'material-ui/styles/colors';
+import { grey200 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 
 class HomeFeature extends Component {
@@ -34,7 +34,7 @@ class HomeFeature extends Component {
       root: {
         transition: transitions.easeOut(),
         maxWidth: '300px',
-        margin: `0 auto ${desktopGutter}px auto`,
+        margin: `0 auto ${ desktopGutter }px auto`,
       },
       rootWhenMedium: {
         float: 'left',
@@ -57,7 +57,7 @@ class HomeFeature extends Component {
         textAlign: 'center',
         margin: 0,
         padding: 0,
-        lineHeight: `${desktopKeylineIncrement}px`,
+        lineHeight: `${ desktopKeylineIncrement }px`,
       },
       rootWhenLastChild: {
         marginBottom: 0,
@@ -100,17 +100,17 @@ class HomeFeature extends Component {
 
     return (
       <Paper
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        style={Object.assign(
+        zDepth={ this.state.zDepth }
+        onMouseEnter={ this.handleMouseEnter }
+        onMouseLeave={ this.handleMouseLeave }
+        style={ Object.assign(
           styles.root,
           this.props.lastChild && styles.rootWhenLastChild
-        )}
+        ) }
       >
-        <h3 style={styles.heading}>{this.props.heading}</h3>
-        <Link to={this.props.route}>
-          <img style={styles.image} src={this.props.img} />
+        <h3 style={ styles.heading }>{this.props.heading}</h3>
+        <Link to={ this.props.route }>
+          <img style={ styles.image } src={ this.props.img } role='presentation' />
         </Link>
       </Paper>
     );

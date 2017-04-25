@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 const AboutPage = () => {
   return (
     <div>
-      <h2 className='alt-header'>About <Link to="/">home</Link></h2>
+      <h2 className='alt-header'>About <Link to='/'>home</Link></h2>
       <p>
         This example app is part of the <a href='https://github.com/coryhouse/react-slingshot'>React-Slingshot
         starter kit</a>.

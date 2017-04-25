@@ -1,65 +1,68 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 import { hashHistory } from 'react-router';
-import { List } from 'immutable';
+
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 import AuthConnect from '../../components/AuthConnect';
 import { groupsSave, groupSave, filterSave, searchClear, WorkgroupApis } from '../../store/actions/wgroupActions';
 
 
-function getStyles (muiTheme) {
-  const {baseTheme} = muiTheme;
+function getStyles(muiTheme) {
+  const { baseTheme } = muiTheme;
 
   return {
     root: {
-      display: 'flex', 
+      display: 'flex',
       position: 'relative',
-      marginTop: 10
+      marginTop: 10,
     },
     spacer: { flex: 1 },
-        iconStyle: {
-        height:20
-      },
+    iconStyle: {
+      height: 20,
+    },
     search: {
       marginRight: baseTheme.spacing.desktopGutterLess,
     },
     checkbox: {
       width: 100,
-      marginTop: 10
-    }
+      marginTop: 10,
+    },
   };
 }
 
 class WGroupListPage extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
+    this.onFilterSearch = this.handleFilter.bind(null, 'search');
+    this.onFilterInternal = this.handleFilter.bind(null, 'internal');
+    this.onFilterExternal = this.handleFilter.bind(null, 'external');
   }
 
   componentWillMount() {
-    if(this.props.setCurrentPage)
-      this.props.setCurrentPage('wgrouplist');
+    if (this.props.setCurrentPage) { this.props.setCurrentPage('wgrouplist'); }
   }
 
-  handleFilter = (key, event, newVal)=>{
-    let filter = {};
-    if(key=='search'){
+  handleFilter = (key, event, newVal) => {
+    const filter = {};
+    if (key === 'search') {
       filter[key] = event.target.value;
-    }else{
+    } else {
       filter[key] = newVal;
     }
-    this.props.filterSaveAction(filter);
+    this.props.filterSave(filter);
   }
 
   handleClear = () => {
-    let filter = { 
-      search: '', 
-      internal: false, 
+    const filter = {
+      search: '',
+      internal: false,
       external: false,
     };
 
@@ -67,84 +70,71 @@ class WGroupListPage extends React.Component {
   }
 
   handleJump = (wgroupId) => {
-
-    let url = '/wgroup/wgroupedit/' + wgroupId;
+    const url = `/wgroup/wgroupedit/${ wgroupId }`;
     hashHistory.push(url);
   }
 
   handleQuery = () => {
-
-    let search = this.props.grouplist.search;
-    let params = {filterkey: search, state: 'ALL', type: 'ALL'};
+    const search = this.props.grouplist.search;
+    const params = { filterkey: search, state: 'ALL', type: 'ALL' };
 
     this.props.rpcInvoke(WorkgroupApis.GroupsQuery, params, groupsSave);
   }
 
   render() {
+    const styles = getStyles(this.props.muiTheme);
+    const { groups, internal, external, search } = this.props.grouplist.toJS();
 
-    let styles = getStyles(this.props.muiTheme);
-    let {groups, internal, external, search} = this.props.grouplist.toJS();
-
-    let rows = groups.map((item, index) => {
-      let {'workgroup-id':wgroupId, 'workgroup-name':wgroupName, 
-        'source-name':sourceName, admin, manager,
-        state, description, 'create-date':createDate } = item;
-
-      return <TableRow key={wgroupId}>
-              <TableRowColumn>{wgroupName}</TableRowColumn>
-              <TableRowColumn>{sourceName}</TableRowColumn>
-              <TableRowColumn>{admin} - {manager}</TableRowColumn>
-              <TableRowColumn>{state}</TableRowColumn>
-              <TableRowColumn>{description}</TableRowColumn>
-              <TableRowColumn style={{ width: 130}}>{createDate}</TableRowColumn>
-              <TableRowColumn style={{ width: 80}}>
-                <IconButton iconStyle={styles.iconStyle} onClick={this.handleJump.bind(null, wgroupId)}><ModeEditIcon/></IconButton >
-              </TableRowColumn>
-            </TableRow>;
+    const rows = groups.map((item) => {
+      return (
+        <WGroupListRow rowData={ item } onHandleJump={ this.handleJump } />
+      );
     });
 
     return (
       <div>
-        <div style={styles.root}>
-          <TextField 
-            style={ styles.search} 
+        <div style={ styles.root }>
+          <TextField
+            style={ styles.search }
             value={ search }
-            onChange={ this.handleFilter.bind(null, 'search' )}
-            hintText="Search"/>
+            onChange={ this.onFilterSearch }
+            hintText='Search'
+          />
           <Checkbox
-            label="Internal"
+            label='Internal'
             style={ styles.checkbox }
             checked={ internal }
-            onCheck={this.handleFilter.bind(null, 'internal' )}
+            onCheck={ this.onFilterInternal }
           />
           <Checkbox
-            label="External"
+            label='External'
             style={ styles.checkbox }
             checked={ external }
-            onCheck={this.handleFilter.bind(null, 'external' )}
+            onCheck={ this.onFilterExternal }
           />
-          <div style={styles.spacer}/>
+          <div style={ styles.spacer } />
           <div>
-            <RaisedButton label="Clear" style={{margin: 4}}  onTouchTap ={ this.handleClear }/>
-              <RaisedButton label="Query" style={{margin: 4}} onTouchTap ={ this.handleQuery }/>
+            <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ this.handleClear } />
+            <RaisedButton label='Query' style={ { margin: 4 } } onTouchTap={ this.handleQuery } />
           </div>
         </div>
         <Table>
           <TableHeader
-          displaySelectAll={ false }
-              adjustForCheckbox={ false }
-              enableSelectAll={ false } >
+            displaySelectAll={ false }
+            adjustForCheckbox={ false }
+            enableSelectAll={ false }
+          >
             <TableRow>
               <TableHeaderColumn>Wgroup Name</TableHeaderColumn>
               <TableHeaderColumn>Source</TableHeaderColumn>
               <TableHeaderColumn>Admin/Manager</TableHeaderColumn>
               <TableHeaderColumn>State</TableHeaderColumn>
               <TableHeaderColumn>Description</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: 130}}>Create</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: 80}}>OP.</TableHeaderColumn>
+              <TableHeaderColumn style={ { width: 130 } }>Create</TableHeaderColumn>
+              <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          <TableBody displayRowCheckbox={ false }>
             { rows }
           </TableBody>
         </Table>
@@ -153,11 +143,42 @@ class WGroupListPage extends React.Component {
   }
 }
 
+WGroupListPage.propTypes = {
+  setCurrentPage: PropTypes.func,
+  filterSave: PropTypes.func,
+  grouplist: PropTypes.object,
+  muiTheme: PropTypes.object,
+  rpcInvoke: PropTypes.func,
+  searchClear: PropTypes.func,
+};
+
+/*eslint-disable */
+const WGroupListRow = ({ rowData, onHandleJump }) => {
+  const { 'workgroup-id': wgroupId, 'workgroup-name': wgroupName,
+        'source-name': sourceName, admin, manager,
+        state, description, 'create-date': createDate } = rowData;
+
+  const handleJump = () => { onHandleJump(wgroupId); };
+
+  return (<TableRow key={ wgroupId }>
+    <TableRowColumn>{wgroupName}</TableRowColumn>
+    <TableRowColumn>{sourceName}</TableRowColumn>
+    <TableRowColumn>{admin} - {manager}</TableRowColumn>
+    <TableRowColumn>{state}</TableRowColumn>
+    <TableRowColumn>{description}</TableRowColumn>
+    <TableRowColumn style={ { width: 130 } }>{createDate}</TableRowColumn>
+    <TableRowColumn style={ { width: 80 } }>
+      <IconButton iconStyle={ styles.iconStyle } onClick={ handleJump }><ModeEditIcon /></IconButton >
+    </TableRowColumn>
+  </TableRow>);
+};
+/*eslint-enable */
+
 const NewComponent = AuthConnect(
-  WGroupListPage, 
+  WGroupListPage,
   (state) => ({
-            grouplist: state.wgroup.get('grouplist'),
-          }), 
-  {groupsSave, groupSave, filterSave, searchClear});
+    grouplist: state.wgroup.get('grouplist'),
+  }),
+  { groupsSave, groupSave, filterSave, searchClear });
 
 export default NewComponent;
