@@ -2,14 +2,19 @@ import { Map, List } from 'immutable';
 
 import {
   MST_SAVE_STORAGES,
+  MST_SAVE_STORAGES_FILTER,
+  MST_CLEAR_STORAGES_FILTER,
   MST_SAVE_DICTS,
   MST_SAVE_DICTS_FILTER,
   MST_CLEAR_DICTS_FILTER,
 } from '../actions/masterActions';
 
 const initialState = Map({
+
   storagelist: Map({
     storages: List(),
+    type: '',
+    
   }),
   dictlist: Map({
     entries: List(),

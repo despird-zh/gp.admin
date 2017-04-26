@@ -31,9 +31,9 @@ const getStyles = function (muiTheme) {
     search: {
       marginRight: baseTheme.spacing.desktopGutterLess,
     },
-    checkbox: {
-      width: 100,
-      marginTop: 10,
+    select: {
+      width: 200,
+      marginRight: baseTheme.spacing.desktopGutterLess,
     } };
 };
 
@@ -117,7 +117,7 @@ class DictListPage extends React.Component {
             hintText='Search'
           />
           <SelectField
-            style={ styles.search }
+            style={ styles.select }
             value={ group }
             hintText='The Entry Group'
             onChange={ this.onFilterGroup }
@@ -127,7 +127,7 @@ class DictListPage extends React.Component {
             <MenuItem value={ 'core_mesg' } primaryText='Core Message' />
           </SelectField>
           <SelectField
-            style={ styles.search }
+            style={ styles.select }
             value={ language }
             hintText='The Language'
             onChange={ this.onFilterLanguage }

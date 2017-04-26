@@ -32,7 +32,6 @@ class DictDialog extends React.Component {
   };
 
   handleFieldChange = (key, event, newVal, payload) => {
-
     const selects = ['language'];
     const data = {};
     if (selects.indexOf(key) >= 0) {
@@ -40,9 +39,8 @@ class DictDialog extends React.Component {
     } else {
       data[key] = newVal;
     }
-    let entry = Object.assign({}, this.state.entry, data);
+    const entry = Object.assign({}, this.state.entry, data);
     this.setState({ entry });
-
   };
 
   handleClose = () => {
@@ -51,7 +49,7 @@ class DictDialog extends React.Component {
 
   handleSave = () => {
     const { rpcInvoke } = this.props;
-    rpcInvoke(MasterApis.DictSave, this.state.entry,(json) => {
+    rpcInvoke(MasterApis.DictSave, this.state.entry, (json) => {
       console.log(json);
     });
   };
@@ -96,14 +94,14 @@ class DictDialog extends React.Component {
             style={ styles.itemStyle }
             defaultValue={ groupKey }
             eventKey='group-key'
-            disabled={true}
+            disabled={ true }
             onHandleChange={ this.handleFieldChange }
           />
           <GPTextField
             floatingLabelText='Entry key'
             defaultValue={ entryKey }
             eventKey='entry-key'
-            disabled={true}
+            disabled={ true }
             onHandleChange={ this.handleFieldChange }
           />
         </div>
@@ -135,8 +133,8 @@ class DictDialog extends React.Component {
             defaultValue={ label }
             eventKey='label'
             onHandleChange={ this.handleFieldChange }
-            multiLine={true}
-            rows={2}
+            multiLine={ true }
+            rows={ 2 }
           />
         </div>
       </Dialog>
