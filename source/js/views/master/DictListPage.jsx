@@ -14,6 +14,7 @@ import { saveDicts,
   saveDictsFilter,
   clearDictsFilter,
   MasterApis } from '../../store/actions/masterActions';
+import DictDialog from './DictDialog';
 
 const getStyles = function (muiTheme) {
   const { baseTheme } = muiTheme;
@@ -49,6 +50,10 @@ class DictListPage extends React.Component {
     if (this.props.setCurrentPage) { this.props.setCurrentPage('dictlist'); }
   }
 
+  setDictDialog = (dialog) => {
+    this.dictDialog = dialog;
+  }
+
   handleJump = (userId) => {
     const url = `/security/useredit/${ userId }`;
     hashHistory.push(url);
@@ -56,7 +61,7 @@ class DictListPage extends React.Component {
 
   handleQuery = () => {
     const { search, group } = this.props.dictlist;
-    const params = { filterkey: search, group };
+    const params = { search, group };
 
     this.props.rpcInvoke(MasterApis.DictsQuery, params, saveDicts);
   }
@@ -137,6 +142,11 @@ class DictListPage extends React.Component {
             {rows}
           </TableBody>
         </Table>
+        <DictDialog
+          ref={ this.setDictDialog }
+          rpcInvoke={ this.props.rpcInvoke }
+          muiTheme={ this.props.muiTheme }
+        />
       </div>
     );
   }
