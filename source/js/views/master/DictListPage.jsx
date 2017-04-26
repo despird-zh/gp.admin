@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import { hashHistory } from 'react-router';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
@@ -55,9 +54,13 @@ class DictListPage extends React.Component {
     this.dictDialog = dialog;
   }
 
-  handleJump = (userId) => {
-    const url = `/security/useredit/${ userId }`;
-    hashHistory.push(url);
+  handleJump = (entryId) => {
+    const entries = this.props.dictlist.get('entries');
+    const idx = entries.findIndex((item) => {
+      return item['entry-id'] === entryId;
+    });
+    const entry = entries[idx];
+    this.dictDialog.handleOpen(entry);
   }
 
   handleQuery = () => {
@@ -80,11 +83,11 @@ class DictListPage extends React.Component {
 
   handleFilter = (key, event, newVal, payload) => {
     const filter = {};
-    const selects = ['group','language'];
+    const selects = ['group', 'language'];
 
     if (selects.indexOf(key) >= 0) {
       filter[key] = payload;
-    }  else {
+    } else {
       filter[key] = newVal;
     }
     this.props.saveDictsFilter(filter);
@@ -97,9 +100,9 @@ class DictListPage extends React.Component {
 
     const rows = entries.map((item) => {
       return (<DictListRow
-        key = { 'row_' + item['entry-id'] }
+        key={ `row_${ item['entry-id'] }` }
         rowData={ item }
-        styles = { styles }
+        styles={ styles }
         onHandleJump={ this.handleJump }
       />);
     });
@@ -182,7 +185,7 @@ const DictListRow = ({styles, rowData, onHandleJump}) => {
   const { 'entry-id':entryId, 'entry-key':entryKey, 
           'group-key':groupKey, 'entry-value':entryValue, label, language } = rowData;
 
-  const handleJump = () => { onHandleJump(entryKey); };
+  const handleJump = () => { onHandleJump( entryId ); };
 
   return (<TableRow key={ entryId }>
     <TableRowColumn>{groupKey}</TableRowColumn>

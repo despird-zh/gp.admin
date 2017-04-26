@@ -5,12 +5,14 @@ import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 
 import { GPTextField, GPSelectField } from '../../components/GPComponents';
+import { MasterApis } from '../../store/actions/masterActions';
 
 function getStyles(muiTheme) {
   const { baseTheme: { spacing } } = muiTheme;
 
   return {
     itemStyle: { marginRight: spacing.desktopGutterLess },
+    labelStyle: { marginRight: spacing.desktopGutterLess, width: 530 },
     contentStyle: { width: 580 },
   };
 }
@@ -30,8 +32,7 @@ class DictDialog extends React.Component {
   };
 
   handleFieldChange = (key, event, newVal, payload) => {
-    console.log(key);
-    console.log(newVal + '/' + payload);
+
     const selects = ['language'];
     const data = {};
     if (selects.indexOf(key) >= 0) {
@@ -39,7 +40,9 @@ class DictDialog extends React.Component {
     } else {
       data[key] = newVal;
     }
-    this.setState(data);
+    let entry = Object.assign({}, this.state.entry, data);
+    this.setState({ entry });
+
   };
 
   handleClose = () => {
@@ -48,7 +51,9 @@ class DictDialog extends React.Component {
 
   handleSave = () => {
     const { rpcInvoke } = this.props;
-    rpcInvoke();
+    rpcInvoke(MasterApis.DictSave, this.state.entry,(json) => {
+      console.log(json);
+    });
   };
 
   render() {
@@ -78,7 +83,7 @@ class DictDialog extends React.Component {
 
     return (
       <Dialog
-        title='Dialog With Actions'
+        title='Edit the Dictionary Entry'
         actions={ actions }
         modal={ false }
         contentStyle={ styles.contentStyle }
@@ -89,21 +94,23 @@ class DictDialog extends React.Component {
           <GPTextField
             floatingLabelText='Entry Group'
             style={ styles.itemStyle }
-            value={ groupKey }
+            defaultValue={ groupKey }
             eventKey='group-key'
+            disabled={true}
             onHandleChange={ this.handleFieldChange }
           />
           <GPTextField
             floatingLabelText='Entry key'
-            value={ entryKey }
+            defaultValue={ entryKey }
             eventKey='entry-key'
+            disabled={true}
             onHandleChange={ this.handleFieldChange }
           />
         </div>
         <div>
           <GPTextField
             floatingLabelText='Entry value'
-            value={ entryValue }
+            defaultValue={ entryValue }
             eventKey='entry-value'
             onHandleChange={ this.handleFieldChange }
           />
@@ -124,10 +131,12 @@ class DictDialog extends React.Component {
         <div>
           <GPTextField
             floatingLabelText='Label'
-            style={ styles.itemStyle }
-            value={ label }
+            style={ styles.labelStyle }
+            defaultValue={ label }
             eventKey='label'
             onHandleChange={ this.handleFieldChange }
+            multiLine={true}
+            rows={2}
           />
         </div>
       </Dialog>
