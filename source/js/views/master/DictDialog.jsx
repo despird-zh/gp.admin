@@ -19,7 +19,10 @@ class DictDialog extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state.open = false;
+    this.state = {
+      open: false,
+      entry: {},
+    };
   }
 
   handleOpen = (entry) => {

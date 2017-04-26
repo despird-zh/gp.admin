@@ -204,14 +204,12 @@ const OrgHierInfo = ({ styles, onHandleClear, onHandleSave, muiTheme, rpcInvoke,
       />
       <UserAutoComplete
         style={ styles.inputItem }
-        muiTheme={ muiTheme }
         rpcInvoke={ rpcInvoke }
         hintText='Assign a user as administrator'
         floatingLabelText='Administrator'
       />
       <UserAutoComplete
         style={ styles.inputItem }
-        muiTheme={ muiTheme }
         rpcInvoke={ rpcInvoke }
         hintText='Assign a manager to org node'
         floatingLabelText='Manager'

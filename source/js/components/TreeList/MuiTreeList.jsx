@@ -100,7 +100,7 @@ class MuiTreeList extends Component {
 }
 
 MuiTreeList.propTypes = {
-  nodes: PropTypes.object,
+  nodes: PropTypes.array,
   style: PropTypes.object,
   itemStyle: PropTypes.object,
   nodeRemovable: PropTypes.bool,
@@ -125,7 +125,7 @@ const MuiTreeItem = ({ nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...res
 
 MuiTreeItem.propTypes = {
   nodeItem: PropTypes.object,
-  nodeRemovable: PropTypes.func,
+  nodeRemovable: PropTypes.bool,
   onTouchTap: PropTypes.func,
   onNodeRemove: PropTypes.func,
 };

@@ -31,7 +31,7 @@ const GPSelectField = ({ eventKey, onHandleChange, children, ...rest }) => {
 };
 GPSelectField.propTypes = {
   eventKey: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.array,
   onHandleChange: PropTypes.func,
 };
 

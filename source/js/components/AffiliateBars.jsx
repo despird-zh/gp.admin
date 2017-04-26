@@ -44,10 +44,10 @@ class AffiliateBars extends React.Component {
 
 AffiliateBars.propTypes = {
   snackAction: PropTypes.func,
-  loaderOpen: PropTypes.func,
+  loaderOpen: PropTypes.bool,
   loaderTip: PropTypes.string,
   snackTip: PropTypes.string,
-  snackOpen: PropTypes.func,
+  snackOpen: PropTypes.bool,
 };
 export default connect(
   (state) => ({
