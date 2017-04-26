@@ -44,6 +44,7 @@ class DictListPage extends React.Component {
     super(props, context);
     this.onFilterSearch = this.handleFilter.bind(null, 'search');
     this.onFilterGroup = this.handleFilter.bind(null, 'group');
+    this.onFilterLanguage = this.handleFilter.bind(null, 'language');
   }
 
   componentWillMount() {
@@ -60,8 +61,8 @@ class DictListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const { search, group } = this.props.dictlist;
-    const params = { search, group };
+    const { search, group, language } = this.props.dictlist.toJS();
+    const params = { search, group, language };
 
     this.props.rpcInvoke(MasterApis.DictsQuery, params, saveDicts);
   }
@@ -70,30 +71,35 @@ class DictListPage extends React.Component {
     const filter = {
       search: '',
       group: '',
+      language: 'en_us',
+      entries: [],
     };
 
     this.props.clearDictsFilter(filter);
   }
 
-  handleFilter = (key, event, newVal) => {
+  handleFilter = (key, event, newVal, payload) => {
     const filter = {};
-    if (key === 'search') {
-      filter[key] = event.target.value;
-    } else {
+    const selects = ['group','language'];
+
+    if (selects.indexOf(key) >= 0) {
+      filter[key] = payload;
+    }  else {
       filter[key] = newVal;
     }
-
     this.props.saveDictsFilter(filter);
   }
 
   render() {
-    const { entries, group, search } = this.props.dictlist.toJS();
+    const { entries, group, search, language } = this.props.dictlist.toJS();
 
     const styles = getStyles(this.props.muiTheme);
 
     const rows = entries.map((item) => {
       return (<DictListRow
+        key = { 'row_' + item['entry-id'] }
         rowData={ item }
+        styles = { styles }
         onHandleJump={ this.handleJump }
       />);
     });
@@ -109,13 +115,22 @@ class DictListPage extends React.Component {
           />
           <SelectField
             style={ styles.search }
-            floatingLabelText='Entry Group'
             value={ group }
+            hintText='The Entry Group'
             onChange={ this.onFilterGroup }
           >
             <MenuItem value={ 'web_excp' } primaryText='Web Exception' />
             <MenuItem value={ 'core_excp' } primaryText='Core Exception' />
             <MenuItem value={ 'core_mesg' } primaryText='Core Message' />
+          </SelectField>
+          <SelectField
+            style={ styles.search }
+            value={ language }
+            hintText='The Language'
+            onChange={ this.onFilterLanguage }
+          >
+            <MenuItem value={ 'en_us' } primaryText='English' />
+            <MenuItem value={ 'zh_cn' } primaryText='Chinese' />
           </SelectField>
           <div style={ styles.spacer } />
           <div>
@@ -162,14 +177,14 @@ DictListPage.propTypes = {
 };
 
 /*eslint-disable */
-const DictListRow = ({rowData, onHandleJump}) => {
+const DictListRow = ({styles, rowData, onHandleJump}) => {
 
   const { 'entry-id':entryId, 'entry-key':entryKey, 
           'group-key':groupKey, 'entry-value':entryValue, label, language } = rowData;
 
   const handleJump = () => { onHandleJump(entryKey); };
 
-  return (<TableRow key={ account }>
+  return (<TableRow key={ entryId }>
     <TableRowColumn>{groupKey}</TableRowColumn>
     <TableRowColumn> {entryKey}</TableRowColumn>
     <TableRowColumn>{entryValue }</TableRowColumn>

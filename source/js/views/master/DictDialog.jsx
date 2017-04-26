@@ -30,6 +30,8 @@ class DictDialog extends React.Component {
   };
 
   handleFieldChange = (key, event, newVal, payload) => {
+    console.log(key);
+    console.log(newVal + '/' + payload);
     const selects = ['language'];
     const data = {};
     if (selects.indexOf(key) >= 0) {

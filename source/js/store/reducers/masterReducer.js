@@ -15,6 +15,7 @@ const initialState = Map({
     entries: List(),
     search: '',
     group: '',
+    language: 'en_us',
   }),
   entitylist: Map({
     entities: List(),
