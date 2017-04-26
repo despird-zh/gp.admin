@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slider from 'material-ui/Slider';
 import ReactAvatarEditor from 'react-avatar-editor';
@@ -17,7 +17,7 @@ const styles = {
     display: 'block',
   },
   slider: {
-  	marginTop: 10,
+    marginTop: 10,
     marginBottom: 15,
   },
   msg: {
@@ -26,25 +26,30 @@ const styles = {
   },
 };
 
-export default class AvatarEditDialog extends React.Component {
+class AvatarEditDialog extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-	    position: { x: 0.5, y: 0.5 },
-	    scale: 1,
-	    rotate: 0,
-	    borderRadius: 0,
-	    preview: null,
-	    width: 150,
-	    height: 150,
-	    imgsrc: 'assets/img/book2.jpg',
-	    message: '',
-	    opening: false,
-	  };
+      position: { x: 0.5, y: 0.5 },
+      scale: 1,
+      rotate: 0,
+      borderRadius: 0,
+      preview: null,
+      width: 150,
+      height: 150,
+      imgsrc: 'assets/img/book2.jpg',
+      message: '',
+      opening: false,
+    };
   }
 
-  handlePreview = (data) => {
+
+  setEditorRef = (editor) => {
+    if (editor) this.editor = editor;
+  }
+
+  handlePreview = () => {
     const img = this.editor.getImageScaledToCanvas().toDataURL();
 
     this.setState({
@@ -54,7 +59,7 @@ export default class AvatarEditDialog extends React.Component {
     });
   }
 
-  handleSave = (data) => {
+  handleSave = () => {
     const img = this.editor.getImageScaledToCanvas().toDataURL();
 
     if (this.props.onSave) this.props.onSave(img);
@@ -65,12 +70,8 @@ export default class AvatarEditDialog extends React.Component {
     this.setState({ scale: value });
   };
 
-  logCallback(e) {
+  logCallback() {
     // console.log('callback', e)
-  }
-
-  setEditorRef = (editor) => {
-    if (editor) this.editor = editor;
   }
 
   handlePositionChange = position => {
@@ -78,11 +79,11 @@ export default class AvatarEditDialog extends React.Component {
   }
 
   handleFileChange = (e) => {
-    let file = e.target.files[0],
-      reader = new FileReader();
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-    let ext = file.name.match(/\.([^\.]+)$/)[1],
-      pass = false;
+    const ext = file.name.match(/\.([^.]+)$/)[1];
+    let pass = false;
 
     switch (ext.toLowerCase()) {
       case 'jpg':
@@ -109,12 +110,12 @@ export default class AvatarEditDialog extends React.Component {
 
   hide = () => {
     const newState = Object.assign({}, this.state, { opening: false });
-  	this.setState(newState);
-  	console.log(this.state.opening);
+    this.setState(newState);
+    console.log(this.state.opening);
   };
   show= () => {
-  	const newState = Object.assign({}, this.state, { opening: true });
-  	this.setState(newState);
+    const newState = Object.assign({}, this.state, { opening: true });
+    this.setState(newState);
   }
   render() {
     return (
@@ -128,9 +129,9 @@ export default class AvatarEditDialog extends React.Component {
         modal={ false }
         open={ this.state.opening }
       >
-        { !this.state.message == '' &&
+        { !this.state.message === '' &&
         <div style={ styles.msg }><span>{this.state.message}</span></div>
-      	}
+        }
         <ReactAvatarEditor
           ref={ this.setEditorRef }
           scale={ parseFloat(this.state.scale) }
@@ -141,16 +142,17 @@ export default class AvatarEditDialog extends React.Component {
           rotate={ parseFloat(this.state.rotate) }
           borderRadius={ this.state.borderRadius }
           onSave={ this.handleSave }
-          onLoadFailure={ this.logCallback.bind(this, 'onLoadFailed') }
-          onLoadSuccess={ this.logCallback.bind(this, 'onLoadSuccess') }
-          onImageReady={ this.logCallback.bind(this, 'onImageReady') }
-          onImageLoad={ this.logCallback.bind(this, 'onImageLoad') }
-          onDropFile={ this.logCallback.bind(this, 'onDropFile') }
+          // onLoadFailure={ this.logCallback.bind(this, 'onLoadFailed') }
+          // onLoadSuccess={ this.logCallback.bind(this, 'onLoadSuccess') }
+          // onImageReady={ this.logCallback.bind(this, 'onImageReady') }
+          // onImageLoad={ this.logCallback.bind(this, 'onImageLoad') }
+          // onDropFile={ this.logCallback.bind(this, 'onDropFile') }
           image={ this.state.imgsrc }
         />
         <div style={ { float: 'right' } }>
           { !!this.state.preview &&
           <img
+            role='presentation'
             src={ this.state.preview.img }
             style={ { width: 100, height: 100 } }
           />
@@ -158,6 +160,7 @@ export default class AvatarEditDialog extends React.Component {
           <br />
           { !!this.state.preview &&
           <img
+            role='presentation'
             src={ this.state.preview.img }
             style={ { width: 50, height: 50 } }
           />
@@ -194,3 +197,8 @@ export default class AvatarEditDialog extends React.Component {
     );
   }
 }
+
+AvatarEditDialog.propTypes = {
+  onSave: PropTypes.func,
+};
+export default AvatarEditDialog;

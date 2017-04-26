@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
-import ActionShop from 'material-ui/svg-icons/hardware/shop';
-import ActionSettings from 'material-ui/svg-icons/action/settings';
+import AVAlbum from 'material-ui/svg-icons/av/album';
+import AVSmtRecord from 'material-ui/svg-icons/av/fiber-smart-record';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import { PageIconButton } from '../../components/GPComponents';
@@ -35,14 +35,14 @@ const allPages = {
   useraudit: {
     path: '/audit/useraudit',
     title: 'System Profile',
-    icon: <ActionShop />,
+    icon: <AVAlbum />,
     description: 'Review the information of System',
     disabled: false,
   },
   wgroupaudit: {
     path: '/audit/wgroupaudit',
     title: 'System Settings',
-    icon: <ActionSettings />,
+    icon: <AVSmtRecord />,
     description: 'Review the settings of System',
     disabled: false,
   },

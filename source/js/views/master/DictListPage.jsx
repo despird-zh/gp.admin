@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import Checkbox from 'material-ui/Checkbox';
 import { hashHistory } from 'react-router';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 import AuthConnect from '../../components/AuthConnect';
-import { saveUsers,
-  saveUsersFilter,
-  clearUsersFilter,
-  SecurityApis } from '../../store/actions/securityActions';
+import { saveDicts,
+  saveDictsFilter,
+  clearDictsFilter,
+  MasterApis } from '../../store/actions/masterActions';
 
 const getStyles = function (muiTheme) {
   const { baseTheme } = muiTheme;
@@ -35,62 +36,61 @@ const getStyles = function (muiTheme) {
       marginTop: 10,
     } };
 };
-/* eslint-disable */
+
 class DictListPage extends React.Component {
 
-  handleJump = (userId) => {
-    const url = `/security/useredit/${ userId }`;
-    hashHistory.push(url);
+  constructor(props, context) {
+    super(props, context);
+    this.onFilterSearch = this.handleFilter.bind(null, 'search');
+    this.onFilterGroup = this.handleFilter.bind(null, 'group');
   }
 
   componentWillMount() {
     if (this.props.setCurrentPage) { this.props.setCurrentPage('dictlist'); }
   }
 
+  handleJump = (userId) => {
+    const url = `/security/useredit/${ userId }`;
+    hashHistory.push(url);
+  }
+
   handleQuery = () => {
-    const search = this.props.userlist.search;
-    const params = { filterkey: search, state: 'ALL', type: 'ALL' };
-    this.props.rpcInvoke(SecurityApis.UsersQuery, params, saveUsers);
+    const { search, group } = this.props.dictlist;
+    const params = { filterkey: search, group };
+
+    this.props.rpcInvoke(MasterApis.DictsQuery, params, saveDicts);
   }
 
   handleClear = () => {
     const filter = {
       search: '',
-      internal: false,
-      external: false,
+      group: '',
     };
 
-    this.props.clearUsersFilter(filter);
+    this.props.clearDictsFilter(filter);
   }
 
   handleFilter = (key, event, newVal) => {
     const filter = {};
-    if (key == 'search') {
+    if (key === 'search') {
       filter[key] = event.target.value;
     } else {
       filter[key] = newVal;
     }
 
-    this.props.saveUsersFilter(filter);
+    this.props.saveDictsFilter(filter);
   }
 
   render() {
-    const { entries, internal, external, search } = this.props.dictlist.toJS();
+    const { entries, group, search } = this.props.dictlist.toJS();
 
     const styles = getStyles(this.props.muiTheme);
 
-    const rows = entries.map((item, index) => {
-      const { account, email, name, mobile, state, 'source-name': sourceName, 'user-id': userId } = item;
-      return (<TableRow key={ account }>
-        <TableRowColumn>{account} - {name}</TableRowColumn>
-        <TableRowColumn>{email}</TableRowColumn>
-        <TableRowColumn>{mobile}</TableRowColumn>
-        <TableRowColumn>{state}</TableRowColumn>
-        <TableRowColumn>{sourceName}</TableRowColumn>
-        <TableRowColumn style={ { width: 80 } }>
-          <IconButton iconStyle={ styles.iconStyle } onClick={ this.handleJump.bind(null, userId) }><ModeEditIcon /></IconButton >
-        </TableRowColumn>
-      </TableRow>);
+    const rows = entries.map((item) => {
+      return (<DictListRow
+        rowData={ item }
+        onHandleJump={ this.handleJump }
+      />);
     });
 
     return (
@@ -99,21 +99,19 @@ class DictListPage extends React.Component {
           <TextField
             style={ styles.search }
             value={ search }
-            onChange={ this.handleFilter.bind(null, 'search') }
+            onChange={ this.onFilterSearch }
             hintText='Search'
           />
-          <Checkbox
-            label='Internal'
-            style={ styles.checkbox }
-            checked={ internal }
-            onCheck={ this.handleFilter.bind(null, 'internal') }
-          />
-          <Checkbox
-            label='External'
-            style={ styles.checkbox }
-            checked={ external }
-            onCheck={ this.handleFilter.bind(null, 'external') }
-          />
+          <SelectField
+            style={ styles.search }
+            floatingLabelText='Entry Group'
+            value={ group }
+            onChange={ this.onFilterGroup }
+          >
+            <MenuItem value={ 'web_excp' } primaryText='Web Exception' />
+            <MenuItem value={ 'core_excp' } primaryText='Core Exception' />
+            <MenuItem value={ 'core_mesg' } primaryText='Core Message' />
+          </SelectField>
           <div style={ styles.spacer } />
           <div>
             <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ this.handleClear } />
@@ -127,11 +125,11 @@ class DictListPage extends React.Component {
             enableSelectAll={ false }
           >
             <TableRow>
-              <TableHeaderColumn>Account/Name</TableHeaderColumn>
-              <TableHeaderColumn>Email</TableHeaderColumn>
-              <TableHeaderColumn>Mobile</TableHeaderColumn>
-              <TableHeaderColumn>State</TableHeaderColumn>
-              <TableHeaderColumn>Entity</TableHeaderColumn>
+              <TableHeaderColumn>Group</TableHeaderColumn>
+              <TableHeaderColumn>Entry</TableHeaderColumn>
+              <TableHeaderColumn>Value</TableHeaderColumn>
+              <TableHeaderColumn>Language</TableHeaderColumn>
+              <TableHeaderColumn>Label</TableHeaderColumn>
               <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -143,18 +141,42 @@ class DictListPage extends React.Component {
     );
   }
 }
-/* eslint-enable */
+
 DictListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
   dictlist: PropTypes.object,
+  saveDictsFilter: PropTypes.func,
+  clearDictsFilter: PropTypes.func,
+  rpcInvoke: PropTypes.func,
 };
+
+/*eslint-disable */
+const DictListRow = ({rowData, onHandleJump}) => {
+
+  const { 'entry-id':entryId, 'entry-key':entryKey, 
+          'group-key':groupKey, 'entry-value':entryValue, label, language } = rowData;
+
+  const handleJump = () => { onHandleJump(entryKey); };
+
+  return (<TableRow key={ account }>
+    <TableRowColumn>{groupKey}</TableRowColumn>
+    <TableRowColumn> {entryKey}</TableRowColumn>
+    <TableRowColumn>{entryValue }</TableRowColumn>
+    <TableRowColumn>{language}</TableRowColumn>
+    <TableRowColumn>{label}</TableRowColumn>
+    <TableRowColumn style={ { width: 80 } }>
+      <IconButton iconStyle={ styles.iconStyle } onClick={ handleJump }><ModeEditIcon /></IconButton >
+    </TableRowColumn>
+  </TableRow>);
+};
+/*eslint-enable */
 
 const NewComponent = AuthConnect(
   DictListPage,
   (state) => ({
     dictlist: state.master.get('dictlist'),
   }),
-  { saveUsersFilter, clearUsersFilter });
+  { saveDictsFilter, clearDictsFilter });
 
 export default NewComponent;

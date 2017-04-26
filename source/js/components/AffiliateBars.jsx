@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dialog from 'material-ui/Dialog';
@@ -14,10 +15,6 @@ const styles = {
 };
 
 class AffiliateBars extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   handleRequestClose = () => {
     this.props.snackAction({ shown: false });
@@ -45,6 +42,13 @@ class AffiliateBars extends React.Component {
   }
 }
 
+AffiliateBars.propTypes = {
+  snackAction: PropTypes.func,
+  loaderOpen: PropTypes.func,
+  loaderTip: PropTypes.string,
+  snackTip: PropTypes.string,
+  snackOpen: PropTypes.func,
+};
 export default connect(
   (state) => ({
     loaderOpen: state.app.get('loaderOpen'),
@@ -53,8 +57,8 @@ export default connect(
     snackTip: state.app.get('snackTip'),
   }),
   (dispatch) => (
-	    bindActionCreators({
-	      snackAction,
-	    }, dispatch)
-	  )
+      bindActionCreators({
+        snackAction,
+      }, dispatch)
+    )
 )(AffiliateBars);

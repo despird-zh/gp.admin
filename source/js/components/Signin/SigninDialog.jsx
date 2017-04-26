@@ -1,13 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Chip from 'material-ui/Chip';
-import { openSignin, signin, signoff } from '../../store/actions/authActions';
-import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import { openSignin, signin } from '../../store/actions/authActions';
 
 const styles = {
   content: {

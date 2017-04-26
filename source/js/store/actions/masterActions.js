@@ -1,5 +1,7 @@
 export const MST_SAVE_STORAGES = 'MST_SAVE_STORAGES';
 export const MST_SAVE_DICTS = 'MST_SAVE_DICTS';
+export const MST_SAVE_DICTS_FILTER = 'MST_SAVE_DICTS_FILTER';
+export const MST_CLEAR_DICTS_FILTER = 'MST_SAVE_DICTS_FILTER';
 
 export const MasterApis = {
   StoragesQuery: 'storages-query.do',
@@ -17,9 +19,23 @@ export function storagesSave(storages) {
   };
 }
 
-export function dictsSave(dicts) {
+export function saveDicts(dicts) {
   return {
     type: MST_SAVE_DICTS,
     data: dicts,
+  };
+}
+
+export function saveDictsFilter(filter) {
+  return {
+    type: MST_SAVE_DICTS_FILTER,
+    data: filter,
+  };
+}
+
+export function clearDictsFilter(filter) {
+  return {
+    type: MST_CLEAR_DICTS_FILTER,
+    data: filter,
   };
 }
