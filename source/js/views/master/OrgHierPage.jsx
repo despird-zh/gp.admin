@@ -15,7 +15,7 @@ import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
 import AuthConnect from '../../components/AuthConnect';
 import MuiTreeList from '../../components/TreeList/MuiTreeList';
 import UserAutoComplete from '../common/UserAutoComplete';
-import OrgHierInfo from './OrgHierInfo';
+import { OrgHierInfo, OrgHierMember } from './OrgHierInfo';
 
 import { saveOrgHier,
   MasterApis } from '../../store/actions/masterActions';
@@ -180,13 +180,23 @@ class OrgHierPage extends React.Component {
               </IconButton>
             </h3>
             <Divider />
-            <OrgHierInfo
-              styles={ styles }
-              onHandleClear={ () => {} }
-              onHandleSave={ () => {} }
-              rpcInvoke={ this.props.rpcInvoke }
-              muiTheme={ this.props.muiTheme }
-            />
+            { ( infomode === 'org-add') && <OrgHierInfo
+                styles={ styles }
+                onHandleClear={ () => {} }
+                onHandleSave={ () => {} }
+                rpcInvoke={ this.props.rpcInvoke }
+                muiTheme={ this.props.muiTheme }
+              />
+            }
+            {
+              ( infomode === 'mbr-add') && <OrgHierMember
+                styles={ styles }
+                onHandleClear={ () => {} }
+                onHandleSave={ () => {} }
+                rpcInvoke={ this.props.rpcInvoke }
+                muiTheme={ this.props.muiTheme }
+              />
+            }
           </div>
         </div>
       </div>

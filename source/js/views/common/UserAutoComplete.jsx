@@ -19,8 +19,20 @@ class UserAutoComplete extends React.Component {
     this.autoComplete = refComponent;
   };
 
+  setSearchText = (searchText) => {
+    this.setState({ searchText });
+    this.autoComplete.setState({ searchText });
+  }
+
+  getSearchText = () => {
+    return this.state.searchText;
+  }
+
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
+
+    this.setState({ searchText: value });
+
     rpcInvoke(
       AppApis.UsersQuery,
       { user_name: value, instanceId: null },
@@ -34,11 +46,11 @@ class UserAutoComplete extends React.Component {
   };
 
   handleNewRequest = (chosenRequest, index) => {
-    this.setState({ newReqIndex: index });
+    this.setState({ searchText: chosenRequest, newReqIndex: index });
   };
 
   render() {
-    const { style, onChange, rpcInvoke, searchText, ...rest } = this.props; // eslint-disable-line no-unused-vars
+    const { style, rpcInvoke, searchText, ...rest } = this.props; // eslint-disable-line no-unused-vars
 
     return (
 
@@ -58,7 +70,6 @@ class UserAutoComplete extends React.Component {
 UserAutoComplete.propTypes = {
   style: PropTypes.object,
   rpcInvoke: PropTypes.func,
-  onChange: PropTypes.func,
   searchText: PropTypes.string,
 };
 
