@@ -87,7 +87,7 @@ class UserListPage extends React.Component {
     const styles = getStyles(this.props.muiTheme);
 
     const rows = users.map((item) => {
-      return (<UserListRow rowData={ item } onHandleJump={ this.handleJump } />);
+      return (<UserListRow rowData={ item } styles={styles} onHandleJump={ this.handleJump } />);
     });
 
     return (
@@ -151,7 +151,7 @@ UserListPage.propTypes = {
 };
 
 /*eslint-disable */
-const UserListRow = ({ rowData, onHandleJump }) => {
+const UserListRow = ({ rowData, styles, onHandleJump }) => {
   const { account, email, name, mobile, state, 'source-name': sourceName, 'user-id': userId } = rowData;
 
   const handleJump = () => { onHandleJump(userId); };

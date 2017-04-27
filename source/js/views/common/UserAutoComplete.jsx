@@ -31,7 +31,7 @@ class UserAutoComplete extends React.Component {
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
-    this.setState({ searchText: value });
+    this.setState({ searchText: value ,searchValue:value, });
 
     rpcInvoke(
       AppApis.UsersQuery,
@@ -46,7 +46,11 @@ class UserAutoComplete extends React.Component {
   };
 
   handleNewRequest = (chosenRequest, index) => {
-    this.setState({ searchText: chosenRequest, newReqIndex: index });
+
+    this.setState({ 
+            searchText: chosenRequest.text, 
+            searchValue:chosenRequest.value, 
+            newReqIndex: index });
   };
 
   render() {

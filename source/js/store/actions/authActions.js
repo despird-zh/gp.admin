@@ -53,6 +53,7 @@ function purgeToken() {
 }
 
 function trapCatch(dispatch, error, isAuthRpc = false) {
+  if(process.env.NODE_ENV !== 'production') console.log(error);
   if (isAuthRpc) {
     dispatch(authEnd({
       meta: {

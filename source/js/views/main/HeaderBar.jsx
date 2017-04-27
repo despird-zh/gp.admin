@@ -165,7 +165,7 @@ class HeaderBar extends React.Component {
         <IconButton
           style={ this.styles.iconButtonStyle }
           iconStyle={ this.styles.iconButtonIconStyle }
-          onTouchTap={ this.jumpWGroup }
+          onTouchTap={ this.jumpSecurity }
           tooltip='Security Controll&Information'
         >
           <HardwareSecurity style={ Object.assign({}, this.styles.iconButtonIconStyle) } />

@@ -87,7 +87,7 @@ class WGroupListPage extends React.Component {
 
     const rows = groups.map((item) => {
       return (
-        <WGroupListRow rowData={ item } onHandleJump={ this.handleJump } />
+        <WGroupListRow rowData={ item } styles={styles} onHandleJump={ this.handleJump } />
       );
     });
 
@@ -153,7 +153,7 @@ WGroupListPage.propTypes = {
 };
 
 /*eslint-disable */
-const WGroupListRow = ({ rowData, onHandleJump }) => {
+const WGroupListRow = ({ rowData, styles, onHandleJump }) => {
   const { 'workgroup-id': wgroupId, 'workgroup-name': wgroupName,
         'source-name': sourceName, admin, manager,
         state, description, 'create-date': createDate } = rowData;
