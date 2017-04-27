@@ -89,6 +89,23 @@ class OrgHierPage extends React.Component {
     console.log(member);
   }
 
+  handleOrgRemove = (nodePath, node) => {
+
+    console.log(nodePath + ' (org-remove) ');
+    console.log(node);
+  }
+
+  handleOrgTouchTap = (nodePath, node) => {
+    console.log(nodePath + ' (touchtap) ');
+    console.log(node);
+  }
+
+  handleNestedListToggle = (isOpen, nodePath, node) => {
+    console.log(isOpen);
+    console.log(nodePath + ' (toggle) ');
+    console.log(node);
+  }
+
   handleMemberRemove = (userId) => {
     let orgmembers = this.props.orghier.get('orgmembers');
     let newmembers = orgmembers.filter((item) => {
@@ -133,7 +150,9 @@ class OrgHierPage extends React.Component {
               nodes={ orgnodes }
               useFolderIcons={ true }
               nodeRemovable={ true }
-              onNodeRemove={ () => {} }
+              onNodeRemove={ this.handleOrgRemove }
+              onNodeTouchTap = { this.handleOrgTouchTap }
+              onNestedListToggle = {this.handleNestedListToggle}
             />
           </div>
           <div style={ styles.halfStyle }>
