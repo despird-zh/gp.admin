@@ -11,7 +11,6 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import AuthConnect from '../../components/AuthConnect';
 import { saveDicts,
   saveDictsFilter,
-  clearDictsFilter,
   MasterApis } from '../../store/actions/masterActions';
 import DictDialog from './DictDialog';
 
@@ -78,7 +77,7 @@ class DictListPage extends React.Component {
       entries: [],
     };
 
-    this.props.clearDictsFilter(filter);
+    this.props.saveDictsFilter(filter);
   }
 
   handleFilter = (key, event, newVal, payload) => {
@@ -175,7 +174,6 @@ DictListPage.propTypes = {
   setCurrentPage: PropTypes.func,
   dictlist: PropTypes.object,
   saveDictsFilter: PropTypes.func,
-  clearDictsFilter: PropTypes.func,
   rpcInvoke: PropTypes.func,
 };
 
@@ -205,6 +203,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     dictlist: state.master.get('dictlist'),
   }),
-  { saveDictsFilter, clearDictsFilter });
+  { saveDictsFilter });
 
 export default NewComponent;

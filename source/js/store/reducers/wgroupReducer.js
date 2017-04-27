@@ -1,7 +1,10 @@
 import { Map, List } from 'immutable';
 
 import {
-  WGRP_SAVE_GRPS, WGRP_SAVE_GRP, WGRP_SAVE_FILTER, WGRP_CLEAR_SEARCH,
+  WGRP_SAVE_GRPS,
+  WGRP_SAVE_GRP,
+  WGRP_SAVE_FILTER,
+  WGRP_CLEAR_SEARCH,
 } from '../actions/wgroupActions';
 
 const initialState = Map({

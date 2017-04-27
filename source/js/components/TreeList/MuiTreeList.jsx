@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
-import { List, ListItem } from 'material-ui/List';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import FolderIcon from 'material-ui/svg-icons/file/folder';
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file';
 
+const SelectableList = makeSelectable(List);
 const MuiIcons = require('material-ui/svg-icons');
 
 const styles = {
@@ -90,11 +91,16 @@ class MuiTreeList extends Component {
     };
 
     const rootChildren = loopNodes(this.state.nodes);
-
+    const { selectable } = this.props;
     return (
-      <List style={ this.props.style }>
+      selectable ? 
+        <SelectableList style={ this.props.style }>
         {rootChildren}
-      </List>
+        </SelectableList>
+        : 
+        <List style={ this.props.style }>
+        {rootChildren}
+        </List>
     );
   }
 }
@@ -106,6 +112,7 @@ MuiTreeList.propTypes = {
   nodeRemovable: PropTypes.bool,
   useFolderIcons: PropTypes.bool,
   onNodeRemove: PropTypes.func,
+  selectable: PropTypes.bool
 };
 
 const MuiTreeItem = ({ nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...rest }) => {
@@ -119,8 +126,8 @@ const MuiTreeItem = ({ nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...res
     <ListItem
       onTouchTap={ handleTouchTap }
       rightIconButton={ nodeRemovable && <IconButton onTouchTap={ handleRemove }><ContentClear /></IconButton> }
-      { ...rest }
-    />);
+      { ...rest }></ListItem>
+    );
 };
 
 MuiTreeItem.propTypes = {
@@ -138,7 +145,7 @@ const MuiTreeItems = ({ nodeItem, onNestedListToggle, ...rest }) => {
     <ListItem
       onNestedListToggle={ handleNestedListToggle }
       { ...rest }
-    />
+    ></ListItem>
   );
 };
 MuiTreeItems.propTypes = {
