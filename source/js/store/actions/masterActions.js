@@ -15,6 +15,7 @@ export const MasterApis = {
   DictSave: 'dict-save.do',
   EntitiesQuery: 'entities-query.do',
   EntitySave: 'entity-save.do',
+  OrgNodesQuery: 'org-nodes-query.do',
 };
 
 export function saveStorages(storages) {

@@ -116,8 +116,29 @@ class OrgHierPage extends React.Component {
     this.props.saveOrgHier({orgmembers: newmembers});
   }
 
+  loadOrgNodes(param){
+    this.props.rpcInvoke(MasterApis.OrgNodesQuery, param, (json) => {
+      let orgnodes = json.map((item) => {
+        item.key = item.id;
+        item.title = item.text;
+        item.icon = item['has-child']? 'SocialPeople':'ActionSupervisorAccount';
+        if(item['has-child']){
+          item.children = [{
+            key: 'PLACE_HOLDER',
+            title: 'Loading...',
+            icon: 'ActionSupervisorAccount',
+          }];
+        }
+        return item;
+      });
+
+      return saveOrgHier({ orgnodes });
+    });
+  }
+
   componentWillMount() {
     if (this.props.setCurrentPage) { this.props.setCurrentPage('orghier'); }
+    this.loadOrgNodes({'org-id':'root'});
   }
 
   render() {
