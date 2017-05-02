@@ -133,7 +133,7 @@ class OrgHierPage extends React.Component {
         mountnode = mountnode.children.filter((item)=>{ return item.id === paths[i]})[0];
     }
 
-    this.props.rpcInvoke(MasterApis.OrgNodesQuery, param, (json) => {
+    this.props.rpcInvoke(MasterApis.OrgHierQuery, param, (json) => {
       let newnodes= json.map((item) => {
         item.key = item.id;
         item.title = item.text;
@@ -164,7 +164,6 @@ class OrgHierPage extends React.Component {
     const styles = getStyles(this.props.muiTheme);
     let {orgmember, orgnode, infomode, mbrlistval} = this.state;
     let { orgnodes, orgmembers } = this.props.orghier.toJS();
-    console.log('rendering'+JSON.stringify(orgnodes));
 
     let memberItems = orgmembers.map((item) => {
       return (

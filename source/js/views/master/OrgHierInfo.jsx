@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import UserAutoComplete from '../common/UserAutoComplete';
+import OrgHierAutoComplete from '../common/OrgHierAutoComplete';
 
 const getStyles = function (muiTheme) {
   const { baseTheme: { spacing } } = muiTheme;
@@ -24,8 +25,9 @@ class OrgHierInfo extends React.Component {
 
     return (
       <div>
-        <TextField
+        <OrgHierAutoComplete
           style={ styles.inputItem }
+          rpcInvoke={ rpcInvoke }
           hintText='16 letters'
           floatingLabelText='Current Entity Node'
         />
