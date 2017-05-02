@@ -31,14 +31,14 @@ class OrgHierAutoComplete extends React.Component {
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
-    this.setState({ searchText: value ,searchValue:value, });
+    this.setState({ searchText: value, searchValue:value, });
 
     rpcInvoke(
       AppApis.OrgNodesQuery,
       { 'org-id': -99 },
       (json) => {
         console.log(json);
-        const entries = json.map((item) => ({ text: item.name, value: item.account, id: item['user-id'] }));
+        const entries = json.map((item) => ({ text: item.text, value: item.id, id: item.id}));
         this.setState({
           dataSource: entries,
         });
@@ -54,6 +54,7 @@ class OrgHierAutoComplete extends React.Component {
             newReqIndex: index });
   };
 
+
   render() {
     const { style, rpcInvoke, searchText, ...rest } = this.props; // eslint-disable-line no-unused-vars
 
@@ -66,6 +67,7 @@ class OrgHierAutoComplete extends React.Component {
         dataSource={ this.state.dataSource }
         onNewRequest={ this.handleNewRequest }
         onUpdateInput={ this.handleUpdateInput }
+        filter={(search, key) => (key.indexOf(search) !== -1 || search === '@')}
         { ...rest }
       />
     );

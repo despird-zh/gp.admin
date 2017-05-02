@@ -31,11 +31,12 @@ class UserAutoComplete extends React.Component {
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
+    let name = (value) ? value.replace(/@/, '') : value ;
     this.setState({ searchText: value ,searchValue:value, });
 
     rpcInvoke(
       AppApis.UsersQuery,
-      { user_name: value, instanceId: null },
+      { user_name: name, instanceId: null },
       (json) => {
         const entries = json.map((item) => ({ text: item.name, value: item.account, id: item['user-id'] }));
         this.setState({
@@ -65,6 +66,7 @@ class UserAutoComplete extends React.Component {
         dataSource={ this.state.dataSource }
         onNewRequest={ this.handleNewRequest }
         onUpdateInput={ this.handleUpdateInput }
+        filter={(search, key) => (key.indexOf(search) !== -1 || search === '@')}
         { ...rest }
       />
     );

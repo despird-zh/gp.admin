@@ -28,7 +28,8 @@ class OrgHierInfo extends React.Component {
         <OrgHierAutoComplete
           style={ styles.inputItem }
           rpcInvoke={ rpcInvoke }
-          hintText='16 letters'
+          hintText='Input Name Letter'
+          openOnFocus={ true }
           floatingLabelText='Current Entity Node'
         />
         <TextField
