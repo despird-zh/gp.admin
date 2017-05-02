@@ -20,9 +20,6 @@ const styles = {
 class MuiTreeList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      nodes: this.props.nodes,
-    };
   }
 
   handleTouchTap = (nodePath, nodeItem) => {
@@ -34,9 +31,10 @@ class MuiTreeList extends Component {
   }
 
   render() {
+    const { useFolderIcons, nodes} = this.props;
+
     const getLeftIcon = (nodeItem) => {
       const { icon } = nodeItem;
-      const { useFolderIcons } = this.props;
 
       if (useFolderIcons && !icon) {
         if (nodeItem.children) {
@@ -90,7 +88,7 @@ class MuiTreeList extends Component {
       });
     };
 
-    const rootChildren = loopNodes('root',this.state.nodes);
+    const rootChildren = loopNodes('root', nodes);
 
     return (
         <List style={ this.props.style }>

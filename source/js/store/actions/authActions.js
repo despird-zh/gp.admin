@@ -52,7 +52,7 @@ function purgeToken() {
   };
 }
 
-function trapCatch(dispatch, error, isAuthRpc = false) {
+function trapCatch(dispatch, error, isAuthRpc = false, silent = true) {
   if(process.env.NODE_ENV !== 'production') console.log(error);
   if (isAuthRpc) {
     dispatch(authEnd({
@@ -66,10 +66,10 @@ function trapCatch(dispatch, error, isAuthRpc = false) {
     const snackMsg = snackOnlyAction({ snackTip: '无法连接服务器' });
     dispatch(snackMsg);
   }
-  dispatch(END_LOADER);
+  if (!silent) dispatch(END_LOADER);
 }
 
-function trapResolve(dispatch, json, action, raw = false) {
+function trapResolve(dispatch, json, action, silent = true, raw = false) {
   if (action && !raw) {
     const actionObj = action(json.data);
     if (actionObj) {
@@ -81,7 +81,7 @@ function trapResolve(dispatch, json, action, raw = false) {
       dispatch(actionObj);
     }
   }
-  dispatch(END_LOADER);
+  if (!silent) dispatch(END_LOADER);
 }
 
 export function reIssueToken({ headers, apiname, postbody, action, silent = true, raw = false }) {
@@ -106,10 +106,10 @@ export function reIssueToken({ headers, apiname, postbody, action, silent = true
         body: JSON.stringify(postbody),
       })
       .then(response => response.json())
-      .then(newJson => trapResolve(dispatch, newJson, action, raw))
-      .catch(error => trapCatch(dispatch, error));
+      .then(newJson => trapResolve(dispatch, newJson, action, silent, raw))
+      .catch(error => trapCatch(dispatch, error, false, silent));
     })
-    .catch(error => trapCatch(dispatch, error));
+    .catch(error => trapCatch(dispatch, error, false, silent));
   };
 }
 
@@ -140,10 +140,10 @@ export function reFetchToken({ authbody, apiname, postbody, action, silent = tru
         body: JSON.stringify(postbody),
       })
       .then(response => response.json())
-      .then(newJson => trapResolve(dispatch, newJson, action, raw))
-      .catch(error => trapCatch(dispatch, error));
+      .then(newJson => trapResolve(dispatch, newJson, action, silent, raw))
+      .catch(error => trapCatch(dispatch, error, false, silent));
     })
-    .catch(error => trapCatch(dispatch, error));
+    .catch(error => trapCatch(dispatch, error, false, silent));
   };
 }
 
@@ -159,8 +159,8 @@ export function callRpcApi({ headers, apiname, postbody, action, silent = true, 
       body: JSON.stringify(postbody),
     })
     .then(response => response.json())
-    .then(json => trapResolve(dispatch, json, action, raw))
-    .catch(error => trapCatch(dispatch, error));
+    .then(json => trapResolve(dispatch, json, action, silent, raw))
+    .catch(error => trapCatch(dispatch, error, false, silent));
   };
 }
 
@@ -184,7 +184,7 @@ export function signin(authbody) {
       }));
       dispatch(authEnd(json));
     })
-    .catch(error => trapCatch(dispatch, error, true));
+    .catch(error => trapCatch(dispatch, error, true, true));
   };
 }
 
@@ -207,6 +207,6 @@ export function signoff({ principal }) {
       dispatch(purgeToken());
       dispatch(snackOnlyAction({ snackTip: json.meta.message }));
     })
-    .catch(error => trapCatch(dispatch, error, true));
+    .catch(error => trapCatch(dispatch, error, true, true,));
   };
 }

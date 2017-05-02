@@ -81,6 +81,10 @@ class OrgHierPage extends React.Component {
     this.handleOrgInfo = this.handleModeChange.bind(null, 'org-info');
   }
 
+  setOrgHierTree = (treeRef) => {
+    this.orgHierTree = treeRef;
+  }
+
   handleModeChange = (mode) => {
     this.setState({ infomode: mode });
   }
@@ -101,9 +105,9 @@ class OrgHierPage extends React.Component {
   }
 
   handleNestedListToggle = (isOpen, nodePath, node) => {
-    console.log(isOpen);
-    console.log(nodePath + ' (toggle) ');
-    console.log(node);
+    if(isOpen){
+      this.loadOrgNodes( nodePath, {'org-id': node.id});
+    }
   }
 
   handleMemberRemove = (userId) => {
@@ -114,11 +118,23 @@ class OrgHierPage extends React.Component {
     });
 
     this.props.saveOrgHier({orgmembers: newmembers});
+    this.forceUpdate();
   }
 
-  loadOrgNodes(param){
+  loadOrgNodes(npath, param){
+    let orgnodes = this.props.orghier.get('orgnodes');
+    let paths = npath.split('-'); 
+
+    let mountnode = orgnodes;
+    for (let i = 1 ; i < paths.length; i++){
+      if(i === 1)
+        mountnode = mountnode.filter((item)=>{ return item.id === paths[i]})[0];
+      else
+        mountnode = mountnode.children.filter((item)=>{ return item.id === paths[i]})[0];
+    }
+
     this.props.rpcInvoke(MasterApis.OrgNodesQuery, param, (json) => {
-      let orgnodes = json.map((item) => {
+      let newnodes= json.map((item) => {
         item.key = item.id;
         item.title = item.text;
         item.icon = item['has-child']? 'SocialPeople':'ActionSupervisorAccount';
@@ -131,20 +147,24 @@ class OrgHierPage extends React.Component {
         }
         return item;
       });
+      if(paths.length === 1) orgnodes = newnodes;
+      else mountnode.children = newnodes;
 
-      return saveOrgHier({ orgnodes });
+      this.props.saveOrgHier({ orgnodes });
+      this.orgHierTree.forceUpdate();
     });
   }
 
   componentWillMount() {
     if (this.props.setCurrentPage) { this.props.setCurrentPage('orghier'); }
-    this.loadOrgNodes({'org-id':'root'});
+    this.loadOrgNodes('root',{'org-id':'root'});
   }
 
   render() {
     const styles = getStyles(this.props.muiTheme);
     let {orgmember, orgnode, infomode, mbrlistval} = this.state;
     let { orgnodes, orgmembers } = this.props.orghier.toJS();
+    console.log('rendering'+JSON.stringify(orgnodes));
 
     let memberItems = orgmembers.map((item) => {
       return (
@@ -167,7 +187,8 @@ class OrgHierPage extends React.Component {
           <div style={ styles.halfStyle }>
             <h3 style={ styles.panelTitle }>Hierarchy </h3>
             <Divider />
-            <MuiTreeList
+            <MuiTreeList 
+              ref = { this.setOrgHierTree }
               nodes={ orgnodes }
               useFolderIcons={ true }
               nodeRemovable={ true }

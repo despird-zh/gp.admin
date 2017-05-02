@@ -35,27 +35,7 @@ const initialState = Map({
 
   }),
   orghier: Map({
-    orgnodes: [{
-        key: 'k1',
-        title: 'Title1',
-        icon: 'ActionSupervisorAccount',
-      }, {
-        key: 'k2',
-        title: 'Title2 (5/41)',
-        icon: 'SocialPeople',
-        children: [
-          {
-            key: 'k21',
-            title: 'Title21',
-            icon: 'ActionSupervisorAccount',
-          },
-          {
-            key: 'k22',
-            title: 'Title22',
-            icon: 'ActionSupervisorAccount',
-          },
-        ],
-      }],
+    orgnodes: [],
     orgmembers: [
       {
         id: 1,
@@ -129,7 +109,7 @@ const actionsMap = {
     let newstate = state;
     
     if(data.orgmembers){
-      newstate = state.setIn(['orghier','orgmembers'], data.orgmembers);
+      newstate = newstate.setIn(['orghier','orgmembers'], data.orgmembers);
       delete data['orgmembers'];
     }
     if(data.orgnodes){
