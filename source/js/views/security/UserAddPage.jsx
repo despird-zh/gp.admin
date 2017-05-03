@@ -94,8 +94,15 @@ class UserInfoPage extends React.Component {
     }, false, true);
   }
 
-  handleRefresh = () => {
-    console.log('wr');
+  handleReset = () => {
+    let reset = {
+      account: '', email:'', 'image-path': '', language:'',
+      mobile:'', name:'', password:'', confirm:'', phone:'', pricapacity:'',
+      pubcapacity:'', signature:'', sourceId:'', 'source-name': '', state:'',
+      'storage-id': '', 'storage-name': '', timezone:'', type:'' 
+    };
+    this.props.saveAddUser(reset);
+    this.setState({ avatar: 'assets/img/book2.jpg' });
   }
 
   handleFieldChange = (key, event, newVal, payload) => {
@@ -130,7 +137,7 @@ class UserInfoPage extends React.Component {
         <div style={ styles.root }>
           <div style={ styles.spacer } />
           <div>
-            <RaisedButton label='Refresh' style={ { margin: 4 } } onTouchTap={ this.handleRefresh } />
+            <RaisedButton label='Reset' style={ { margin: 4 } } onTouchTap={ this.handleReset } />
             <RaisedButton label='Save' style={ { margin: 4 } } primary={ true } onTouchTap={ this.handleSave } />
           </div>
         </div>
