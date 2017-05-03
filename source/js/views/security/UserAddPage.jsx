@@ -82,8 +82,8 @@ class UserInfoPage extends React.Component {
 
   handleSave = () => {
     const { useradd } = this.props;
-    const postdata = useradd.get('user').toJS();
-
+    let postdata = useradd.get('user').toJS();
+    postdata.
     this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json) => {
       const { meta, data } = json;
 
@@ -120,10 +120,10 @@ class UserInfoPage extends React.Component {
     const styles = getStyles(this.props.muiTheme);
     /* eslint-disable */
     const {
-      account, 'create-date': createDate, email, 'image-path': imagePath, language,
+      account, email, 'image-path': imagePath, language,
       mobile, name, password, confirm, phone, pricapacity,
       pubcapacity, signature, sourceId, 'source-name': sourceName, state,
-      'storage-id': storageId, 'storage-name': storageName, timezone, type, modifier, 'last-modified': lastModified,
+      'storage-id': storageId, 'storage-name': storageName, timezone, type
     } = this.props.useradd.get('user').toJS();
     /* eslint-enable */
 
