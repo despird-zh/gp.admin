@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
+import Chip from 'material-ui/Chip';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
@@ -100,14 +101,14 @@ class OrgHierPage extends React.Component {
   }
 
   handleOrgTouchTap = (nodePath, node) => {
-    console.log(nodePath + ' (touchtap) ');
-    console.log(node);
+    this.setState({orgnode: node});
   }
 
   handleNestedListToggle = (isOpen, nodePath, node) => {
     if(isOpen){
       this.loadOrgNodes( nodePath, {'org-id': node.id});
     }
+    this.setState({orgnode: node});
   }
 
   handleMemberRemove = (userId) => {
@@ -177,6 +178,9 @@ class OrgHierPage extends React.Component {
     return (
       <div >
         <div style={ styles.topFull }>
+          { (orgnode.id) && <Chip style={{ margin: 6 }}>
+            Org. Node: { orgnode.text }
+          </Chip> }
           <div style={ styles.spacer } />
           <div>
             <RaisedButton label='Refresh' style={ { margin: 4 } } onTouchTap={ this.handleRefresh } />
