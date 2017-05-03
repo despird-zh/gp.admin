@@ -83,7 +83,7 @@ class UserInfoPage extends React.Component {
   handleSave = () => {
     const { useradd } = this.props;
     let postdata = useradd.get('user').toJS();
-    postdata.
+    postdata['image-path'] = this.state.avatar;
     this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json) => {
       const { meta, data } = json;
 
