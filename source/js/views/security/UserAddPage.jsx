@@ -8,7 +8,6 @@ import AuthConnect from '../../components/AuthConnect';
 import { GPTextField, GPSelectField } from '../../components/GPComponents';
 import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
 import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
-import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 
 import StorageSelect from '../common/StorageSelect';
 
@@ -65,7 +64,6 @@ class UserInfoPage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.rpcInvoke(AppApis.StoragesQuery, { type: 'ALL', state: 'ALL' }, storagesSaveAction);
     if (this.props.setCurrentPage) { this.props.setCurrentPage('useradd'); }
   }
 
@@ -128,11 +126,6 @@ class UserInfoPage extends React.Component {
       'storage-id': storageId, 'storage-name': storageName, timezone, type
     } = this.props.useradd.get('user').toJS();
     /* eslint-enable */
-
-    const storageItems = this.props.storages.map((item) => {
-      const { 'storage-id': sid, sname } = item.toJS();
-      return <MenuItem key={ sid } value={ sid } primaryText={ sname } />;
-    });
 
     return (
       <div>
@@ -214,7 +207,7 @@ class UserInfoPage extends React.Component {
             <div style={ styles.container }>
               <GPTextField
                 style={ styles.inputItem }
-                hintText='eg. foo@bar.com'
+                hintText='eg.foo@bar.com'
                 floatingLabelText='Email'
                 errorText={ this.state.errtips.email }
                 value={ email }
@@ -265,6 +258,7 @@ class UserInfoPage extends React.Component {
                 hintText='mega bytes unit'
                 floatingLabelText='Public cabinet size'
                 value={ pubcapacity }
+                type='number'
                 eventKey='pubcapacity'
                 onHandleChange={ this.handleFieldChange }
               />
@@ -273,6 +267,7 @@ class UserInfoPage extends React.Component {
                 hintText='mega bytes unit'
                 floatingLabelText='Private cabinet size'
                 value={ pricapacity }
+                type='number'
                 eventKey='pricapacity'
                 onHandleChange={ this.handleFieldChange }
               />
@@ -324,13 +319,11 @@ UserInfoPage.propTypes = {
   useradd: PropTypes.object,
   snackOnlyAction: PropTypes.func,
   muiTheme: PropTypes.object,
-  storages: PropTypes.object,
 };
 const NewComponent = AuthConnect(
   UserInfoPage,
   (state) => ({
     useradd: state.security.get('useradd'),
-    storages: state.app.get('storages'),
   }),
   { saveAddUser });
 

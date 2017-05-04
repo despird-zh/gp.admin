@@ -4,10 +4,13 @@ import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
+import Paper from 'material-ui/Paper';
 import AuthConnect from '../../components/AuthConnect';
 import { GPTextField, GPSelectField } from '../../components/GPComponents';
+import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
 import { saveEditUser, SecurityApis } from '../../store/actions/securityActions';
-import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
+
+import StorageSelect from '../common/StorageSelect';
 
 function getStyles(muiTheme) {
   const { baseTheme } = muiTheme;
@@ -38,14 +41,31 @@ function getStyles(muiTheme) {
       marginLeft: baseTheme.spacing.desktopGutterMini,
       marginRight: baseTheme.spacing.desktopGutterMini,
     },
+    avatarCard: {
+      height: 70,
+      width: 70,
+      marginTop: 20,
+      marginRight: 20,
+      marginLeft: 10,
+      marginBottom: 10,
+      textAlign: 'center',
+      display: 'inline-block',
+    },
   };
 }
 
 class UserEditPage extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      errtips: {},
+      avatar: 'assets/img/book2.jpg',
+    };
+  }
+
   componentWillMount() {
     const userId = this.props.params.userId;
-    this.props.rpcInvoke(AppApis.StoragesQuery, { type: 'ALL', state: 'ALL' }, storagesSaveAction);
     this.props.rpcInvoke(SecurityApis.UserInfo, { 'user_id': userId }, saveEditUser);
     if (this.props.setCurrentPage) { this.props.setCurrentPage('useredit'); }
   }
@@ -85,18 +105,12 @@ class UserEditPage extends React.Component {
       pubcapacity, signature, sourceId, 'source-name': sourceName, state,
       'storage-id': storageId, 'storage-name': storageName, timezone, type, modifier, 'last-modified': lastModified,
     } = this.props.useredit.get('user').toJS();
-/* eslint-enable */
-    const storageItems = this.props.storages.map((item) => {
-      const { 'storage-id': sid, sname } = item.toJS();
-      return <MenuItem key={ sid } value={ sid } primaryText={ sname } />;
-    });
+    /* eslint-enable */
 
     return (
       <div>
         <div style={ styles.root }>
-          <Chip
-            style={ { margin: 6 } }
-          >
+          <Chip style={ { margin: 6 } }>
             { lastModified } Modified By { modifier }
           </Chip>
           <div style={ styles.spacer } />
@@ -198,6 +212,21 @@ class UserEditPage extends React.Component {
             />
           </div>
           <div style={ styles.right }>
+            <h3 style={ styles.panelTitle }>Avatar Information</h3>
+            <Divider />
+            <div style={ { display: 'flex' } }>
+              <Paper style={ styles.avatarCard } zDepth={ 1 }>
+                <img
+                  role='presentation'
+                  src={ this.state.avatar }
+                  style={ { width: 70, height: 70 } }
+                />
+              </Paper>
+              <div style={ { display: 'flex', flexDirection: 'column-reverse', width: 100 } }>
+                <RaisedButton label='Change' style={ { marginBottom: 10 } } onTouchTap={ this.handleAvatarOpen } />
+              </div>
+              <AvatarEditDialog ref={ this.setEditorRef } onSave={ this.onAvatarSave } />
+            </div>
             <h3 style={ styles.panelTitle }>Storage Information</h3>
             <Divider />
             <GPTextField
@@ -218,16 +247,15 @@ class UserEditPage extends React.Component {
               eventKey='pricapacity'
               onHandleChange={ this.handleFieldChange }
             />
-            <GPSelectField
-              style={ styles.inputItem }
-              floatingLabelText='Storage'
-              floatingLabelFixed={ true }
-              value={ storageId }
-              eventKey='storage-id'
-              onHandleChange={ this.handleFieldChange }
-            >
-              { storageItems }
-            </GPSelectField>
+            <StorageSelect
+                style={ styles.inputItem }
+                floatingLabelText='Storage'
+                value={ storageId }
+                eventKey='storage-id'
+                onHandleChange={ this.handleFieldChange }
+                rpcInvoke = {this.props.rpcInvoke}
+              >
+              </StorageSelect>
             <div style={ { display: 'inline-block', width: 200 } } />
             <GPSelectField
               style={ styles.inputItem }
@@ -265,14 +293,12 @@ UserEditPage.propTypes = {
   useredit: PropTypes.object,
   snackOnlyAction: PropTypes.func,
   muiTheme: PropTypes.object,
-  storages: PropTypes.object,
 };
 
 const NewComponent = AuthConnect(
   UserEditPage,
   (state) => ({
     useredit: state.security.get('useredit'),
-    storages: state.app.get('storages'),
   }),
   { saveEditUser });
 
