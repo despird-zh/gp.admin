@@ -10,6 +10,8 @@ import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
 import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
 import { storagesSaveAction, AppApis } from '../../store/actions/appActions';
 
+import StorageSelect from '../common/StorageSelect';
+
 function getStyles(muiTheme) {
   const { baseTheme } = muiTheme;
   return {
@@ -276,15 +278,15 @@ class UserInfoPage extends React.Component {
               />
             </div>
             <div style={ styles.container }>
-              <GPSelectField
+              <StorageSelect
                 style={ styles.inputItem }
                 floatingLabelText='Storage'
                 value={ storageId }
                 eventKey='storage-id'
                 onHandleChange={ this.handleFieldChange }
+                rpcInvoke = {this.props.rpcInvoke}
               >
-                { storageItems }
-              </GPSelectField>
+              </StorageSelect>
               <GPSelectField
                 style={ styles.inputItem }
                 floatingLabelText='Language'
