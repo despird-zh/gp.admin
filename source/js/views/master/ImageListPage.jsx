@@ -137,11 +137,11 @@ class ImageListPage extends React.Component {
             enableSelectAll={ false }
           >
             <TableRow>
-              <TableHeaderColumn>Group</TableHeaderColumn>
-              <TableHeaderColumn>Entry</TableHeaderColumn>
-              <TableHeaderColumn>Value</TableHeaderColumn>
-              <TableHeaderColumn>Language</TableHeaderColumn>
-              <TableHeaderColumn>Label</TableHeaderColumn>
+              <TableHeaderColumn>Image</TableHeaderColumn>
+              <TableHeaderColumn>Format</TableHeaderColumn>
+              <TableHeaderColumn>Category</TableHeaderColumn>
+              <TableHeaderColumn>File Name</TableHeaderColumn>
+              <TableHeaderColumn>URL</TableHeaderColumn>
               <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
