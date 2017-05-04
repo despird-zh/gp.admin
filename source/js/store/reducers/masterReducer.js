@@ -4,6 +4,9 @@ import {
   MST_SAVE_STORAGES,
   MST_SAVE_STORAGES_FILTER,
 
+  MST_SAVE_IMAGES,
+  MST_SAVE_IMAGES_FILTER,
+
   MST_SAVE_DICTS,
   MST_SAVE_DICTS_FILTER,
 
@@ -18,7 +21,6 @@ const initialState = Map({
   storagelist: Map({
     storages: List(),
     type: '',
-
   }),
   dictlist: Map({
     entries: List(),
@@ -31,8 +33,9 @@ const initialState = Map({
 
   }),
   imagelist: Map({
-    images: List(),
-
+    images: [],
+    category: '',
+    format: '',
   }),
   orghier: Map({
     orgnodes: [],
@@ -91,6 +94,14 @@ const actionsMap = {
   },
   [MST_SAVE_STORAGES_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({ 'storagelist': data });
+  },
+  // Loader Action
+  [MST_SAVE_IMAGES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+    return state.setIn(['imagelist', 'images'], data);
+  },
+  [MST_SAVE_IMAGES_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+
+    return state.mergeDeep({ 'imagelist': data });
   },
   [MST_SAVE_DICTS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.setIn(['dictlist', 'entries'], data);

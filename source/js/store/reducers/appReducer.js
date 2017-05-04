@@ -4,7 +4,6 @@ import {
   APP_SHOW_LOADER,
   APP_SHOW_SNACK,
   APP_ONLY_SNACK,
-  CMN_FETCH_STORAGES,
 } from '../actions/appActions';
 
 const initialState = Map({
@@ -12,7 +11,6 @@ const initialState = Map({
   loaderTip: '',
   snackOpen: false,
   snackTip: '',
-  storages: [],
 });
 
 const actionsMap = {
@@ -39,12 +37,6 @@ const actionsMap = {
       loaderOpen: false,
       snackOpen: data.shown,
       snackTip: data.tip,
-    });
-  },
-
-  [CMN_FETCH_STORAGES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.merge({
-      storages: data,
     });
   },
 };
