@@ -29,7 +29,14 @@ const getStyles = function (muiTheme) {
     select: {
       width: 200,
       marginRight: baseTheme.spacing.desktopGutterLess,
-    } };
+    },
+    imageBG: {
+      height: 30,
+      width: 30,
+      backgroundSize:'contain',
+      backgroundRepeat: 'no-repeat',
+    }
+  };
 };
 
 class ImageListPage extends React.Component {
@@ -88,7 +95,7 @@ class ImageListPage extends React.Component {
     const styles = getStyles(this.props.muiTheme);
 
     const rows = images.map((item) => {
-      return (<StorageListRow
+      return (<ImageListRow
         key={ `row_${ item['image-id'] }` }
         rowData={ item }
         styles={ styles }
@@ -150,7 +157,35 @@ class ImageListPage extends React.Component {
 ImageListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
+  imagelist: PropTypes.object,
+  saveImagesFilter: PropTypes.func,
+  rpcInvoke: PropTypes.func,
 };
+
+/*eslint-disable */
+const ImageListRow = ({styles, rowData, onHandleJump}) => {
+
+  const { 'image-id':imageId, format, 
+          category, 'image-name':imageName, 'image-url':imageUrl } = rowData;
+
+  const handleJump = () => { onHandleJump( imageId ); };
+
+  let imgStyle = Object.assign({ backgroundImage: 'url(' + imageUrl + ')' }, styles.imageBG)
+
+  return (<TableRow key={ imageId }>
+    <TableRowColumn>
+      <div style={imgStyle}></div>
+    </TableRowColumn>
+    <TableRowColumn> { format }</TableRowColumn>
+    <TableRowColumn>{ category }</TableRowColumn>
+    <TableRowColumn>{ imageName }</TableRowColumn>
+    <TableRowColumn>{ imageUrl }</TableRowColumn>
+    <TableRowColumn style={ { width: 80 } }>
+      <IconButton iconStyle={ styles.iconStyle } onClick={ handleJump }><ModeEditIcon /></IconButton >
+    </TableRowColumn>
+  </TableRow>);
+};
+/*eslint-enable */
 
 const NewComponent = AuthConnect(
   ImageListPage,
