@@ -23,8 +23,9 @@ export const MasterApis = {
   DictSave: 'dict-save.do',
   EntitiesQuery: 'entities-query.do',
   EntitySave: 'entity-save.do',
-  OrgHierQuery: 'org-hier-query.do',
 
+  OrgHierQuery: 'org-hier-query.do',
+  OrgMembersQuery: 'org-members-query.do',
 };
 
 export function saveStorages(storages) {

@@ -101,6 +101,7 @@ class OrgHierPage extends React.Component {
   }
 
   handleOrgTouchTap = (nodePath, node) => {
+    this.loadOrgMembers(node.id);
     this.setState({orgnode: node});
   }
 
@@ -108,6 +109,7 @@ class OrgHierPage extends React.Component {
     if(isOpen){
       this.loadOrgNodes( nodePath, {'org-id': node.id});
     }
+    this.loadOrgMembers(node.id);
     this.setState({orgnode: node});
   }
 
@@ -153,6 +155,12 @@ class OrgHierPage extends React.Component {
 
       this.props.saveOrgHier({ orgnodes });
       this.orgHierTree.forceUpdate();
+    });
+  }
+
+  loadOrgMembers(orgId){
+    this.props.rpcInvoke(MasterApis.OrgMembersQuery, {'org-id': orgId}, (json) => {
+      console.log(json);
     });
   }
 
