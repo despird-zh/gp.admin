@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import UserAutoComplete from '../common/UserAutoComplete';
 import OrgHierAutoComplete from '../common/OrgHierAutoComplete';
 
+import { GPTextField, GPSelectField } from '../../components/GPComponents';
+
 const getStyles = function (muiTheme) {
   const { baseTheme: { spacing } } = muiTheme;
   return {
@@ -20,7 +22,7 @@ const getStyles = function (muiTheme) {
 class OrgHierInfo extends React.Component {
 
   render() {
-    const { onHandleClear, onHandleSave, muiTheme, rpcInvoke } = this.props;
+    const { onHandleClear, onHandleSave, onHandleChange, muiTheme, rpcInvoke } = this.props;
     const styles = getStyles(muiTheme);
 
     return (
@@ -31,33 +33,46 @@ class OrgHierInfo extends React.Component {
           hintText='Input Name Letter'
           openOnFocus={ true }
           floatingLabelText='Current Entity Node'
+          eventKey="parent"
+          onHandleChange={ onHandleChange }
         />
-        <TextField
+        <GPTextField
+          eventKey="text"
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Org. Node Name'
+          eventKey="title"
+          onHandleChange={ onHandleChange }
         />
         <UserAutoComplete
           style={ styles.inputItem }
           rpcInvoke={ rpcInvoke }
           hintText='Assign a user as administrator'
           floatingLabelText='Administrator'
+          eventKey="admin"
+          onHandleChange={ onHandleChange }
         />
         <UserAutoComplete
           style={ styles.inputItem }
           rpcInvoke={ rpcInvoke }
           hintText='Assign a manager to org node'
           floatingLabelText='Manager'
+          eventKey="manager"
+          onHandleChange={ onHandleChange }
         />
-        <TextField
+        <GPTextField
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Contact Mail'
+          eventKey="email"
+          onHandleChange={ onHandleChange }
         />
-        <TextField
+        <GPTextField
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Description'
+          eventKey="description"
+          onHandleChange={ onHandleChange }
         />
         <div style={ { marginTop: 10 } }>
           <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ onHandleClear } />

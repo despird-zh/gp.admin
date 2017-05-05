@@ -13,6 +13,10 @@ class UserAutoComplete extends React.Component {
       searchText: this.props.searchText,
       newReqIndex: -1,
     };
+
+    let {onHandleChange , eventKey} = this.props;
+    if(onHandleChange && eventKey)
+      this.handleFieldChange = onHandleChange.bind(null, eventKey);
   }
 
   setInnerRef = (refComponent) => {
@@ -34,6 +38,9 @@ class UserAutoComplete extends React.Component {
     let name = (value) ? value.replace(/@/, '') : value ;
     this.setState({ searchText: value ,searchValue:value, });
 
+    if(this.handleFieldChange)
+      this.handleFieldChange(null, value);
+    
     rpcInvoke(
       AppApis.UsersQuery,
       { user_name: name, instanceId: null },
@@ -48,6 +55,9 @@ class UserAutoComplete extends React.Component {
 
   handleNewRequest = (chosenRequest, index) => {
 
+    if(this.handleFieldChange)
+      this.handleFieldChange(null, chosenRequest.value);
+    
     this.setState({ 
             searchText: chosenRequest.text, 
             searchValue:chosenRequest.value, 

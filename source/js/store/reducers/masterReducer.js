@@ -39,50 +39,11 @@ const initialState = Map({
   }),
   orghier: Map({
     orgnodes: [],
-    orgmembers: [
-      {
-        id: 1,
-        account: 'jsa',
-        name: 'Juna Illa',
-        avatar: 'assets/img/jsa-128.jpg',
-      },
-      {
-        id: 2,
-        account: 'kerem',
-        name: 'Kerem Cliton',
-        avatar: 'assets/img/kerem-128.jpg',
-      },
-      {
-        id: 3,
-        account: 'kolage',
-        name: 'kolage Lun',
-        avatar: 'assets/img/kolage-128.jpg',
-      },
-      {
-        id: 4,
-        account: 'ok',
-        name: 'Ok Frendy',
-        avatar: 'assets/img/ok-128.jpg',
-      },
-      {
-        id: 5,
-        account: 'raquelromanp',
-        name: 'Raque Romanp',
-        avatar: 'assets/img/raquelromanp-128.jpg',
-      },
-      {
-        id: 6,
-        account: 'uxceo',
-        name: 'Juna Uxceo',
-        avatar: 'assets/img/uxceo-128.jpg',
-      },
-      {
-        id: 7,
-        account: 'sds',
-        name: 'Juna Illa',
-        avatar: 'assets/img/jsa-128.jpg',
-      }
-    ],
+    orgmembers: [],
+    infomode: 'mbr-add',
+    orgadd: {},
+    orgedit: {},
+    memberadd: {},
   }),
 });
 
@@ -117,17 +78,29 @@ const actionsMap = {
   },
 
   [MST_SAVE_ORGHIER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    let newstate = state;
-    
-    if(data.orgmembers){
-      newstate = newstate.setIn(['orghier','orgmembers'], data.orgmembers);
-      delete data['orgmembers'];
-    }
-    if(data.orgnodes){
-      newstate = newstate.setIn(['orghier','orgnodes'], data.orgnodes);
-      delete data['orgnodes'];
-    }
-    return newstate.mergeDeep({ 'orghier': data });
+    return state.withMutations( (map) => {
+      if(data.orgmembers){
+        map.setIn(['orghier','orgmembers'], data.orgmembers);
+        delete data['orgmembers'];
+      }
+      if(data.orgnodes){
+        map.setIn(['orghier','orgnodes'], data.orgnodes);
+        delete data['orgnodes'];
+      }
+      if(data.orgadd){
+        map.setIn(['orghier','orgadd'], data.orgadd);
+        delete data['orgadd'];
+      }
+      if(data.orgedit){
+        map.setIn(['orghier','orgedit'], data.orgedit);
+        delete data['orgedit'];
+      }
+      if(data.memberadd){
+        map.setIn(['orghier','memberadd'], data.memberadd);
+        delete data['memberadd'];
+      }
+      map.mergeDeep({ 'orghier': data });
+    });
   },
 };
 

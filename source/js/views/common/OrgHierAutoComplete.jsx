@@ -13,6 +13,10 @@ class OrgHierAutoComplete extends React.Component {
       searchText: this.props.searchText,
       newReqIndex: -1,
     };
+
+    let {onHandleChange , eventKey} = this.props;
+    if(onHandleChange && eventKey)
+      this.handleFieldChange = onHandleChange.bind(null, eventKey);
   }
 
   setInnerRef = (refComponent) => {
@@ -32,6 +36,8 @@ class OrgHierAutoComplete extends React.Component {
     const { rpcInvoke } = this.props;
 
     this.setState({ searchText: value, searchValue:value, });
+    if(this.handleFieldChange)
+      this.handleFieldChange(null, value);
 
     rpcInvoke(
       AppApis.OrgNodesQuery,
@@ -47,6 +53,9 @@ class OrgHierAutoComplete extends React.Component {
   };
 
   handleNewRequest = (chosenRequest, index) => {
+
+    if(this.handleFieldChange)
+      this.handleFieldChange(null, chosenRequest.value);
 
     this.setState({ 
             searchText: chosenRequest.text, 
@@ -78,6 +87,8 @@ OrgHierAutoComplete.propTypes = {
   style: PropTypes.object,
   rpcInvoke: PropTypes.func,
   searchText: PropTypes.string,
+  eventKey: PropTypes.string,
+  onHandleChange: PropTypes.func,
 };
 
 export default OrgHierAutoComplete;

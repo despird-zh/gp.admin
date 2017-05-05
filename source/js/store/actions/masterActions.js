@@ -26,6 +26,7 @@ export const MasterApis = {
 
   OrgHierQuery: 'org-hier-query.do',
   OrgMembersQuery: 'org-members-query.do',
+  OrgMemberRemove: 'org-member-remove.do',
 };
 
 export function saveStorages(storages) {

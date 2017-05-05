@@ -11,6 +11,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Avatar from 'material-ui/Avatar';
 
+import SocialGrp from 'material-ui/svg-icons/social/group';
 import SocialGrpAdd from 'material-ui/svg-icons/social/group-add';
 import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
 import AuthConnect from '../../components/AuthConnect';
@@ -18,6 +19,7 @@ import MuiTreeList from '../../components/TreeList/MuiTreeList';
 import UserAutoComplete from '../common/UserAutoComplete';
 import { OrgHierInfo, OrgHierMember } from './OrgHierInfo';
 
+import { snackAction } from '../../store/actions/appActions';
 import { saveOrgHier,
   MasterApis } from '../../store/actions/masterActions';
 
@@ -72,11 +74,6 @@ class OrgHierPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      orgmember: {},
-      orgnode: {},
-      infomode: 'mbr-add', // org-add, org-info
-    };
     this.handleMemberAdd = this.handleModeChange.bind(null, 'mbr-add');
     this.handleOrgAdd = this.handleModeChange.bind(null, 'org-add');
     this.handleOrgInfo = this.handleModeChange.bind(null, 'org-info');
@@ -87,12 +84,23 @@ class OrgHierPage extends React.Component {
   }
 
   handleModeChange = (mode) => {
-    this.setState({ infomode: mode });
+    this.props.saveOrgHier({ infomode: mode });
   }
 
   handleMemberChange = (evt, member) => {
     console.log(member);
   }
+
+  handleOrgEditFieldChange = (key, event, newVal, payload) => {
+    const selects = ['language'];
+    const data = {};
+    if (selects.indexOf(key) >= 0) {
+      data[key] = payload;
+    } else {
+      data[key] = newVal;
+    }
+    this.props.saveOrgHier({orgedit: data});
+  };
 
   handleOrgRemove = (nodePath, node) => {
 
@@ -102,7 +110,7 @@ class OrgHierPage extends React.Component {
 
   handleOrgTouchTap = (nodePath, node) => {
     this.loadOrgMembers(node.id);
-    this.setState({orgnode: node});
+    this.props.saveOrgHier({infomode: 'org-edit', orgedit: node});
   }
 
   handleNestedListToggle = (isOpen, nodePath, node) => {
@@ -110,18 +118,31 @@ class OrgHierPage extends React.Component {
       this.loadOrgNodes( nodePath, {'org-id': node.id});
     }
     this.loadOrgMembers(node.id);
-    this.setState({orgnode: node});
+    this.props.saveOrgHier({infomode: 'org-edit', orgedit: node});
   }
 
-  handleMemberRemove = (userId) => {
-    let orgmembers = this.props.orghier.get('orgmembers');
-    let newmembers = orgmembers.filter((item) => {
+  handleMemberRemove = ({userid, account}) => {
+    let orgedit = this.props.orghier.get('orgedit');
+    this.props.rpcInvoke(MasterApis.OrgMemberRemove, 
+      {
+        'org-id': orgedit.id,
+        account
+      }, (jsonRaw) => {
+        console.log(jsonRaw);
 
-      return item.id !== userId;
-    });
+        if(jsonRaw.meta.state !== 'success'){
+          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
+        }
 
-    this.props.saveOrgHier({orgmembers: newmembers});
-    this.forceUpdate();
+        let orgmembers = this.props.orghier.get('orgmembers');
+        let newmembers = orgmembers.filter((item) => {
+
+          return item['user-id'] !== userid;
+        });
+
+        return saveOrgHier({orgmembers: newmembers});
+    }, true, true);
+    
   }
 
   loadOrgNodes(npath, param){
@@ -137,9 +158,9 @@ class OrgHierPage extends React.Component {
     }
 
     this.props.rpcInvoke(MasterApis.OrgHierQuery, param, (json) => {
+
       let newnodes= json.map((item) => {
         item.key = item.id;
-        item.title = item.text;
         item.icon = item['has-child']? 'SocialPeople':'ActionSupervisorAccount';
         if(item['has-child']){
           item.children = [{
@@ -160,7 +181,7 @@ class OrgHierPage extends React.Component {
 
   loadOrgMembers(orgId){
     this.props.rpcInvoke(MasterApis.OrgMembersQuery, {'org-id': orgId}, (json) => {
-      console.log(json);
+      return saveOrgHier({ orgmembers: json });
     });
   }
 
@@ -171,12 +192,17 @@ class OrgHierPage extends React.Component {
 
   render() {
     const styles = getStyles(this.props.muiTheme);
-    let {orgmember, orgnode, infomode, mbrlistval} = this.state;
-    let { orgnodes, orgmembers } = this.props.orghier.toJS();
+    let orgadd = this.props.orghier.get('orgadd');
+    let orgedit = this.props.orghier.get('orgedit');
+    let memberadd = this.props.orghier.get('memberadd');
+    let infomode = this.props.orghier.get('infomode');
+
+    let orgnodes = this.props.orghier.get('orgnodes');
+    let orgmembers = this.props.orghier.get('orgmembers');
 
     let memberItems = orgmembers.map((item) => {
       return (
-        <MemberListItem key={item.id} 
+        <MemberListItem key={item['user-id']} 
           itemData={item} 
           onItemRemove={ this.handleMemberRemove }
           />
@@ -186,8 +212,8 @@ class OrgHierPage extends React.Component {
     return (
       <div >
         <div style={ styles.topFull }>
-          { (orgnode.id) && <Chip style={{ margin: 6 }}>
-            Org. Node: { orgnode.text }
+          { (orgedit.id) && <Chip style={{ margin: 6 }}>
+            Org. Node: { orgedit.text }
           </Chip> }
           <div style={ styles.spacer } />
           <div>
@@ -217,6 +243,12 @@ class OrgHierPage extends React.Component {
           </div>
           <div style={ styles.halfStyle }>
             <h3 style={ styles.panelTitle }>Detail
+              { (infomode === 'org-edit' ) && <IconButton
+                style={ styles.iconBtnStyle }
+                iconStyle={ infomode === 'org-edit' ? styles.activeBtnIconStyle : styles.btnIconStyle }
+                onTouchTap={ this.handleOrg } >
+                <SocialGrp />
+              </IconButton>}
               <IconButton
                 style={ styles.iconBtnStyle }
                 iconStyle={ infomode === 'org-add' ? styles.activeBtnIconStyle : styles.btnIconStyle }
@@ -233,16 +265,25 @@ class OrgHierPage extends React.Component {
               </IconButton>
             </h3>
             <Divider />
-            { ( infomode === 'org-add') && <OrgHierInfo
+            { ( infomode === 'org-add' ) && <OrgHierInfo
                 styles={ styles }
                 onHandleClear={ () => {} }
-                onHandleSave={ () => {} }
+                onHandleChange={ this.handleOrgEditFieldChange }
                 rpcInvoke={ this.props.rpcInvoke }
                 muiTheme={ this.props.muiTheme }
               />
             }
+            { ( infomode === 'org-edit') && <OrgHierInfo
+                styles={ styles }
+                onHandleClear={ () => {} }
+                onHandleChange={ this.handleOrgEditFieldChange }
+                rpcInvoke={ this.props.rpcInvoke }
+                muiTheme={ this.props.muiTheme }
+                initialData={ orgedit }
+              />
+            }
             {
-              ( infomode === 'mbr-add') && <OrgHierMember
+              ( infomode === 'mbr-add' ) && <OrgHierMember
                 styles={ styles }
                 onHandleClear={ () => {} }
                 onHandleSave={ () => {} }
@@ -266,15 +307,16 @@ OrgHierPage.propTypes = {
 
 /* eslint-disable */
 const MemberListItem = ({itemData, onItemRemove, ...rest}) => {
-  let avatar = <Avatar src={itemData.avatar} />;
+  let {'user-id':userid, account, 'user-name':userName, 'avatar-link':avatarLink, 'source-abbr':sourceAbbr } = itemData;
+  let avatar = <Avatar src={avatarLink} />;
   let handleItemRemove = () => {
-    onItemRemove(itemData.id);
+    onItemRemove({ userid, account});
   };
   return (<ListItem
-    primaryText={itemData.name}
+    primaryText={ `${userName} - ${sourceAbbr}` }
     leftAvatar={ avatar }
     rightIconButton={ <IconButton onTouchTap={ handleItemRemove }><ContentClear /></IconButton> }
-    value={ itemData.id }
+    value={ userid }
     {...rest} >
   </ListItem>);
 };
