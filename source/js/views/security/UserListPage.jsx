@@ -10,8 +10,6 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import AuthConnect from '../../components/AuthConnect';
 import { saveUsers,
-  saveUsersFilter,
-  clearUsersFilter,
   SecurityApis } from '../../store/actions/securityActions';
 
 function getStyles(muiTheme) {
@@ -55,9 +53,11 @@ class UserListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const search = this.props.userlist.search;
+    const search = this.props.userlist.get('search');
     const params = { filterkey: search, state: 'ALL', type: 'ALL' };
-    this.props.rpcInvoke(SecurityApis.UsersQuery, params, saveUsers);
+    this.props.rpcInvoke(SecurityApis.UsersQuery, params, (json) => {
+      return saveUsers({users: json});
+    });
   }
 
   handleClear = () => {
@@ -65,9 +65,10 @@ class UserListPage extends React.Component {
       search: '',
       internal: false,
       external: false,
+      users: []
     };
 
-    this.props.clearUsersFilter(filter);
+    this.props.saveUsers(filter);
   }
 
   handleFilter = (key, event, newVal) => {
@@ -78,7 +79,7 @@ class UserListPage extends React.Component {
       filter[key] = newVal;
     }
 
-    this.props.saveUsersFilter(filter);
+    this.props.saveUsers(filter);
   }
 
   render() {
@@ -145,8 +146,7 @@ UserListPage.propTypes = {
   setCurrentPage: PropTypes.func,
   userlist: PropTypes.object,
   rpcInvoke: PropTypes.func,
-  clearUsersFilter: PropTypes.func,
-  saveUsersFilter: PropTypes.func,
+  saveUsers: PropTypes.func,
   muiTheme: PropTypes.object,
 };
 
@@ -174,6 +174,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     userlist: state.security.get('userlist'),
   }),
-  { saveUsersFilter, clearUsersFilter });
+  { saveUsers });
 
 export default NewComponent;

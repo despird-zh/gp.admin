@@ -4,13 +4,10 @@ import {
   MST_SAVE_STORAGES,
 
   MST_SAVE_IMAGES,
-  MST_SAVE_IMAGES_FILTER,
 
   MST_SAVE_DICTS,
-  MST_SAVE_DICTS_FILTER,
 
   MST_SAVE_ENTITIES,
-  MST_SAVE_ENTITIES_FILTER,
 
   MST_SAVE_ORGHIER,
 } from '../actions/masterActions';
@@ -81,10 +78,13 @@ const actionsMap = {
   },
 
   [MST_SAVE_ENTITIES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['dictlist', 'entries'], data);
-  },
-  [MST_SAVE_ENTITIES_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({ 'dictlist': data });
+    return state.withMutations( (map) => {
+      if(data.entries){
+        map.setIn(['entitylist', 'entities'], data.entities);
+        delete data['entities'];
+      }
+      map.mergeDeep({ 'entitylist': data });
+    });
   },
 
   [MST_SAVE_ORGHIER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars

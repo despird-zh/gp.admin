@@ -1,7 +1,6 @@
-export const WGRP_SAVE_GRPS = 'WGRP_SAVE_GRPS';
-export const WGRP_SAVE_GRP = 'WGRP_SAVE_GRP';
-export const WGRP_SAVE_FILTER = 'WGRP_SAVE_FILTER';
-export const WGRP_CLEAR_SEARCH = 'WGRP_CLEAR_SEARCH';
+export const WGRP_SAVE_WGRPS     = 'WGRP_SAVE_WGRPS';
+export const WGRP_SAVE_WGRP_ADD  = 'WGRP_SAVE_WGRP_ADD';
+export const WGRP_SAVE_WGRP_EDIT = 'WGRP_SAVE_WGRP_EDIT';
 
 export const WorkgroupApis = {
   GroupsQuery: 'wgroups-query.do',
@@ -10,30 +9,23 @@ export const WorkgroupApis = {
   GroupInfo: 'wgroup-info.do',
 };
 
-export function groupsSave(grplist) {
+export function saveWGrps(grplist) {
   return {
-    type: WGRP_SAVE_GRPS,
+    type: WGRP_SAVE_WGRPS,
     data: grplist,
   };
 }
 
-export function filterSave(filter) {
+export function saveWGrpAdd(grpinfo) {
   return {
-    type: WGRP_SAVE_FILTER,
-    data: filter,
-  };
-}
-
-export function groupSave(grpinfo) {
-  return {
-    type: WGRP_SAVE_GRP,
+    type: WGRP_SAVE_WGRP_ADD,
     data: grpinfo,
   };
 }
 
-export function searchClear(filter) {
+export function saveWGrpEdit(grpinfo) {
   return {
-    type: WGRP_CLEAR_SEARCH,
-    data: filter,
+    type: WGRP_SAVE_WGRP_EDIT,
+    data: grpinfo,
   };
 }

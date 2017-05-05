@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper';
 import AuthConnect from '../../components/AuthConnect';
 import { GPTextField, GPSelectField } from '../../components/GPComponents';
 import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
-import { saveAddUser, SecurityApis } from '../../store/actions/securityActions';
+import { saveUserAdd, SecurityApis } from '../../store/actions/securityActions';
 
 import StorageSelect from '../common/StorageSelect';
 
@@ -101,7 +101,7 @@ class UserInfoPage extends React.Component {
       pubcapacity:'', signature:'', sourceId:'', 'source-name': '', state:'',
       'storage-id': '', 'storage-name': '', timezone:'', type:'' 
     };
-    this.props.saveAddUser(reset);
+    this.props.saveUserAdd(reset);
     this.setState({ avatar: 'assets/img/book2.jpg' });
   }
 
@@ -113,7 +113,7 @@ class UserInfoPage extends React.Component {
     } else {
       data[key] = newVal;
     }
-    this.props.saveAddUser(data);
+    this.props.saveUserAdd(data);
   };
 
   render() {
@@ -314,7 +314,7 @@ class UserInfoPage extends React.Component {
 
 UserInfoPage.propTypes = {
   setCurrentPage: PropTypes.func,
-  saveAddUser: PropTypes.func,
+  saveUserAdd: PropTypes.func,
   rpcInvoke: PropTypes.func,
   useradd: PropTypes.object,
   snackOnlyAction: PropTypes.func,
@@ -325,6 +325,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     useradd: state.security.get('useradd'),
   }),
-  { saveAddUser });
+  { saveUserAdd });
 
 export default NewComponent;

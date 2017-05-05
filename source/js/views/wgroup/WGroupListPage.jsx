@@ -10,7 +10,7 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 import AuthConnect from '../../components/AuthConnect';
-import { groupsSave, groupSave, filterSave, searchClear, WorkgroupApis } from '../../store/actions/wgroupActions';
+import { saveWGrps, WorkgroupApis } from '../../store/actions/wgroupActions';
 
 
 function getStyles(muiTheme) {
@@ -56,7 +56,7 @@ class WGroupListPage extends React.Component {
     } else {
       filter[key] = newVal;
     }
-    this.props.filterSave(filter);
+    this.props.saveWGrps(filter);
   }
 
   handleClear = () => {
@@ -64,9 +64,10 @@ class WGroupListPage extends React.Component {
       search: '',
       internal: false,
       external: false,
+      wgrps: []
     };
 
-    this.props.searchClear(filter);
+    this.props.saveWGrps(filter);
   }
 
   handleJump = (wgroupId) => {
@@ -75,17 +76,19 @@ class WGroupListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const search = this.props.grouplist.search;
+    const search = this.props.wgrplist.get('search');
     const params = { filterkey: search, state: 'ALL', type: 'ALL' };
 
-    this.props.rpcInvoke(WorkgroupApis.GroupsQuery, params, groupsSave);
+    this.props.rpcInvoke(WorkgroupApis.GroupsQuery, params, (json) => {
+      return saveWGrps({ wgrps: json });
+    });
   }
 
   render() {
     const styles = getStyles(this.props.muiTheme);
-    const { groups, internal, external, search } = this.props.grouplist.toJS();
+    const { wgrps, internal, external, search } = this.props.wgrplist.toJS();
 
-    const rows = groups.map((item) => {
+    const rows = wgrps.map((item) => {
       return (
         <WGroupListRow rowData={ item } styles={styles} onHandleJump={ this.handleJump } />
       );
@@ -145,11 +148,10 @@ class WGroupListPage extends React.Component {
 
 WGroupListPage.propTypes = {
   setCurrentPage: PropTypes.func,
-  filterSave: PropTypes.func,
-  grouplist: PropTypes.object,
+  saveWGrps: PropTypes.func,
+  wgrplist: PropTypes.object,
   muiTheme: PropTypes.object,
   rpcInvoke: PropTypes.func,
-  searchClear: PropTypes.func,
 };
 
 /*eslint-disable */
@@ -177,8 +179,8 @@ const WGroupListRow = ({ rowData, styles, onHandleJump }) => {
 const NewComponent = AuthConnect(
   WGroupListPage,
   (state) => ({
-    grouplist: state.wgroup.get('grouplist'),
+    wgrplist: state.wgroup.get('wgrplist'),
   }),
-  { groupsSave, groupSave, filterSave, searchClear });
+  { saveWGrps });
 
 export default NewComponent;

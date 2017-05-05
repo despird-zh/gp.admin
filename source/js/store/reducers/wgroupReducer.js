@@ -1,45 +1,45 @@
 import { Map, List } from 'immutable';
 
 import {
-  WGRP_SAVE_GRPS,
-  WGRP_SAVE_GRP,
-  WGRP_SAVE_FILTER,
-  WGRP_CLEAR_SEARCH,
+  WGRP_SAVE_WGRPS,
+  WGRP_SAVE_WGRP_ADD,
+  WGRP_SAVE_WGRP_EDIT
 } from '../actions/wgroupActions';
 
 const initialState = Map({
-  grouplist: Map({
-    groups: List(),
+  wgrplist: Map({
+    wgrps: [],
     search: '',
     internal: false,
     external: false,
   }),
-  groupedit: Map(),
+  wgrpedit: Map({}),
+  wgrpadd: Map({}),
 });
 
 const actionsMap = {
 
   // Loader Action
-  [WGRP_SAVE_GRPS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['grouplist', 'groups'], data);
-  },
-  [WGRP_SAVE_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({
-      grouplist: data,
-    });
-  },
-// Loader Action
-  [WGRP_SAVE_GRP]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({
-      groupedit: data,
+  [WGRP_SAVE_WGRPS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+    return state.withMutations( (map) => {
+      if(data.wgrps){
+        map.setIn(['wgrplist', 'wgrps'], data.wgrps);
+        delete data['wgrps'];
+      }
+      map.mergeDeep({ 'wgrplist': data });
     });
   },
 
-  [WGRP_CLEAR_SEARCH]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    const newState = state.mergeDeep({
-      grouplist: data,
+  [WGRP_SAVE_WGRP_ADD]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+    return state.mergeDeep({
+      wgrpadd: data,
     });
-    return newState.setIn(['grouplist', 'groups'], List());
+  },
+
+  [WGRP_SAVE_WGRP_EDIT]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+    return state.mergeDeep({
+      wgrpedit: data,
+    });
   },
 };
 

@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper';
 import AuthConnect from '../../components/AuthConnect';
 import { GPTextField, GPSelectField } from '../../components/GPComponents';
 import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
-import { saveEditUser, SecurityApis } from '../../store/actions/securityActions';
+import { saveUserEdit, SecurityApis } from '../../store/actions/securityActions';
 
 import StorageSelect from '../common/StorageSelect';
 
@@ -66,7 +66,7 @@ class UserEditPage extends React.Component {
 
   componentWillMount() {
     const userId = this.props.params.userId;
-    this.props.rpcInvoke(SecurityApis.UserInfo, { 'user_id': userId }, saveEditUser);
+    this.props.rpcInvoke(SecurityApis.UserInfo, { 'user_id': userId }, saveUserEdit);
     if (this.props.setCurrentPage) { this.props.setCurrentPage('useredit'); }
   }
 
@@ -78,7 +78,7 @@ class UserEditPage extends React.Component {
     } else {
       data[key] = newVal;
     }
-    this.props.saveEditUser(data);
+    this.props.saveUserEdit(data);
   };
 
   handleRefresh = () => {
@@ -289,7 +289,7 @@ UserEditPage.propTypes = {
   setCurrentPage: PropTypes.func,
   params: PropTypes.object,
   rpcInvoke: PropTypes.func,
-  saveEditUser: PropTypes.func,
+  saveUserEdit: PropTypes.func,
   useredit: PropTypes.object,
   snackOnlyAction: PropTypes.func,
   muiTheme: PropTypes.object,
@@ -300,6 +300,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     useredit: state.security.get('useredit'),
   }),
-  { saveEditUser });
+  { saveUserEdit });
 
 export default NewComponent;

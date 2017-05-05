@@ -10,7 +10,6 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 
 import AuthConnect from '../../components/AuthConnect';
 import { saveEntities,
-  saveEntitiesFilter,
   MasterApis } from '../../store/actions/masterActions';
 import DictDialog from './DictDialog';
 
@@ -66,7 +65,9 @@ class EntityListPage extends React.Component {
     const { search, group, language } = this.props.entitylist.toJS();
     const params = { search, group, language };
 
-    this.props.rpcInvoke(MasterApis.EntitiesQuery, params, saveEntities);
+    this.props.rpcInvoke(MasterApis.EntitiesQuery, params, (json) => { 
+      return saveEntities({ entities: json });
+    });
   }
 
   handleClear = () => {
@@ -77,7 +78,7 @@ class EntityListPage extends React.Component {
       entries: [],
     };
 
-    this.props.saveEntitiesFilter(filter);
+    this.props.saveEntities(filter);
   }
 
   handleFilter = (key, event, newVal, payload) => {
@@ -89,7 +90,7 @@ class EntityListPage extends React.Component {
     } else {
       filter[key] = newVal;
     }
-    this.props.saveEntitiesFilter(filter);
+    this.props.saveEntities(filter);
   }
 
   render() {
@@ -173,7 +174,7 @@ EntityListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
   entitylist: PropTypes.object,
-  saveEntitiesFilter: PropTypes.func,
+  saveEntities: PropTypes.func,
   rpcInvoke: PropTypes.func,
 };
 
@@ -203,7 +204,7 @@ const NewComponent = AuthConnect(
   (state) => ({
     entitylist: state.master.get('entitylist'),
   }),
-  { saveEntitiesFilter });
+  { saveEntities });
 
 export default NewComponent;
 

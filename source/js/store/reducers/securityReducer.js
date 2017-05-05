@@ -2,10 +2,8 @@ import { Map, List } from 'immutable';
 
 import {
   SEC_SAVE_USERS,
-  SEC_SAVE_USERS_FILTER,
-  SEC_CLEAR_USERS_FILTER,
-  SEC_SAVE_EDIT_USER,
-  SEC_SAVE_ADD_USER,
+  SEC_SAVE_USER_EDIT,
+  SEC_SAVE_USER_ADD,
 } from '../actions/securityActions';
 
 const initialState = Map({
@@ -26,25 +24,23 @@ const initialState = Map({
 const actionsMap = {
 
   [SEC_SAVE_USERS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['userlist', 'users'], data);
+    return state.withMutations( (map) => {
+      if(data.users){
+        map.setIn(['userlist', 'users'], data.users);
+        delete data['users'];
+      }
+      map.mergeDeep({ 'userlist': data });
+    });
   },
 
-  [SEC_SAVE_USERS_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({ 'userlist': data });
-  },
-
-  [SEC_SAVE_EDIT_USER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+  [SEC_SAVE_USER_EDIT]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({ 'useredit': { 'user': data } });
   },
 
-  [SEC_SAVE_ADD_USER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
+  [SEC_SAVE_USER_ADD]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({ 'useradd': { 'user': data } });
   },
 
-  [SEC_CLEAR_USERS_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    const newState = state.mergeDeep({ 'userlist': data });
-    return newState.setIn(['userlist', 'users'], List());
-  },
 };
 
 export default function reducer(state = initialState, action = {}) {
