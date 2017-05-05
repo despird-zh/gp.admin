@@ -10,7 +10,6 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 
 import AuthConnect from '../../components/AuthConnect';
 import { saveDicts,
-  saveDictsFilter,
   MasterApis } from '../../store/actions/masterActions';
 import DictDialog from './DictDialog';
 
@@ -66,7 +65,9 @@ class DictListPage extends React.Component {
     const { search, group, language } = this.props.dictlist.toJS();
     const params = { search, group, language };
 
-    this.props.rpcInvoke(MasterApis.DictsQuery, params, saveDicts);
+    this.props.rpcInvoke(MasterApis.DictsQuery, params, (json) => {
+      return saveDicts({entries: json});
+    });
   }
 
   handleClear = () => {
@@ -77,7 +78,7 @@ class DictListPage extends React.Component {
       entries: [],
     };
 
-    this.props.saveDictsFilter(filter);
+    this.props.saveDicts(filter);
   }
 
   handleFilter = (key, event, newVal, payload) => {
@@ -89,7 +90,7 @@ class DictListPage extends React.Component {
     } else {
       filter[key] = newVal;
     }
-    this.props.saveDictsFilter(filter);
+    this.props.saveDicts(filter);
   }
 
   render() {
@@ -173,7 +174,7 @@ DictListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
   dictlist: PropTypes.object,
-  saveDictsFilter: PropTypes.func,
+  saveDicts: PropTypes.func,
   rpcInvoke: PropTypes.func,
 };
 
@@ -203,6 +204,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     dictlist: state.master.get('dictlist'),
   }),
-  { saveDictsFilter });
+  { saveDicts });
 
 export default NewComponent;

@@ -2,7 +2,6 @@ import { Map, List } from 'immutable';
 
 import {
   MST_SAVE_STORAGES,
-  MST_SAVE_STORAGES_FILTER,
 
   MST_SAVE_IMAGES,
   MST_SAVE_IMAGES_FILTER,
@@ -51,25 +50,36 @@ const actionsMap = {
 
   // Loader Action
   [MST_SAVE_STORAGES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['storagelist', 'storages'], data);
+    return state.withMutations( (map) => {
+      if(data.storages){
+        map.setIn(['storagelist', 'storages'], data.storages);
+        delete data['storages'];
+      }
+      map.mergeDeep({ 'storagelist': data });
+    });
   },
-  [MST_SAVE_STORAGES_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({ 'storagelist': data });
-  },
+
   // Loader Action
   [MST_SAVE_IMAGES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['imagelist', 'images'], data);
+    return state.withMutations( (map) => {
+      if(data.images){
+        map.setIn(['imagelist', 'images'], data.images);
+        delete data['images'];
+      }
+      map.mergeDeep({ 'imagelist': data });
+    });
   },
-  [MST_SAVE_IMAGES_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
 
-    return state.mergeDeep({ 'imagelist': data });
-  },
   [MST_SAVE_DICTS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.setIn(['dictlist', 'entries'], data);
+    return state.withMutations( (map) => {
+      if(data.entries){
+        map.setIn(['dictlist', 'entries'], data.entries);
+        delete data['entries'];
+      }
+      map.mergeDeep({ 'dictlist': data });
+    });
   },
-  [MST_SAVE_DICTS_FILTER]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.mergeDeep({ 'dictlist': data });
-  },
+
   [MST_SAVE_ENTITIES]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.setIn(['dictlist', 'entries'], data);
   },
@@ -92,7 +102,9 @@ const actionsMap = {
         delete data['orgadd'];
       }
       if(data.orgedit){
-        map.setIn(['orghier','orgedit'], data.orgedit);
+        map.updateIn(['orghier','orgedit'], value => { 
+          return Object.assign(value, data.orgedit);
+        });
         delete data['orgedit'];
       }
       if(data.memberadd){

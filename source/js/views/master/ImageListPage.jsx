@@ -10,7 +10,6 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 
 import AuthConnect from '../../components/AuthConnect';
 import { saveImages,
-  saveImagesFilter,
   MasterApis } from '../../store/actions/masterActions';
 
 const getStyles = function (muiTheme) {
@@ -51,20 +50,22 @@ class ImageListPage extends React.Component {
     if (this.props.setCurrentPage) { this.props.setCurrentPage('imagelist'); }
   }
 
-  handleJump = (storageId) => {
-    const storages = this.props.storagelist.get('storages');
-    const idx = storages.findIndex((item) => {
-      return item['storage-id'] === storageId;
+  handleJump = (imageId) => {
+    const images = this.props.imagelist.get('images');
+    const idx = images.findIndex((item) => {
+      return item['image-id'] === imageId;
     });
-    const storage = storages[idx];
-    this.storageDialog.handleOpen(storage);
+    const image = images[idx];
+    this.storageDialog.handleOpen(image);
   }
 
   handleQuery = () => {
     const { category, format } = this.props.imagelist.toJS();
     const params = { category, format };
 
-    this.props.rpcInvoke(MasterApis.ImagesQuery, params, saveImages);
+    this.props.rpcInvoke(MasterApis.ImagesQuery, params, (json) => { 
+      return saveImages({images: json});
+    });
   }
 
   handleClear = () => {
@@ -74,7 +75,7 @@ class ImageListPage extends React.Component {
       images: [],
     };
 
-    this.props.saveImagesFilter(filter);
+    this.props.saveImages(filter);
   }
 
   handleFilter = (key, event, newVal, payload) => {
@@ -86,7 +87,7 @@ class ImageListPage extends React.Component {
     } else {
       filter[key] = newVal;
     }
-    this.props.saveImagesFilter(filter);
+    this.props.saveImages(filter);
   }
 
   render() {
@@ -158,7 +159,7 @@ ImageListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
   imagelist: PropTypes.object,
-  saveImagesFilter: PropTypes.func,
+  saveImages: PropTypes.func,
   rpcInvoke: PropTypes.func,
 };
 
@@ -192,6 +193,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     imagelist: state.master.get('imagelist'),
   }),
-  { saveImagesFilter });
+  { saveImages });
 
 export default NewComponent;

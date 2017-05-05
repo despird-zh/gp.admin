@@ -213,7 +213,7 @@ class OrgHierPage extends React.Component {
       <div >
         <div style={ styles.topFull }>
           { (orgedit.id) && <Chip style={{ margin: 6 }}>
-            Org. Node: { orgedit.text }
+            Org. Node: { orgedit.title }
           </Chip> }
           <div style={ styles.spacer } />
           <div>

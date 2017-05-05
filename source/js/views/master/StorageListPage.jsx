@@ -10,7 +10,6 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 
 import AuthConnect from '../../components/AuthConnect';
 import { saveStorages,
-  saveStoragesFilter,
   MasterApis } from '../../store/actions/masterActions';
 import StorageDialog from './StorageDialog';
 
@@ -66,7 +65,10 @@ class StorageListPage extends React.Component {
     const { search, group, language } = this.props.storagelist.toJS();
     const params = { search, group, language };
 
-    this.props.rpcInvoke(MasterApis.StoragesQuery, params, saveStorages);
+    this.props.rpcInvoke(MasterApis.StoragesQuery, params, (json) => {
+
+      return saveStorages({ storages: json});
+    });
   }
 
   handleClear = () => {
@@ -74,10 +76,10 @@ class StorageListPage extends React.Component {
       search: '',
       group: '',
       language: 'en_us',
-      entries: [],
+      storages: [],
     };
 
-    this.props.saveStoragesFilter(filter);
+    this.props.saveStorages( filter );
   }
 
   handleFilter = (key, event, newVal, payload) => {
@@ -89,7 +91,7 @@ class StorageListPage extends React.Component {
     } else {
       filter[key] = newVal;
     }
-    this.props.saveStoragesFilter(filter);
+    this.props.saveStorages(filter);
   }
 
   render() {
@@ -173,7 +175,7 @@ StorageListPage.propTypes = {
   muiTheme: PropTypes.object,
   setCurrentPage: PropTypes.func,
   storagelist: PropTypes.object,
-  saveStoragesFilter: PropTypes.func,
+  saveStorages: PropTypes.func,
   rpcInvoke: PropTypes.func,
 };
 
@@ -203,6 +205,6 @@ const NewComponent = AuthConnect(
   (state) => ({
     storagelist: state.master.get('storagelist'),
   }),
-  { saveStoragesFilter });
+  { saveStorages });
 
 export default NewComponent;
