@@ -10,8 +10,6 @@ class UserAutoComplete extends React.Component {
     super(props, context);
     this.state = {
       dataSource: [],
-      searchText: this.props.searchText,
-      newReqIndex: -1,
     };
 
     let {onHandleChange , eventKey} = this.props;
@@ -24,12 +22,11 @@ class UserAutoComplete extends React.Component {
   };
 
   setSearchText = (searchText) => {
-    this.setState({ searchText });
     this.autoComplete.setState({ searchText });
   }
 
   getSearchText = () => {
-    return this.state.searchText;
+    return this.autoComplete.state.searchText;
   }
 
   handleUpdateInput = (value) => {
@@ -45,7 +42,7 @@ class UserAutoComplete extends React.Component {
       AppApis.UsersQuery,
       { user_name: name, instanceId: null },
       (json) => {
-        const entries = json.map((item) => ({ text: item.name, value: item.account, id: item['user-id'] }));
+        const entries = json.map((item) => ({ text: item.account, value: item.account, id: item['user-id'] }));
         this.setState({
           dataSource: entries,
         });
@@ -57,11 +54,6 @@ class UserAutoComplete extends React.Component {
 
     if(this.handleFieldChange)
       this.handleFieldChange(null, chosenRequest.value);
-    
-    this.setState({ 
-            searchText: chosenRequest.text, 
-            searchValue:chosenRequest.value, 
-            newReqIndex: index });
   };
 
   render() {
@@ -72,7 +64,7 @@ class UserAutoComplete extends React.Component {
       <AutoComplete
         ref={ this.setInnerRef }
         textFieldStyle={ style }
-        searchText={ this.state.searchText }
+        searchText={ searchText }
         dataSource={ this.state.dataSource }
         onNewRequest={ this.handleNewRequest }
         onUpdateInput={ this.handleUpdateInput }

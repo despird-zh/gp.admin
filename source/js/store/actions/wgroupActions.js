@@ -9,21 +9,21 @@ export const WorkgroupApis = {
   GroupInfo: 'wgroup-info.do',
 };
 
-export function saveWGrps(grplist) {
+export function saveWGroups(grouplist) {
   return {
     type: WGRP_SAVE_WGRPS,
-    data: grplist,
+    data: grouplist,
   };
 }
 
-export function saveWGrpAdd(grpinfo) {
+export function saveWGroupAdd(grpinfo) {
   return {
     type: WGRP_SAVE_WGRP_ADD,
     data: grpinfo,
   };
 }
 
-export function saveWGrpEdit(grpinfo) {
+export function saveWGroupEdit(grpinfo) {
   return {
     type: WGRP_SAVE_WGRP_EDIT,
     data: grpinfo,

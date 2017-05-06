@@ -22,25 +22,34 @@ const getStyles = function (muiTheme) {
 class OrgHierInfo extends React.Component {
 
   render() {
-    const { onHandleClear, onHandleSave, onHandleChange, muiTheme, rpcInvoke } = this.props;
+    const { 
+      onHandleClear, 
+      onHandleSave, 
+      onHandleChange,
+      muiTheme, 
+      rpcInvoke, 
+      initialData,
+      infomode 
+     } = this.props;
     const styles = getStyles(muiTheme);
-
+    const { title, admin, manager, email, description } = initialData; 
     return (
       <div>
-        <OrgHierAutoComplete
+        {(infomode === 'org-add') && <OrgHierAutoComplete
           style={ styles.inputItem }
           rpcInvoke={ rpcInvoke }
           hintText='Input Name Letter'
           openOnFocus={ true }
-          floatingLabelText='Current Entity Node'
+          floatingLabelText='Parent Organization Node'
           eventKey="parent"
           onHandleChange={ onHandleChange }
-        />
+        />}
         <GPTextField
           eventKey="text"
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Org. Node Name'
+          value = {title}
           eventKey="title"
           onHandleChange={ onHandleChange }
         />
@@ -50,6 +59,7 @@ class OrgHierInfo extends React.Component {
           hintText='Assign a user as administrator'
           floatingLabelText='Administrator'
           eventKey="admin"
+          searchText = {admin}
           onHandleChange={ onHandleChange }
         />
         <UserAutoComplete
@@ -58,6 +68,7 @@ class OrgHierInfo extends React.Component {
           hintText='Assign a manager to org node'
           floatingLabelText='Manager'
           eventKey="manager"
+          searchText={ manager }
           onHandleChange={ onHandleChange }
         />
         <GPTextField
@@ -65,6 +76,7 @@ class OrgHierInfo extends React.Component {
           hintText='no more than 32 letters'
           floatingLabelText='Contact Mail'
           eventKey="email"
+          value= {email}
           onHandleChange={ onHandleChange }
         />
         <GPTextField
@@ -72,10 +84,11 @@ class OrgHierInfo extends React.Component {
           hintText='no more than 32 letters'
           floatingLabelText='Description'
           eventKey="description"
+          value = {description}
           onHandleChange={ onHandleChange }
         />
         <div style={ { marginTop: 10 } }>
-          <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ onHandleClear } />
+          {(infomode === 'org-add') && <RaisedButton label='Clear' style={{ margin: 4 }} onTouchTap={ this.handleClear } />}
           <RaisedButton label='Save' style={ { margin: 4, float: 'right' } } primary={ true } onTouchTap={ onHandleSave } />
         </div>
       </div>
@@ -117,7 +130,7 @@ class OrgHierMember extends React.Component {
           hintText='find user'
           floatingLabelText='Add User as Member'
         />
-        <div style={ { marginTop: 10 } }>
+        <div style={{ marginTop: 10 } }>
           <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ this.handleClear } />
           <RaisedButton label='Save' style={ { margin: 4, float: 'right' } } primary={ true } onTouchTap={ this.handleSave } />
         </div>

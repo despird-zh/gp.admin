@@ -83,7 +83,10 @@ class UserListPage extends React.Component {
   }
 
   render() {
-    const { users, internal, external, search } = this.props.userlist.toJS();
+    const { users, internal, external, search } = this.props.mapJson(
+      this.props.userlist, [
+      'users','internal','external','search'
+      ]);
 
     const styles = getStyles(this.props.muiTheme);
 

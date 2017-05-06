@@ -7,14 +7,14 @@ import {
 } from '../actions/wgroupActions';
 
 const initialState = Map({
-  wgrplist: Map({
-    wgrps: [],
+  wgrouplist: Map({
+    wgroups: [],
     search: '',
     internal: false,
     external: false,
   }),
-  wgrpedit: Map({}),
-  wgrpadd: Map({}),
+  wgroupedit: Map({}),
+  wgroupadd: Map({}),
 });
 
 const actionsMap = {
@@ -22,23 +22,23 @@ const actionsMap = {
   // Loader Action
   [WGRP_SAVE_WGRPS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.withMutations( (map) => {
-      if(data.wgrps){
-        map.setIn(['wgrplist', 'wgrps'], data.wgrps);
-        delete data['wgrps'];
+      if(data.wgroups){
+        map.setIn(['wgrouplist', 'wgroups'], data.wgroups);
+        delete data['wgroups'];
       }
-      map.mergeDeep({ 'wgrplist': data });
+      map.mergeDeep({ 'wgrouplist': data });
     });
   },
 
   [WGRP_SAVE_WGRP_ADD]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({
-      wgrpadd: data,
+      wgroupadd: data,
     });
   },
 
   [WGRP_SAVE_WGRP_EDIT]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
     return state.mergeDeep({
-      wgrpedit: data,
+      wgroupedit: data,
     });
   },
 };

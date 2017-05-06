@@ -30,6 +30,7 @@ export default (ComposedComponent, stateMap, actions) => {
     }
 
     tokenState = () => {
+      console.log(this.props.jwttoken);
       const parseToken = jwtDecode(this.props.jwttoken);
       const currTimestamp = Math.floor(Date.now() / 1000);
 
@@ -66,6 +67,14 @@ export default (ComposedComponent, stateMap, actions) => {
       }
     }
 
+    mapJson = (map, propkeys) => {
+      let rtv = {};
+      for(let propkey of propkeys){
+        rtv[propkey] = map.get(propkey);
+      }
+      return rtv;
+    }
+
     render() {
       return (<ComposedComponent
         { ...this.props }
@@ -74,6 +83,7 @@ export default (ComposedComponent, stateMap, actions) => {
         tokenState={ this.tokenState }
         rpcInvoke={ this.rpcInvoke }
         rpcHeaders={ this.rpcHeaders }
+        mapJson= { this.mapJson }
       />);
     }
   }

@@ -2,13 +2,9 @@ import { Map, List } from 'immutable';
 
 import {
   MST_SAVE_STORAGES,
-
   MST_SAVE_IMAGES,
-
   MST_SAVE_DICTS,
-
   MST_SAVE_ENTITIES,
-
   MST_SAVE_ORGHIER,
 } from '../actions/masterActions';
 
@@ -98,12 +94,14 @@ const actionsMap = {
         delete data['orgnodes'];
       }
       if(data.orgadd){
-        map.setIn(['orghier','orgadd'], data.orgadd);
+        map.updateIn(['orghier','orgadd'], value => { 
+          return Object.assign({}, value, data.orgadd);
+        });
         delete data['orgadd'];
       }
       if(data.orgedit){
         map.updateIn(['orghier','orgedit'], value => { 
-          return Object.assign(value, data.orgedit);
+          return Object.assign({}, value, data.orgedit);
         });
         delete data['orgedit'];
       }

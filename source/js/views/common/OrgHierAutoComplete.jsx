@@ -10,8 +10,6 @@ class OrgHierAutoComplete extends React.Component {
     super(props, context);
     this.state = {
       dataSource: [],
-      searchText: this.props.searchText,
-      newReqIndex: -1,
     };
 
     let {onHandleChange , eventKey} = this.props;
@@ -24,18 +22,16 @@ class OrgHierAutoComplete extends React.Component {
   };
 
   setSearchText = (searchText) => {
-    this.setState({ searchText });
     this.autoComplete.setState({ searchText });
   }
 
   getSearchText = () => {
-    return this.state.searchText;
+    return this.autoComplete.state.searchText;
   }
 
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
-    this.setState({ searchText: value, searchValue:value, });
     if(this.handleFieldChange)
       this.handleFieldChange(null, value);
 
@@ -44,7 +40,7 @@ class OrgHierAutoComplete extends React.Component {
       { 'org-id': -99 },
       (json) => {
         console.log(json);
-        const entries = json.map((item) => ({ text: item.text, value: item.id, id: item.id}));
+        const entries = json.map((item) => ({ text: item.title, value: item.id, id: item.id}));
         this.setState({
           dataSource: entries,
         });
@@ -57,15 +53,11 @@ class OrgHierAutoComplete extends React.Component {
     if(this.handleFieldChange)
       this.handleFieldChange(null, chosenRequest.value);
 
-    this.setState({ 
-            searchText: chosenRequest.text, 
-            searchValue:chosenRequest.value, 
-            newReqIndex: index });
   };
 
 
   render() {
-    const { style, rpcInvoke, searchText, ...rest } = this.props; // eslint-disable-line no-unused-vars
+    const { style, rpcInvoke, searchText, eventKey, onHandleChange, ...rest } = this.props; // eslint-disable-line no-unused-vars
 
     return (
 

@@ -192,13 +192,10 @@ class OrgHierPage extends React.Component {
 
   render() {
     const styles = getStyles(this.props.muiTheme);
-    let orgadd = this.props.orghier.get('orgadd');
-    let orgedit = this.props.orghier.get('orgedit');
-    let memberadd = this.props.orghier.get('memberadd');
-    let infomode = this.props.orghier.get('infomode');
-
-    let orgnodes = this.props.orghier.get('orgnodes');
-    let orgmembers = this.props.orghier.get('orgmembers');
+    let {orgadd, orgedit, memberadd, infomode, orgnodes, orgmembers} = this.props.mapJson(
+      this.props.orghier,
+      ['orgadd', 'orgedit', 'memberadd', 'infomode', 'orgnodes', 'orgmembers']
+      );
 
     let memberItems = orgmembers.map((item) => {
       return (
@@ -242,7 +239,10 @@ class OrgHierPage extends React.Component {
             </List>
           </div>
           <div style={ styles.halfStyle }>
-            <h3 style={ styles.panelTitle }>Detail
+            <h3 style={ styles.panelTitle }>
+              { (infomode === 'org-edit' ) ? 'Org Detail Info.':
+               ((infomode === 'org-add' ) ? 'Add New Org': 'Add Member')
+              }
               { (infomode === 'org-edit' ) && <IconButton
                 style={ styles.iconBtnStyle }
                 iconStyle={ infomode === 'org-edit' ? styles.activeBtnIconStyle : styles.btnIconStyle }
@@ -271,6 +271,8 @@ class OrgHierPage extends React.Component {
                 onHandleChange={ this.handleOrgEditFieldChange }
                 rpcInvoke={ this.props.rpcInvoke }
                 muiTheme={ this.props.muiTheme }
+                initialData={ orgadd }
+                infomode = { infomode }
               />
             }
             { ( infomode === 'org-edit') && <OrgHierInfo
@@ -280,6 +282,7 @@ class OrgHierPage extends React.Component {
                 rpcInvoke={ this.props.rpcInvoke }
                 muiTheme={ this.props.muiTheme }
                 initialData={ orgedit }
+                infomode = { infomode }
               />
             }
             {
@@ -313,7 +316,7 @@ const MemberListItem = ({itemData, onItemRemove, ...rest}) => {
     onItemRemove({ userid, account});
   };
   return (<ListItem
-    primaryText={ `${userName} - ${sourceAbbr}` }
+    primaryText={ `${account} - ${sourceAbbr}` }
     leftAvatar={ avatar }
     rightIconButton={ <IconButton onTouchTap={ handleItemRemove }><ContentClear /></IconButton> }
     value={ userid }

@@ -60,8 +60,10 @@ class ImageListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const { category, format } = this.props.imagelist.toJS();
-    const params = { category, format };
+    const params = this.props.mapJson(
+      this.props.imagelist, [
+      'category','format'
+      ]);
 
     this.props.rpcInvoke(MasterApis.ImagesQuery, params, (json) => { 
       return saveImages({images: json});
@@ -91,7 +93,10 @@ class ImageListPage extends React.Component {
   }
 
   render() {
-    const { images, category, format } = this.props.imagelist.toJS();
+    const { images, category, format } = this.props.mapJson(
+      this.props.imagelist, [
+      'images','category','format'
+      ]);
 
     const styles = getStyles(this.props.muiTheme);
 
