@@ -92,7 +92,7 @@ class OrgHierPage extends React.Component {
   }
 
   handleOrgEditFieldChange = (key, event, newVal, payload) => {
-    const selects = ['language'];
+    const selects = [];
     const data = {};
     if (selects.indexOf(key) >= 0) {
       data[key] = payload;
@@ -102,10 +102,47 @@ class OrgHierPage extends React.Component {
     this.props.saveOrgHier({orgedit: data});
   };
 
+  handleOrgAddFieldChange = (key, event, newVal, payload) => {
+    const selects = [];
+    const data = {};
+    if (selects.indexOf(key) >= 0) {
+      data[key] = payload;
+    } else {
+      data[key] = newVal;
+    }
+    this.props.saveOrgHier({orgadd: data});
+  };
+
   handleOrgRemove = (nodePath, node) => {
 
     console.log(nodePath + ' (org-remove) ');
     console.log(node);
+  }
+
+  handleOrgEditSave = () => {
+    let orgedit = this.props.orghier.get('orgedit');
+    let param = Object.assign({}, orgedit);
+    delete param['children'];
+    delete param['key'];
+    delete param['icon'];
+    this.props.rpcInvoke(MasterApis.OrgNodeSave, param, (jsonRaw) => {
+      if(jsonRaw.meta.state !== 'success'){
+          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
+        }
+    }, true, true); 
+  }
+
+  handleOrgAddSave = () => {
+    let orgadd = this.props.orghier.get('orgadd');
+    let param = Object.assign({}, orgadd);
+    delete param['children'];
+    delete param['key'];
+    delete param['icon'];
+    this.props.rpcInvoke(MasterApis.OrgNodeAdd, param, (jsonRaw) => {
+      if(jsonRaw.meta.state !== 'success'){
+          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
+        }
+    }, true, true); 
   }
 
   handleOrgTouchTap = (nodePath, node) => {
@@ -128,7 +165,6 @@ class OrgHierPage extends React.Component {
         'org-id': orgedit.id,
         account
       }, (jsonRaw) => {
-        console.log(jsonRaw);
 
         if(jsonRaw.meta.state !== 'success'){
           return snackAction({shown:true, snackTip: jsonRaw.meta.message });
@@ -268,10 +304,11 @@ class OrgHierPage extends React.Component {
             { ( infomode === 'org-add' ) && <OrgHierInfo
                 styles={ styles }
                 onHandleClear={ () => {} }
-                onHandleChange={ this.handleOrgEditFieldChange }
+                onHandleChange={ this.handleOrgAddFieldChange }
                 rpcInvoke={ this.props.rpcInvoke }
                 muiTheme={ this.props.muiTheme }
                 initialData={ orgadd }
+                onHandleSave = { this.handleOrgAddSave }
                 infomode = { infomode }
               />
             }
@@ -282,6 +319,7 @@ class OrgHierPage extends React.Component {
                 rpcInvoke={ this.props.rpcInvoke }
                 muiTheme={ this.props.muiTheme }
                 initialData={ orgedit }
+                onHandleSave = { this.handleOrgEditSave }
                 infomode = { infomode }
               />
             }

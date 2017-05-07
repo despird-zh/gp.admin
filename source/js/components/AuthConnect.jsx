@@ -30,7 +30,7 @@ export default (ComposedComponent, stateMap, actions) => {
     }
 
     tokenState = () => {
-      console.log(this.props.jwttoken);
+      //console.log(this.props.jwttoken);
       const parseToken = jwtDecode(this.props.jwttoken);
       const currTimestamp = Math.floor(Date.now() / 1000);
 

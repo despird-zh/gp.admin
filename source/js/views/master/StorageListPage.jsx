@@ -30,7 +30,7 @@ const getStyles = function (muiTheme) {
       marginRight: baseTheme.spacing.desktopGutterLess,
     },
     select: {
-      width: 200,
+      width: 150,
       marginRight: baseTheme.spacing.desktopGutterLess,
     } };
 };
@@ -40,8 +40,8 @@ class StorageListPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.onFilterSearch = this.handleFilter.bind(null, 'search');
-    this.onFilterGroup = this.handleFilter.bind(null, 'group');
-    this.onFilterLanguage = this.handleFilter.bind(null, 'language');
+    this.onFilterType = this.handleFilter.bind(null, 'type');
+    this.onFilterState = this.handleFilter.bind(null, 'state');
   }
 
   componentWillMount() {
@@ -62,8 +62,11 @@ class StorageListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const { search, group, language } = this.props.storagelist.toJS();
-    const params = { search, group, language };
+    const { 'search':filter, type, state } = this.props.mapJson(
+      this.props.storagelist,[
+        'search', 'type', 'state'
+      ]);
+    const params = { filter, type, state };
 
     this.props.rpcInvoke(MasterApis.StoragesQuery, params, (json) => {
 
@@ -74,8 +77,8 @@ class StorageListPage extends React.Component {
   handleClear = () => {
     const filter = {
       search: '',
-      group: '',
-      language: 'en_us',
+      type: '',
+      state: '',
       storages: [],
     };
 
@@ -84,7 +87,7 @@ class StorageListPage extends React.Component {
 
   handleFilter = (key, event, newVal, payload) => {
     const filter = {};
-    const selects = ['group', 'language'];
+    const selects = ['type','state'];
 
     if (selects.indexOf(key) >= 0) {
       filter[key] = payload;
@@ -95,7 +98,10 @@ class StorageListPage extends React.Component {
   }
 
   render() {
-    const { storages, group, search, language } = this.props.storagelist.toJS();
+    const { storages, search, type, state } = this.props.mapJson(
+      this.props.storagelist, [
+      'storages', 'search', 'type', 'state'
+      ]);
 
     const styles = getStyles(this.props.muiTheme);
 
@@ -119,22 +125,24 @@ class StorageListPage extends React.Component {
           />
           <SelectField
             style={ styles.select }
-            value={ group }
-            hintText='The Entry Group'
-            onChange={ this.onFilterGroup }
+            value={ type }
+            hintText='Persist Type'
+            onChange={ this.onFilterType }
           >
-            <MenuItem value={ 'web_excp' } primaryText='Web Exception' />
-            <MenuItem value={ 'core_excp' } primaryText='Core Exception' />
-            <MenuItem value={ 'core_mesg' } primaryText='Core Message' />
+            <MenuItem value={ 'DISK' } primaryText='Disk' />
+            <MenuItem value={ 'HDFS' } primaryText='HDFS' />
+            <MenuItem value={ 'ALL' } primaryText='All' />
           </SelectField>
           <SelectField
             style={ styles.select }
-            value={ language }
-            hintText='The Language'
-            onChange={ this.onFilterLanguage }
+            value={ state }
+            hintText='The State'
+            onChange={ this.onFilterState }
           >
-            <MenuItem value={ 'en_us' } primaryText='English' />
-            <MenuItem value={ 'zh_cn' } primaryText='Chinese' />
+            <MenuItem value={ 'OPEN' } primaryText='Open' />
+            <MenuItem value={ 'CLOSE' } primaryText='Close' />
+            <MenuItem value={ 'FULL' } primaryText='Full' />
+            <MenuItem value={ 'ALL' } primaryText='All' />
           </SelectField>
           <div style={ styles.spacer } />
           <div>

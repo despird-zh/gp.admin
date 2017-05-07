@@ -57,7 +57,7 @@ class UserAutoComplete extends React.Component {
   };
 
   render() {
-    const { style, rpcInvoke, searchText, ...rest } = this.props; // eslint-disable-line no-unused-vars
+    const { style, rpcInvoke, searchText, eventKey, onHandleChange, ...rest } = this.props; // eslint-disable-line no-unused-vars
 
     return (
 
@@ -79,6 +79,8 @@ UserAutoComplete.propTypes = {
   style: PropTypes.object,
   rpcInvoke: PropTypes.func,
   searchText: PropTypes.string,
+  eventKey: PropTypes.string,
+  onHandleChange: PropTypes.func,
 };
 
 export default UserAutoComplete;

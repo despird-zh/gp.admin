@@ -8,12 +8,12 @@ export const MasterApis = {
   StoragesQuery: 'storages-query.do',
   StorageAdd: 'storage-add.do',
   StorageSave: 'storage-save.do',
-  StorageDelete: 'storage-remove.do',
+  StorageRemove: 'storage-remove.do',
 
   ImagesQuery: 'images-query.do',
   ImageAdd: 'image-add.do',
   ImageSave: 'image-save.do',
-  ImageDelete: 'image-remove.do',
+  ImageRemove: 'image-remove.do',
 
   DictsQuery: 'dicts-query.do',
   DictSave: 'dict-save.do',
@@ -21,6 +21,8 @@ export const MasterApis = {
   EntitySave: 'entity-save.do',
 
   OrgHierQuery: 'org-hier-query.do',
+  OrgNodeSave: 'org-node-save.do',
+  OrgNodeAdd: 'org-node-add.do',
   OrgMembersQuery: 'org-members-query.do',
   OrgMemberRemove: 'org-member-remove.do',
 };

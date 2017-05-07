@@ -99,6 +99,7 @@ class OrgHierInfo extends React.Component {
 
 OrgHierInfo.propTypes = {
   onHandleClear: PropTypes.func,
+  onHandleChange: PropTypes.func,
   onHandleSave: PropTypes.func,
   muiTheme: PropTypes.object,
   rpcInvoke: PropTypes.func,

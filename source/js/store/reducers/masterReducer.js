@@ -12,7 +12,8 @@ const initialState = Map({
 
   storagelist: Map({
     storages: List(),
-    type: '',
+    type: 'ALL',
+    state: 'ALL'
   }),
   dictlist: Map({
     entries: List(),
