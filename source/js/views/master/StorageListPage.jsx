@@ -157,12 +157,13 @@ class StorageListPage extends React.Component {
             enableSelectAll={ false }
           >
             <TableRow>
-              <TableHeaderColumn>Group</TableHeaderColumn>
-              <TableHeaderColumn>Entry</TableHeaderColumn>
-              <TableHeaderColumn>Value</TableHeaderColumn>
-              <TableHeaderColumn>Language</TableHeaderColumn>
-              <TableHeaderColumn>Label</TableHeaderColumn>
-              <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
+              <TableHeaderColumn>Name</TableHeaderColumn>
+              <TableHeaderColumn>Type</TableHeaderColumn>
+              <TableHeaderColumn>State</TableHeaderColumn>
+              <TableHeaderColumn>Percent</TableHeaderColumn>
+              <TableHeaderColumn>Capacity</TableHeaderColumn>
+              <TableHeaderColumn>Description</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: 80 }}>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={ false }>
@@ -190,18 +191,19 @@ StorageListPage.propTypes = {
 /*eslint-disable */
 const StorageListRow = ({styles, rowData, onHandleJump}) => {
 
-  const { 'entry-id':entryId, 'entry-key':entryKey, 
-          'group-key':groupKey, 'entry-value':entryValue, label, language } = rowData;
+  const { 'storage-id':storageId, name, type, state, 
+          percent, capacity, description } = rowData;
 
-  const handleJump = () => { onHandleJump( entryId ); };
+  const handleJump = () => { onHandleJump( storageId ); };
 
-  return (<TableRow key={ entryId }>
-    <TableRowColumn>{groupKey}</TableRowColumn>
-    <TableRowColumn> {entryKey}</TableRowColumn>
-    <TableRowColumn>{entryValue }</TableRowColumn>
-    <TableRowColumn>{language}</TableRowColumn>
-    <TableRowColumn>{label}</TableRowColumn>
-    <TableRowColumn style={ { width: 80 } }>
+  return (<TableRow key={ storageId }>
+    <TableRowColumn>{name}</TableRowColumn>
+    <TableRowColumn> {type}</TableRowColumn>
+    <TableRowColumn>{state }</TableRowColumn>
+    <TableRowColumn>{percent}</TableRowColumn>
+    <TableRowColumn>{capacity}</TableRowColumn>
+    <TableRowColumn>{description}</TableRowColumn>
+    <TableRowColumn style={{ width: 80 }}>
       <IconButton iconStyle={ styles.iconStyle } onClick={ handleJump }><ModeEditIcon /></IconButton >
     </TableRowColumn>
   </TableRow>);
