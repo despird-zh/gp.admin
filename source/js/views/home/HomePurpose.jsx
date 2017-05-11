@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import withWidth from 'material-ui/utils/withWidth';
 import typography from 'material-ui/styles/typography';
 import { grey200 } from 'material-ui/styles/colors';
-import FullWidthSection from '../../components/FullWidthSection';
+import FullWidthSection from '../component/FullWidthSection';
 
 const styles = {
   root: {

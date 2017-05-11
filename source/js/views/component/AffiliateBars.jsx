@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
 import FontIcon from 'material-ui/FontIcon';
-import { snackAction } from '../store/actions/appActions';
+import { snackAction } from '../../store/actions/appActions';
 
 const styles = {
   loaderStyle: {

@@ -14,8 +14,8 @@ import Avatar from 'material-ui/Avatar';
 import SocialGrp from 'material-ui/svg-icons/social/group';
 import SocialGrpAdd from 'material-ui/svg-icons/social/group-add';
 import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
-import AuthConnect from '../../components/AuthConnect';
-import MuiTreeList from '../../components/TreeList/MuiTreeList';
+import AuthConnect from '../component/AuthConnect';
+import MuiTreeList from '../component/TreeList/MuiTreeList';
 import UserAutoComplete from '../common/UserAutoComplete';
 import { OrgHierInfo, OrgHierMember } from './OrgHierInfo';
 

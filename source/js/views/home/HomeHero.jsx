@@ -9,7 +9,7 @@ import typography from 'material-ui/styles/typography';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import { cyan500, darkWhite } from 'material-ui/styles/colors';
 import { openSignin } from '../../store/actions/authActions';
-import FullWidthSection from '../../components/FullWidthSection';
+import FullWidthSection from '../component/FullWidthSection';
 
 import bookImg from '../../../assets/img/book2.jpg';
 

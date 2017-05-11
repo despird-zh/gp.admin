@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import jwtDecode from 'jwt-decode';
-import { snackOnlyAction } from '../store/actions/appActions';
+import { snackOnlyAction } from '../../store/actions/appActions';
 import { openSignin,
          signoff,
          reIssueToken,
          reFetchToken,
-         callRpcApi } from '../store/actions/authActions';
+         callRpcApi } from '../../store/actions/authActions';
 /**
  * here create a new HOC to complete the connect and api invoking
  * stateMap is the normal map of state

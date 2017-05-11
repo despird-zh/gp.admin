@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import AuthConnect from '../../components/AuthConnect';
+import AuthConnect from '../component/AuthConnect';
 import { ConfigApis } from '../../store/actions/configActions';
 
 /**

@@ -6,7 +6,7 @@ import ActSubject from 'material-ui/svg-icons/action/subject';
 import ActSuperAccnt from 'material-ui/svg-icons/action/supervisor-account';
 import BaseInfo from './WGroupBaseInfo';
 import MemberInfo from './WGroupMemberInfo';
-import AuthConnect from '../../components/AuthConnect';
+import AuthConnect from '../component/AuthConnect';
 
 function getStyles(muiTheme) {
   const { baseTheme } = muiTheme;

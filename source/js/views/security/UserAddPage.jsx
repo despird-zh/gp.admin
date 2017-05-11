@@ -4,9 +4,9 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
-import AuthConnect from '../../components/AuthConnect';
-import { GPTextField, GPSelectField } from '../../components/GPComponents';
-import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
+import AuthConnect from '../component/AuthConnect';
+import { GPTextField, GPSelectField } from '../component/GPComponents';
+import AvatarEditDialog from '../component/ImageEditor/AvatarEditDialog';
 import { saveUserAdd, SecurityApis } from '../../store/actions/securityActions';
 
 import StorageSelect from '../common/StorageSelect';

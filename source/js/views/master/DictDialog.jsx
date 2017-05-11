@@ -4,7 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 
-import { GPTextField, GPSelectField } from '../../components/GPComponents';
+import { GPTextField, GPSelectField } from '../component/GPComponents';
 import { MasterApis } from '../../store/actions/masterActions';
 
 function getStyles(muiTheme) {

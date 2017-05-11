@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import UserAutoComplete from '../common/UserAutoComplete';
 import OrgHierAutoComplete from '../common/OrgHierAutoComplete';
 
-import { GPTextField, GPSelectField } from '../../components/GPComponents';
+import { GPTextField, GPSelectField } from '../component/GPComponents';
 
 const getStyles = function (muiTheme) {
   const { baseTheme: { spacing } } = muiTheme;

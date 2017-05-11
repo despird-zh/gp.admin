@@ -4,8 +4,8 @@ import Chip from 'material-ui/Chip';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { GPTextField } from '../../components/GPComponents';
-import AuthConnect from '../../components/AuthConnect';
+import { GPTextField } from '../component/GPComponents';
+import AuthConnect from '../component/AuthConnect';
 import { profileSave, ConfigApis } from '../../store/actions/configActions';
 
 const styles = {

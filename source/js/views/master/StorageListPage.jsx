@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
-import AuthConnect from '../../components/AuthConnect';
+import AuthConnect from '../component/AuthConnect';
 import { saveStorages,
   MasterApis } from '../../store/actions/masterActions';
 import StorageDialog from './StorageDialog';

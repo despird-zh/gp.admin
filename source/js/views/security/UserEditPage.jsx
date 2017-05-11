@@ -5,9 +5,9 @@ import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
-import AuthConnect from '../../components/AuthConnect';
-import { GPTextField, GPSelectField } from '../../components/GPComponents';
-import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
+import AuthConnect from '../component/AuthConnect';
+import { GPTextField, GPSelectField } from '../component/GPComponents';
+import AvatarEditDialog from '../component/ImageEditor/AvatarEditDialog';
 import { saveUserEdit, SecurityApis } from '../../store/actions/securityActions';
 
 import StorageSelect from '../common/StorageSelect';

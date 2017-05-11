@@ -8,7 +8,7 @@ import { hashHistory } from 'react-router';
 
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import AuthConnect from '../../components/AuthConnect';
+import AuthConnect from '../component/AuthConnect';
 import { saveUsers,
   SecurityApis } from '../../store/actions/securityActions';
 

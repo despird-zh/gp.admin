@@ -6,35 +6,8 @@ import ActCaseHub from 'material-ui/svg-icons/hardware/cast';
 import ActCastCntHub from 'material-ui/svg-icons/hardware/cast-connected';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import { PageIconButton } from '../../components/GPComponents';
-
-function getStyles(muiTheme) {
-  const { baseTheme } = muiTheme;
-
-  return {
-    root: {
-      width: '100%',
-    },
-    container: {
-      paddingTop: 10,
-      width: '100%',
-      display: 'flex',
-      color: baseTheme.palette.textColor,
-    },
-    title: {
-      marginTop: 10,
-      flex: 1,
-    },
-    activeBtnIconStyle: {
-      fill: baseTheme.palette.accent2Color,
-      color: baseTheme.palette.accent2Color,
-    },
-    btnIconStyle: {
-      fill: baseTheme.palette.primary2Color,
-      color: baseTheme.palette.primary2Color,
-    },
-  };
-}
+import { PageIconButton } from '../component/GPComponents';
+import PageHeader from '../component/PageHeader';
 
 const allPages = {
   wgroupadd: {
@@ -65,67 +38,22 @@ const allPages = {
 
 class WGroupPage extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-    this.styles = getStyles(this.props.muiTheme);
-    this.state = {
-      pages: [],
-      currentPage: {},
-    };
+  setVisible = (currentPage, allPages) => {
+    if(currentPage !== 'wgroupedit')
+      allPages['wgroupedit'].visible = false;
   }
-
-  setCurrentPage = (pageName) => {
-    let currentPage = null;
-    let key;
-
-    for (key of Object.keys(allPages)) {
-      if (pageName === key) {
-        allPages[key].disabled = true;
-        allPages[key].visible = true;
-        currentPage = allPages[key];
-      } else {
-        allPages[key].disabled = false;
-        allPages[key].visible = true;
-      }
-    }
-    if (pageName !== 'wgroupedit') {
-      allPages.wgroupedit.visible = false;
-    }
-    const state = { pages: Object.values(allPages), currentPage };
-    this.setState(state);
-  }
-
-  handleTouchJump = (pathinfo) => {
-    this.props.router.push(pathinfo.path);
-  }
-
+  
   render() {
-    const { currentPage, pages } = this.state;
-    const buttons = pages.map((item) => {
-      return (<PageIconButton
-        key={ item.path }
-        pageIcon={ item }
-        styles={ this.styles }
-        handleTouchJump={ this.handleTouchJump }
-      />);
-    });
 
     return (
-      <div style={ this.styles.root }>
-        <div style={ this.styles.container }>
-          <h3 style={ this.styles.title }>
-            { currentPage.title } <small>{ currentPage.description } </small>
-          </h3>
-          <div>
-            {buttons}
-          </div>
-        </div>
-        <Divider />
-        {this.props.children && React.cloneElement(this.props.children, {
-          setCurrentPage: this.setCurrentPage,
-          muiTheme: this.props.muiTheme,
-        })}
-      </div>
+        <PageHeader
+          pages = { allPages }
+          router = { this.props.router }
+          muiTheme = { this.props.muiTheme }
+          setVisible = { this.setVisible }
+        >
+          { this.props.children }
+        </PageHeader>
     );
   }
 }

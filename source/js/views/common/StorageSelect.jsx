@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from 'material-ui/MenuItem';
 
-import { GPSelectField } from '../../components/GPComponents';
+import { GPSelectField } from '../component/GPComponents';
 import { AppApis } from '../../store/actions/appActions';
 
 class StorageSelect extends React.Component {

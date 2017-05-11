@@ -35,18 +35,21 @@ GPSelectField.propTypes = {
   onHandleChange: PropTypes.func,
 };
 
-const PageIconButton = ({ pageIcon, handleTouchJump, styles }) => {
+/**
+ * The page button to be displayed in page header
+ */
+const PageIconButton = ({ pageIcon, handleTouchJump, style }) => {
   const handTouchTap = () => {
     handleTouchJump(pageIcon);
   };
-  return pageIcon.visible ? <IconButton
+  return <IconButton
     key={ pageIcon.path }
     onTouchTap={ handTouchTap }
-    iconStyle={ !pageIcon.disabled ? styles.btnIconStyle : styles.activeBtnIconStyle }
+    iconStyle={ style }
     disabled={ pageIcon.disabled }
   >
     {pageIcon.icon}
-  </IconButton> : null;
+  </IconButton>;
 };
 PageIconButton.propTypes = {
   pageIcon: PropTypes.object,

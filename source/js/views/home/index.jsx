@@ -4,7 +4,7 @@ import spacing from 'material-ui/styles/spacing';
 import HomeHero from './HomeHero';
 import HomePurpose from './HomePurpose';
 import HomeFeature from './HomeFeature';
-import FullWidthSection from '../../components/FullWidthSection';
+import FullWidthSection from '../component/FullWidthSection';
 
 class HomePage extends Component {
 

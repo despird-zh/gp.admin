@@ -7,7 +7,7 @@ import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { openSignin, signin } from '../../store/actions/authActions';
+import { openSignin, signin } from '../../../store/actions/authActions';
 
 const styles = {
   content: {

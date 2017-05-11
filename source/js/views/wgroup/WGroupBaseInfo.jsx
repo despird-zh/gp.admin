@@ -4,7 +4,7 @@ import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import AvatarEditDialog from '../../components/ImageEditor/AvatarEditDialog';
+import AvatarEditDialog from '../component/ImageEditor/AvatarEditDialog';
 
 function getStyles(muiTheme) {
   const { baseTheme: { spacing, palette } } = muiTheme;

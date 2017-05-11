@@ -8,8 +8,8 @@ import Paper from 'material-ui/Paper';
 
 import HeaderBar from './HeaderBar';
 import FooterBar from './FooterBar';
-import SigninDialog from '../../components/Signin/SigninDialog';
-import AffiliateBars from '../../components/AffiliateBars';
+import SigninDialog from '../component/Signin/SigninDialog';
+import AffiliateBars from '../component/AffiliateBars';
 
 const rootTheme = getMuiTheme(lightBaseTheme);
 
