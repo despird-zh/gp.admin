@@ -56,7 +56,7 @@ class UserListPage extends React.Component {
     const search = this.props.userlist.get('search');
     const params = { filterkey: search, state: 'ALL', type: 'ALL' };
     this.props.rpcInvoke(SecurityApis.UsersQuery, params, (json) => {
-      return saveUsers({users: json});
+      return saveUsers({ users: json });
     });
   }
 
@@ -65,7 +65,7 @@ class UserListPage extends React.Component {
       search: '',
       internal: false,
       external: false,
-      users: []
+      users: [],
     };
 
     this.props.saveUsers(filter);
@@ -85,13 +85,13 @@ class UserListPage extends React.Component {
   render() {
     const { users, internal, external, search } = this.props.mapJson(
       this.props.userlist, [
-      'users','internal','external','search'
+        'users', 'internal', 'external', 'search',
       ]);
 
     const styles = getStyles(this.props.muiTheme);
 
     const rows = users.map((item) => {
-      return (<UserListRow rowData={ item } styles={styles} onHandleJump={ this.handleJump } />);
+      return (<UserListRow rowData={ item } styles={ styles } onHandleJump={ this.handleJump } />);
     });
 
     return (
@@ -151,6 +151,7 @@ UserListPage.propTypes = {
   rpcInvoke: PropTypes.func,
   saveUsers: PropTypes.func,
   muiTheme: PropTypes.object,
+  mapJson: PropTypes.func,
 };
 
 /*eslint-disable */

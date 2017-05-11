@@ -9,16 +9,15 @@ class StorageSelect extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { storages: []};
+    this.state = { storages: [] };
   }
   componentWillMount() {
-    let { rpcInvoke } = this.props; 
-    rpcInvoke(AppApis.StoragesQuery, { type: 'ALL', state: 'ALL' }, (json)=>{
+    const { rpcInvoke } = this.props;
+    rpcInvoke(AppApis.StoragesQuery, { type: 'ALL', state: 'ALL' }, (json) => {
       this.setState({ storages: json });
     });
   }
-  render(){
-
+  render() {
     let { style, rpcInvoke, ...rest } = this.props; // eslint-disable-line
 
     const storageItems = this.state.storages.map((item) => {
@@ -29,7 +28,8 @@ class StorageSelect extends React.Component {
     return (
       <GPSelectField
         style={ style }
-        {...rest} >
+        { ...rest }
+      >
         { storageItems }
       </GPSelectField>
     );

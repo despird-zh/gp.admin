@@ -12,9 +12,8 @@ class UserAutoComplete extends React.Component {
       dataSource: [],
     };
 
-    let {onHandleChange , eventKey} = this.props;
-    if(onHandleChange && eventKey)
-      this.handleFieldChange = onHandleChange.bind(null, eventKey);
+    const { onHandleChange, eventKey } = this.props;
+    if (onHandleChange && eventKey) { this.handleFieldChange = onHandleChange.bind(null, eventKey); }
   }
 
   setInnerRef = (refComponent) => {
@@ -32,12 +31,11 @@ class UserAutoComplete extends React.Component {
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
-    let name = (value) ? value.replace(/@/, '') : value ;
-    this.setState({ searchText: value ,searchValue:value, });
+    const name = (value) ? value.replace(/@/, '') : value;
+    this.setState({ searchText: value, searchValue: value });
 
-    if(this.handleFieldChange)
-      this.handleFieldChange(null, value);
-    
+    if (this.handleFieldChange) { this.handleFieldChange(null, value); }
+
     rpcInvoke(
       AppApis.UsersQuery,
       { user_name: name, instanceId: null },
@@ -50,10 +48,8 @@ class UserAutoComplete extends React.Component {
     );
   };
 
-  handleNewRequest = (chosenRequest, index) => {
-
-    if(this.handleFieldChange)
-      this.handleFieldChange(null, chosenRequest.value);
+  handleNewRequest = (chosenRequest) => {
+    if (this.handleFieldChange) { this.handleFieldChange(null, chosenRequest.value); }
   };
 
   render() {
@@ -68,7 +64,7 @@ class UserAutoComplete extends React.Component {
         dataSource={ this.state.dataSource }
         onNewRequest={ this.handleNewRequest }
         onUpdateInput={ this.handleUpdateInput }
-        filter={(search, key) => (key.indexOf(search) !== -1 || search === '@')}
+        filter={ (search, key) => (key.indexOf(search) !== -1 || search === '@') }
         { ...rest }
       />
     );

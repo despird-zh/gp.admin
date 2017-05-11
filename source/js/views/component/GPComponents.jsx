@@ -42,19 +42,19 @@ const PageIconButton = ({ pageIcon, handleTouchJump, style }) => {
   const handTouchTap = () => {
     handleTouchJump(pageIcon);
   };
-  return <IconButton
+  return (<IconButton
     key={ pageIcon.path }
     onTouchTap={ handTouchTap }
     iconStyle={ style }
     disabled={ pageIcon.disabled }
   >
     {pageIcon.icon}
-  </IconButton>;
+  </IconButton>);
 };
 PageIconButton.propTypes = {
   pageIcon: PropTypes.object,
   handleTouchJump: PropTypes.func,
-  styles: PropTypes.object,
+  style: PropTypes.object,
 };
 
 export { GPTextField, GPSelectField, PageIconButton };

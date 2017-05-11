@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Divider from 'material-ui/Divider';
+
 import ActionShop from 'material-ui/svg-icons/action/shop';
 import ActionExtension from 'material-ui/svg-icons/action/extension';
 import ImgPhoto from 'material-ui/svg-icons/image/photo';
@@ -8,7 +8,6 @@ import DevStorage from 'material-ui/svg-icons/device/storage';
 import AVLibBooks from 'material-ui/svg-icons/av/library-books';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import { PageIconButton } from '../component/GPComponents';
 import PageHeader from '../component/PageHeader';
 
 const allPages = {
@@ -57,16 +56,15 @@ const allPages = {
 class MasterPage extends React.Component {
 
   render() {
-
     return (
-        <PageHeader
-          pages = { allPages }
-          router = { this.props.router }
-          muiTheme = { this.props.muiTheme }
-          setVisible = { this.setVisible }
-        >
-          { this.props.children }
-        </PageHeader>
+      <PageHeader
+        pages={ allPages }
+        router={ this.props.router }
+        muiTheme={ this.props.muiTheme }
+        setVisible={ this.setVisible }
+      >
+        { this.props.children }
+      </PageHeader>
     );
   }
 }

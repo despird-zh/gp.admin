@@ -62,15 +62,14 @@ class StorageListPage extends React.Component {
   }
 
   handleQuery = () => {
-    const { 'search':filter, type, state } = this.props.mapJson(
-      this.props.storagelist,[
-        'search', 'type', 'state'
+    const { 'search': filter, type, state } = this.props.mapJson(
+      this.props.storagelist, [
+        'search', 'type', 'state',
       ]);
     const params = { filter, type, state };
 
     this.props.rpcInvoke(MasterApis.StoragesQuery, params, (json) => {
-
-      return saveStorages({ storages: json});
+      return saveStorages({ storages: json });
     });
   }
 
@@ -82,12 +81,12 @@ class StorageListPage extends React.Component {
       storages: [],
     };
 
-    this.props.saveStorages( filter );
+    this.props.saveStorages(filter);
   }
 
   handleFilter = (key, event, newVal, payload) => {
     const filter = {};
-    const selects = ['type','state'];
+    const selects = ['type', 'state'];
 
     if (selects.indexOf(key) >= 0) {
       filter[key] = payload;
@@ -100,7 +99,7 @@ class StorageListPage extends React.Component {
   render() {
     const { storages, search, type, state } = this.props.mapJson(
       this.props.storagelist, [
-      'storages', 'search', 'type', 'state'
+        'storages', 'search', 'type', 'state',
       ]);
 
     const styles = getStyles(this.props.muiTheme);
@@ -163,7 +162,7 @@ class StorageListPage extends React.Component {
               <TableHeaderColumn>Percent</TableHeaderColumn>
               <TableHeaderColumn>Capacity</TableHeaderColumn>
               <TableHeaderColumn>Description</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: 80 }}>OP.</TableHeaderColumn>
+              <TableHeaderColumn style={ { width: 80 } }>OP.</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={ false }>
@@ -186,6 +185,7 @@ StorageListPage.propTypes = {
   storagelist: PropTypes.object,
   saveStorages: PropTypes.func,
   rpcInvoke: PropTypes.func,
+  mapJson: PropTypes.func,
 };
 
 /*eslint-disable */

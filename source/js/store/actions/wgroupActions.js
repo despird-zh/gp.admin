@@ -1,5 +1,5 @@
-export const WGRP_SAVE_WGRPS     = 'WGRP_SAVE_WGRPS';
-export const WGRP_SAVE_WGRP_ADD  = 'WGRP_SAVE_WGRP_ADD';
+export const WGRP_SAVE_WGRPS = 'WGRP_SAVE_WGRPS';
+export const WGRP_SAVE_WGRP_ADD = 'WGRP_SAVE_WGRP_ADD';
 export const WGRP_SAVE_WGRP_EDIT = 'WGRP_SAVE_WGRP_EDIT';
 
 export const WorkgroupApis = {

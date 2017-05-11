@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Divider from 'material-ui/Divider';
+
 import ActDeviceHub from 'material-ui/svg-icons/hardware/device-hub';
 import ActCaseHub from 'material-ui/svg-icons/hardware/cast';
 import ActCastCntHub from 'material-ui/svg-icons/hardware/cast-connected';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import { PageIconButton } from '../component/GPComponents';
+
 import PageHeader from '../component/PageHeader';
 
 const allPages = {
@@ -38,22 +38,22 @@ const allPages = {
 
 class WGroupPage extends React.Component {
 
-  setVisible = (currentPage, allPages) => {
-    if(currentPage !== 'wgroupedit')
-      allPages['wgroupedit'].visible = false;
+  setVisible = (currentPage, pages) => {
+    if (currentPage !== 'wgroupedit') {
+      pages.wgroupedit.visible = false; // eslint-disable-line
+    }
   }
-  
-  render() {
 
+  render() {
     return (
-        <PageHeader
-          pages = { allPages }
-          router = { this.props.router }
-          muiTheme = { this.props.muiTheme }
-          setVisible = { this.setVisible }
-        >
-          { this.props.children }
-        </PageHeader>
+      <PageHeader
+        pages={ allPages }
+        router={ this.props.router }
+        muiTheme={ this.props.muiTheme }
+        setVisible={ this.setVisible }
+      >
+        { this.props.children }
+      </PageHeader>
     );
   }
 }

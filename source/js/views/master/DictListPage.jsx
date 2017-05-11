@@ -64,11 +64,11 @@ class DictListPage extends React.Component {
   handleQuery = () => {
     const params = this.props.mapJson(
       this.props.dictlist, [
-      'search', 'group', 'language'
+        'search', 'group', 'language',
       ]);
 
     this.props.rpcInvoke(MasterApis.DictsQuery, params, (json) => {
-      return saveDicts({entries: json});
+      return saveDicts({ entries: json });
     });
   }
 
@@ -98,7 +98,7 @@ class DictListPage extends React.Component {
   render() {
     const { entries, group, search, language } = this.props.mapJson(
       this.props.dictlist, [
-      'entries', 'search', 'group', 'language'
+        'entries', 'search', 'group', 'language',
       ]);
 
     const styles = getStyles(this.props.muiTheme);
@@ -181,6 +181,7 @@ DictListPage.propTypes = {
   dictlist: PropTypes.object,
   saveDicts: PropTypes.func,
   rpcInvoke: PropTypes.func,
+  mapJson: PropTypes.func,
 };
 
 /*eslint-disable */

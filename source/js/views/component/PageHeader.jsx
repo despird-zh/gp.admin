@@ -46,10 +46,9 @@ class PageHeader extends React.Component {
   }
 
   setCurrentPage = (pageName, extinfo) => {
-
     let currentPage = null;
     let key;
-    let ext = (extinfo) ? { ext: extinfo.title }: { ext: ''};
+    const ext = (extinfo) ? { ext: extinfo.title } : { ext: '' };
     for (key of Object.keys(this.allPages)) {
       if (pageName === key) {
         this.allPages[key].disabled = true;
@@ -62,7 +61,7 @@ class PageHeader extends React.Component {
       }
     }
 
-    if(this.props.setVisible) this.props.setVisible(pageName, this.allPages );
+    if (this.props.setVisible) this.props.setVisible(pageName, this.allPages);
 
     const buttons = (extinfo) ? extinfo.buttons : undefined;
 
@@ -75,29 +74,29 @@ class PageHeader extends React.Component {
   }
 
   render() {
+    const { currentPage, pages } = this.state;
+    let buttons = this.state.buttons;
 
-    let { currentPage, pages, buttons } = this.state;
-
-    if(!buttons){ 
+    if (!buttons) {
       buttons = pages.map((item) => {
-        return ( item.visible ? <PageIconButton
+        return (item.visible ? <PageIconButton
           key={ item.path }
           pageIcon={ item }
-          style={ !item.disabled ? this.styles.btnIconStyle : this.styles.activeBtnIconStyle  }
+          style={ !item.disabled ? this.styles.btnIconStyle : this.styles.activeBtnIconStyle }
           handleTouchJump={ this.handleTouchJump }
         /> : null);
       });
     }
 
-    const title = ( 
-        (currentPage.ext === '' ) ? 
-          <h3 style={ this.styles.title }> 
+    const title = (
+        (currentPage.ext === '') ?
+          (<h3 style={ this.styles.title }>
             { currentPage.title } <small>{ currentPage.description } </small>
-          </h3>
-          : 
-          <h3 style={ this.styles.title }> 
+          </h3>)
+          :
+          (<h3 style={ this.styles.title }>
             { currentPage.ext }
-          </h3>
+          </h3>)
       );
 
     return (
@@ -122,7 +121,8 @@ PageHeader.propTypes = {
   muiTheme: PropTypes.object,
   router: PropTypes.object,
   setVisible: PropTypes.func,
-  pages: PropTypes.object.isRequired
+  pages: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default PageHeader;

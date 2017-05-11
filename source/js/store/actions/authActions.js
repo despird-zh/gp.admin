@@ -53,7 +53,7 @@ function purgeToken() {
 }
 
 function trapCatch(dispatch, error, isAuthRpc = false, silent = true) {
-  if(process.env.NODE_ENV !== 'production') console.log(error);
+  if (process.env.NODE_ENV !== 'production') console.log(error);
   if (isAuthRpc) {
     dispatch(authEnd({
       meta: {
@@ -207,6 +207,6 @@ export function signoff({ principal }) {
       dispatch(purgeToken());
       dispatch(snackOnlyAction({ snackTip: json.meta.message }));
     })
-    .catch(error => trapCatch(dispatch, error, true, true,));
+    .catch(error => trapCatch(dispatch, error, true, true));
   };
 }

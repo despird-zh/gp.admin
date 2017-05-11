@@ -248,14 +248,13 @@ class UserEditPage extends React.Component {
               onHandleChange={ this.handleFieldChange }
             />
             <StorageSelect
-                style={ styles.inputItem }
-                floatingLabelText='Storage'
-                value={ storageId }
-                eventKey='storage-id'
-                onHandleChange={ this.handleFieldChange }
-                rpcInvoke = {this.props.rpcInvoke}
-              >
-              </StorageSelect>
+              style={ styles.inputItem }
+              floatingLabelText='Storage'
+              value={ storageId }
+              eventKey='storage-id'
+              onHandleChange={ this.handleFieldChange }
+              rpcInvoke={ this.props.rpcInvoke }
+            />
             <div style={ { display: 'inline-block', width: 200 } } />
             <GPSelectField
               style={ styles.inputItem }

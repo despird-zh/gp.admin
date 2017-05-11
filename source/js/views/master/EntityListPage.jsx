@@ -65,7 +65,7 @@ class EntityListPage extends React.Component {
     const { search, group, language } = this.props.entitylist.toJS();
     const params = { search, group, language };
 
-    this.props.rpcInvoke(MasterApis.EntitiesQuery, params, (json) => { 
+    this.props.rpcInvoke(MasterApis.EntitiesQuery, params, (json) => {
       return saveEntities({ entities: json });
     });
   }

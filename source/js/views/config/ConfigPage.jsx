@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Divider from 'material-ui/Divider';
+
 import ActionShop from 'material-ui/svg-icons/action/shop';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import { PageIconButton } from '../component/GPComponents';
 import PageHeader from '../component/PageHeader';
 
 const allPages = {
@@ -30,15 +29,14 @@ const allPages = {
 class ConfigPage extends React.Component {
 
   render() {
-
     return (
-        <PageHeader
-          pages = { allPages }
-          router = { this.props.router }
-          muiTheme = { this.props.muiTheme }
-        >
-          { this.props.children }
-        </PageHeader>
+      <PageHeader
+        pages={ allPages }
+        router={ this.props.router }
+        muiTheme={ this.props.muiTheme }
+      >
+        { this.props.children }
+      </PageHeader>
     );
   }
 }

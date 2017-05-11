@@ -12,9 +12,8 @@ class OrgHierAutoComplete extends React.Component {
       dataSource: [],
     };
 
-    let {onHandleChange , eventKey} = this.props;
-    if(onHandleChange && eventKey)
-      this.handleFieldChange = onHandleChange.bind(null, eventKey);
+    const { onHandleChange, eventKey } = this.props;
+    if (onHandleChange && eventKey) { this.handleFieldChange = onHandleChange.bind(null, eventKey); }
   }
 
   setInnerRef = (refComponent) => {
@@ -32,15 +31,14 @@ class OrgHierAutoComplete extends React.Component {
   handleUpdateInput = (value) => {
     const { rpcInvoke } = this.props;
 
-    if(this.handleFieldChange)
-      this.handleFieldChange(null, value);
+    if (this.handleFieldChange) { this.handleFieldChange(null, value); }
 
     rpcInvoke(
       AppApis.OrgNodesQuery,
       { 'org-id': -99 },
       (json) => {
         console.log(json);
-        const entries = json.map((item) => ({ text: item.title, value: item.id, id: item.id}));
+        const entries = json.map((item) => ({ text: item.title, value: item.id, id: item.id }));
         this.setState({
           dataSource: entries,
         });
@@ -48,11 +46,8 @@ class OrgHierAutoComplete extends React.Component {
     );
   };
 
-  handleNewRequest = (chosenRequest, index) => {
-
-    if(this.handleFieldChange)
-      this.handleFieldChange(null, chosenRequest.value);
-
+  handleNewRequest = (chosenRequest) => {
+    if (this.handleFieldChange) { this.handleFieldChange(null, chosenRequest.value); }
   };
 
 
@@ -68,7 +63,7 @@ class OrgHierAutoComplete extends React.Component {
         dataSource={ this.state.dataSource }
         onNewRequest={ this.handleNewRequest }
         onUpdateInput={ this.handleUpdateInput }
-        filter={(search, key) => (key.indexOf(search) !== -1 || search === '@')}
+        filter={ (search, key) => (key.indexOf(search) !== -1 || search === '@') }
         { ...rest }
       />
     );

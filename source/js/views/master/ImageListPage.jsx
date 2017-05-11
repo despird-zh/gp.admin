@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -32,9 +32,9 @@ const getStyles = function (muiTheme) {
     imageBG: {
       height: 30,
       width: 30,
-      backgroundSize:'contain',
+      backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
-    }
+    },
   };
 };
 
@@ -62,11 +62,11 @@ class ImageListPage extends React.Component {
   handleQuery = () => {
     const params = this.props.mapJson(
       this.props.imagelist, [
-      'category','format'
+        'category', 'format',
       ]);
 
-    this.props.rpcInvoke(MasterApis.ImagesQuery, params, (json) => { 
-      return saveImages({images: json});
+    this.props.rpcInvoke(MasterApis.ImagesQuery, params, (json) => {
+      return saveImages({ images: json });
     });
   }
 
@@ -95,7 +95,7 @@ class ImageListPage extends React.Component {
   render() {
     const { images, category, format } = this.props.mapJson(
       this.props.imagelist, [
-      'images','category','format'
+        'images', 'category', 'format',
       ]);
 
     const styles = getStyles(this.props.muiTheme);
@@ -116,7 +116,8 @@ class ImageListPage extends React.Component {
             style={ styles.select }
             value={ category }
             hintText='The Image Category'
-            onChange={ this.onFilterCategory }>
+            onChange={ this.onFilterCategory }
+          >
             <MenuItem value={ 'POST_IMAGE' } primaryText='Post Image' />
             <MenuItem value={ 'USER_AVATAR' } primaryText='User Avatar' />
             <MenuItem value={ 'WGROUP_AVATAR' } primaryText='Workgroup Avatar' />
@@ -125,7 +126,8 @@ class ImageListPage extends React.Component {
             style={ styles.select }
             value={ format }
             hintText='The Format'
-            onChange={ this.onFilterFormat }>
+            onChange={ this.onFilterFormat }
+          >
             <MenuItem value={ 'jpg' } primaryText='JPG' />
             <MenuItem value={ 'jpeg' } primaryText='JPEG' />
             <MenuItem value={ 'png' } primaryText='PNG' />
@@ -166,6 +168,7 @@ ImageListPage.propTypes = {
   imagelist: PropTypes.object,
   saveImages: PropTypes.func,
   rpcInvoke: PropTypes.func,
+  mapJson: PropTypes.func,
 };
 
 /*eslint-disable */

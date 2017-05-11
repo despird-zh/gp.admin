@@ -24,10 +24,10 @@ const initialState = Map({
 const actionsMap = {
 
   [SEC_SAVE_USERS]: (state, { type, data }) => { // eslint-disable-line no-unused-vars
-    return state.withMutations( (map) => {
-      if(data.users){
+    return state.withMutations((map) => {
+      if (data.users) {
         map.setIn(['userlist', 'users'], data.users);
-        delete data['users'];
+        delete data.users; // eslint-disable-line
       }
       map.mergeDeep({ 'userlist': data });
     });

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Divider from 'material-ui/Divider';
+
 import SocialPerson from 'material-ui/svg-icons/social/person';
 import SocialPersonAdd from 'material-ui/svg-icons/social/person-add';
 import SocialPeople from 'material-ui/svg-icons/social/people';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import { PageIconButton } from '../component/GPComponents';
+
 import PageHeader from '../component/PageHeader';
 
 const allPages = {
@@ -38,22 +38,22 @@ const allPages = {
 
 class SecurityPage extends React.Component {
 
-  setVisible = (currentPage, allPages) => {
-    if(currentPage !== 'userinfo')
-      allPages['userinfo'].visible = false;
+  setVisible = (currentPage, pages) => {
+    if (currentPage !== 'userinfo') {
+      pages.userinfo.visible = false;  // eslint-disable-line
+    }
   }
-  
-  render() {
 
+  render() {
     return (
-        <PageHeader
-          pages = { allPages }
-          router = { this.props.router }
-          muiTheme = { this.props.muiTheme }
-          setVisible = { this.setVisible }
-        >
-          { this.props.children }
-        </PageHeader>
+      <PageHeader
+        pages={ allPages }
+        router={ this.props.router }
+        muiTheme={ this.props.muiTheme }
+        setVisible={ this.setVisible }
+      >
+        { this.props.children }
+      </PageHeader>
     );
   }
 }

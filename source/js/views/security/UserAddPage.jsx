@@ -82,7 +82,7 @@ class UserInfoPage extends React.Component {
 
   handleSave = () => {
     const { useradd } = this.props;
-    let postdata = useradd.get('user').toJS();
+    const postdata = useradd.get('user').toJS();
     postdata['image-path'] = this.state.avatar;
     this.props.rpcInvoke(SecurityApis.UserAdd, postdata, (json) => {
       const { meta, data } = json;
@@ -95,11 +95,26 @@ class UserInfoPage extends React.Component {
   }
 
   handleReset = () => {
-    let reset = {
-      account: '', email:'', 'image-path': '', language:'',
-      mobile:'', name:'', password:'', confirm:'', phone:'', pricapacity:'',
-      pubcapacity:'', signature:'', sourceId:'', 'source-name': '', state:'',
-      'storage-id': '', 'storage-name': '', timezone:'', type:'' 
+    const reset = {
+      account: '',
+      email: '',
+      'image-path': '',
+      language: '',
+      mobile: '',
+      name: '',
+      password: '',
+      confirm: '',
+      phone: '',
+      pricapacity: '',
+      pubcapacity: '',
+      signature: '',
+      sourceId: '',
+      'source-name': '',
+      state: '',
+      'storage-id': '',
+      'storage-name': '',
+      timezone: '',
+      type: '',
     };
     this.props.saveUserAdd(reset);
     this.setState({ avatar: 'assets/img/book2.jpg' });
@@ -279,9 +294,8 @@ class UserInfoPage extends React.Component {
                 value={ storageId }
                 eventKey='storage-id'
                 onHandleChange={ this.handleFieldChange }
-                rpcInvoke = {this.props.rpcInvoke}
-              >
-              </StorageSelect>
+                rpcInvoke={ this.props.rpcInvoke }
+              />
               <GPSelectField
                 style={ styles.inputItem }
                 floatingLabelText='Language'

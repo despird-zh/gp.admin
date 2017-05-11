@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import FolderIcon from 'material-ui/svg-icons/file/folder';
 import FileIcon from 'material-ui/svg-icons/editor/insert-drive-file';
 
-const SelectableList = makeSelectable(List);
 const MuiIcons = require('material-ui/svg-icons');
 
 const styles = {
@@ -18,20 +17,17 @@ const styles = {
 };
 
 class MuiTreeList extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   handleTouchTap = (nodePath, nodeItem) => {
-    if(this.props.onNodeTouchTap) this.props.onNodeTouchTap(nodePath, nodeItem);
+    if (this.props.onNodeTouchTap) this.props.onNodeTouchTap(nodePath, nodeItem);
   }
 
   handleNestedToggle = (open, nodePath, nodeItem) => {
-    if(this.props.onNestedListToggle) this.props.onNestedListToggle(open, nodePath, nodeItem);
+    if (this.props.onNestedListToggle) this.props.onNestedListToggle(open, nodePath, nodeItem);
   }
 
   render() {
-    const { useFolderIcons, nodes} = this.props;
+    const { useFolderIcons, nodes } = this.props;
 
     const getLeftIcon = (nodeItem) => {
       const { icon } = nodeItem;
@@ -51,7 +47,7 @@ class MuiTreeList extends Component {
 
       return data.map((item) => {
         const leftIcon = getLeftIcon(item);
-        const itemKey = `${pkey}-${item.key}`;
+        const itemKey = `${ pkey }-${ item.key }`;
 
         if (item.children) {
           const nestedNodes = loopNodes(itemKey, item.children);
@@ -91,9 +87,9 @@ class MuiTreeList extends Component {
     const rootChildren = loopNodes('root', nodes);
 
     return (
-        <List style={ this.props.style }>
+      <List style={ this.props.style }>
         {rootChildren}
-        </List>
+      </List>
     );
   }
 }
@@ -110,7 +106,6 @@ MuiTreeList.propTypes = {
 };
 
 const MuiTreeItem = ({ nodePath, nodeItem, onTouchTap, nodeRemovable, onNodeRemove, ...rest }) => {
-
   const handleTouchTap = () => {
     if (onTouchTap) onTouchTap(nodePath, nodeItem);
   };
@@ -121,8 +116,9 @@ const MuiTreeItem = ({ nodePath, nodeItem, onTouchTap, nodeRemovable, onNodeRemo
     <ListItem
       onTouchTap={ handleTouchTap }
       rightIconButton={ nodeRemovable && <IconButton onTouchTap={ handleRemove }><ContentClear /></IconButton> }
-      { ...rest }></ListItem>
-    );
+      { ...rest }
+    />
+  );
 };
 
 MuiTreeItem.propTypes = {
@@ -135,13 +131,13 @@ MuiTreeItem.propTypes = {
 
 const MuiTreeItems = ({ nodePath, nodeItem, onNestedListToggle, ...rest }) => {
   const handleNestedListToggle = (listItem) => {
-    if (onNestedListToggle) onNestedListToggle( listItem.state.open, nodePath, nodeItem);
+    if (onNestedListToggle) onNestedListToggle(listItem.state.open, nodePath, nodeItem);
   };
   return (
     <ListItem
       onNestedListToggle={ handleNestedListToggle }
       { ...rest }
-    ></ListItem>
+    />
   );
 };
 MuiTreeItems.propTypes = {

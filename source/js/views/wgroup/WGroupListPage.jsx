@@ -64,7 +64,7 @@ class WGroupListPage extends React.Component {
       search: '',
       internal: false,
       external: false,
-      wgroups: []
+      wgroups: [],
     };
 
     this.props.saveWGroups(filter);
@@ -87,12 +87,12 @@ class WGroupListPage extends React.Component {
   render() {
     const styles = getStyles(this.props.muiTheme);
     const { wgroups, internal, external, search } = this.props.mapJson(
-                                                  this.props.wgrouplist, 
-                                                  ['wgroups','internal','external','search']);
+                                                  this.props.wgrouplist,
+                                                  ['wgroups', 'internal', 'external', 'search']);
 
     const rows = wgroups.map((item) => {
       return (
-        <WGroupListRow rowData={ item } styles={styles} onHandleJump={ this.handleJump } />
+        <WGroupListRow rowData={ item } styles={ styles } onHandleJump={ this.handleJump } />
       );
     });
 
@@ -151,9 +151,10 @@ class WGroupListPage extends React.Component {
 WGroupListPage.propTypes = {
   setCurrentPage: PropTypes.func,
   saveWGroups: PropTypes.func,
-  wgrplist: PropTypes.object,
+  wgrouplist: PropTypes.object,
   muiTheme: PropTypes.object,
   rpcInvoke: PropTypes.func,
+  mapJson: PropTypes.func,
 };
 
 /*eslint-disable */

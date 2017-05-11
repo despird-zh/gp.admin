@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import UserAutoComplete from '../common/UserAutoComplete';
 import OrgHierAutoComplete from '../common/OrgHierAutoComplete';
 
-import { GPTextField, GPSelectField } from '../component/GPComponents';
+import { GPTextField } from '../component/GPComponents';
 
 const getStyles = function (muiTheme) {
   const { baseTheme: { spacing } } = muiTheme;
@@ -22,17 +21,19 @@ const getStyles = function (muiTheme) {
 class OrgHierInfo extends React.Component {
 
   render() {
-    const { 
-      onHandleClear, 
-      onHandleSave, 
+    const {
+      onHandleClear,
+      onHandleSave,
       onHandleChange,
-      muiTheme, 
-      rpcInvoke, 
+      muiTheme,
+      rpcInvoke,
       initialData,
-      infomode 
+      infomode,
      } = this.props;
+
     const styles = getStyles(muiTheme);
-    const { title, admin, manager, email, description } = initialData; 
+    const { title, admin, manager, email, description } = initialData;
+
     return (
       <div>
         {(infomode === 'org-add') && <OrgHierAutoComplete
@@ -41,16 +42,15 @@ class OrgHierInfo extends React.Component {
           hintText='Input Name Letter'
           openOnFocus={ true }
           floatingLabelText='Parent Organization Node'
-          eventKey="parent"
+          eventKey='parent'
           onHandleChange={ onHandleChange }
         />}
         <GPTextField
-          eventKey="text"
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Org. Node Name'
-          value = {title}
-          eventKey="title"
+          value={ title }
+          eventKey='title'
           onHandleChange={ onHandleChange }
         />
         <UserAutoComplete
@@ -58,8 +58,8 @@ class OrgHierInfo extends React.Component {
           rpcInvoke={ rpcInvoke }
           hintText='Assign a user as administrator'
           floatingLabelText='Administrator'
-          eventKey="admin"
-          searchText = {admin}
+          eventKey='admin'
+          searchText={ admin }
           onHandleChange={ onHandleChange }
         />
         <UserAutoComplete
@@ -67,7 +67,7 @@ class OrgHierInfo extends React.Component {
           rpcInvoke={ rpcInvoke }
           hintText='Assign a manager to org node'
           floatingLabelText='Manager'
-          eventKey="manager"
+          eventKey='manager'
           searchText={ manager }
           onHandleChange={ onHandleChange }
         />
@@ -75,20 +75,20 @@ class OrgHierInfo extends React.Component {
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Contact Mail'
-          eventKey="email"
-          value= {email}
+          eventKey='email'
+          value={ email }
           onHandleChange={ onHandleChange }
         />
         <GPTextField
           style={ styles.inputItem }
           hintText='no more than 32 letters'
           floatingLabelText='Description'
-          eventKey="description"
-          value = {description}
+          eventKey='description'
+          value={ description }
           onHandleChange={ onHandleChange }
         />
         <div style={ { marginTop: 10 } }>
-          {(infomode === 'org-add') && <RaisedButton label='Clear' style={{ margin: 4 }} onTouchTap={ this.handleClear } />}
+          {(infomode === 'org-add') && <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ onHandleClear } />}
           <RaisedButton label='Save' style={ { margin: 4, float: 'right' } } primary={ true } onTouchTap={ onHandleSave } />
         </div>
       </div>
@@ -102,10 +102,12 @@ OrgHierInfo.propTypes = {
   onHandleChange: PropTypes.func,
   onHandleSave: PropTypes.func,
   muiTheme: PropTypes.object,
+  infomode: PropTypes.string,
+  initialData: PropTypes.object,
   rpcInvoke: PropTypes.func,
 };
 
-class OrgHierMember extends React.Component {
+class OrgHierMember extends React.Component { // eslint-disable-line
 
   setMemberRef = (comp) => {
     this.memberRef = comp;
@@ -116,6 +118,7 @@ class OrgHierMember extends React.Component {
   }
 
   handleSave = () => {
+    this.props.onMemberAdd();
     console.log(this.memberRef.getSearchText());
   }
   render() {
@@ -131,7 +134,7 @@ class OrgHierMember extends React.Component {
           hintText='find user'
           floatingLabelText='Add User as Member'
         />
-        <div style={{ marginTop: 10 } }>
+        <div style={ { marginTop: 10 } }>
           <RaisedButton label='Clear' style={ { margin: 4 } } onTouchTap={ this.handleClear } />
           <RaisedButton label='Save' style={ { margin: 4, float: 'right' } } primary={ true } onTouchTap={ this.handleSave } />
         </div>

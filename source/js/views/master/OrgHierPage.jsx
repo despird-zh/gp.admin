@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import ContentClear from 'material-ui/svg-icons/content/clear';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Avatar from 'material-ui/Avatar';
 
 import SocialGrp from 'material-ui/svg-icons/social/group';
@@ -16,14 +14,11 @@ import SocialGrpAdd from 'material-ui/svg-icons/social/group-add';
 import SocialPsnAdd from 'material-ui/svg-icons/social/person-add';
 import AuthConnect from '../component/AuthConnect';
 import MuiTreeList from '../component/TreeList/MuiTreeList';
-import UserAutoComplete from '../common/UserAutoComplete';
 import { OrgHierInfo, OrgHierMember } from './OrgHierInfo';
 
 import { snackAction } from '../../store/actions/appActions';
 import { saveOrgHier,
   MasterApis } from '../../store/actions/masterActions';
-
-const SelectableList = makeSelectable(List);
 
 const getStyles = function (muiTheme) {
   const { baseTheme: { spacing, palette } } = muiTheme;
@@ -79,6 +74,11 @@ class OrgHierPage extends React.Component {
     this.handleOrgInfo = this.handleModeChange.bind(null, 'org-info');
   }
 
+  componentWillMount() {
+    if (this.props.setCurrentPage) { this.props.setCurrentPage('orghier'); }
+    this.loadOrgNodes('root', { 'org-id': 'root' });
+  }
+
   setOrgHierTree = (treeRef) => {
     this.orgHierTree = treeRef;
   }
@@ -99,7 +99,7 @@ class OrgHierPage extends React.Component {
     } else {
       data[key] = newVal;
     }
-    this.props.saveOrgHier({orgedit: data});
+    this.props.saveOrgHier({ orgedit: data });
   };
 
   handleOrgAddFieldChange = (key, event, newVal, payload) => {
@@ -110,96 +110,94 @@ class OrgHierPage extends React.Component {
     } else {
       data[key] = newVal;
     }
-    this.props.saveOrgHier({orgadd: data});
+    this.props.saveOrgHier({ orgadd: data });
   };
 
   handleOrgRemove = (nodePath, node) => {
-
-    console.log(nodePath + ' (org-remove) ');
+    console.log(`${ nodePath } (org-remove) `);
     console.log(node);
   }
 
   handleOrgEditSave = () => {
-    let orgedit = this.props.orghier.get('orgedit');
-    let param = Object.assign({}, orgedit);
-    delete param['children'];
-    delete param['key'];
-    delete param['icon'];
+    const orgedit = this.props.orghier.get('orgedit');
+    const param = Object.assign({}, orgedit);
+    delete param.children;
+    delete param.key;
+    delete param.icon;
     this.props.rpcInvoke(MasterApis.OrgNodeSave, param, (jsonRaw) => {
-      if(jsonRaw.meta.state !== 'success'){
-          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
-        }
-    }, true, true); 
+      if (jsonRaw.meta.state !== 'success') {
+        return snackAction({ shown: true, snackTip: jsonRaw.meta.message });
+      }
+      return undefined;
+    }, true, true);
   }
 
   handleOrgAddSave = () => {
-    let orgadd = this.props.orghier.get('orgadd');
-    let param = Object.assign({}, orgadd);
-    delete param['children'];
-    delete param['key'];
-    delete param['icon'];
+    const orgadd = this.props.orghier.get('orgadd');
+    const param = Object.assign({}, orgadd);
+    delete param.children;
+    delete param.key;
+    delete param.icon;
     this.props.rpcInvoke(MasterApis.OrgNodeAdd, param, (jsonRaw) => {
-      if(jsonRaw.meta.state !== 'success'){
-          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
-        }
-    }, true, true); 
+      if (jsonRaw.meta.state !== 'success') {
+        return snackAction({ shown: true, snackTip: jsonRaw.meta.message });
+      }
+      return undefined;
+    }, true, true);
   }
 
   handleOrgTouchTap = (nodePath, node) => {
     this.loadOrgMembers(node.id);
-    this.props.saveOrgHier({infomode: 'org-edit', orgedit: node});
+    this.props.saveOrgHier({ infomode: 'org-edit', orgedit: node });
   }
 
   handleNestedListToggle = (isOpen, nodePath, node) => {
-    if(isOpen){
-      this.loadOrgNodes( nodePath, {'org-id': node.id});
+    if (isOpen) {
+      this.loadOrgNodes(nodePath, { 'org-id': node.id });
     }
     this.loadOrgMembers(node.id);
-    this.props.saveOrgHier({infomode: 'org-edit', orgedit: node});
+    this.props.saveOrgHier({ infomode: 'org-edit', orgedit: node });
   }
 
-  handleMemberRemove = ({userid, account}) => {
-    let orgedit = this.props.orghier.get('orgedit');
-    this.props.rpcInvoke(MasterApis.OrgMemberRemove, 
+  handleMemberRemove = ({ userid, account }) => {
+    const orgedit = this.props.orghier.get('orgedit');
+    this.props.rpcInvoke(MasterApis.OrgMemberRemove,
       {
         'org-id': orgedit.id,
-        account
+        account,
       }, (jsonRaw) => {
-
-        if(jsonRaw.meta.state !== 'success'){
-          return snackAction({shown:true, snackTip: jsonRaw.meta.message });
+        if (jsonRaw.meta.state !== 'success') {
+          return snackAction({ shown: true, snackTip: jsonRaw.meta.message });
         }
 
-        let orgmembers = this.props.orghier.get('orgmembers');
-        let newmembers = orgmembers.filter((item) => {
-
+        const orgmembers = this.props.orghier.get('orgmembers');
+        const newmembers = orgmembers.filter((item) => {
           return item['user-id'] !== userid;
         });
 
-        return saveOrgHier({orgmembers: newmembers});
-    }, true, true);
-    
+        return saveOrgHier({ orgmembers: newmembers });
+      }, true, true);
   }
 
-  loadOrgNodes(npath, param){
+  loadOrgNodes(npath, param) {
     let orgnodes = this.props.orghier.get('orgnodes');
-    let paths = npath.split('-'); 
+    const paths = npath.split('-');
 
     let mountnode = orgnodes;
-    for (let i = 1 ; i < paths.length; i++){
-      if(i === 1)
-        mountnode = mountnode.filter((item)=>{ return item.id === paths[i]})[0];
-      else
-        mountnode = mountnode.children.filter((item)=>{ return item.id === paths[i]})[0];
+    for (let i = 1; i < paths.length; i++) {
+      if (i === 1) {
+        mountnode = mountnode.filter((item) => { return item.id === paths[i]; })[0];
+      } else {
+        mountnode = mountnode.children.filter((item) => { return item.id === paths[i]; })[0];
+      }
     }
 
     this.props.rpcInvoke(MasterApis.OrgHierQuery, param, (json) => {
-
-      let newnodes= json.map((item) => {
-        item.key = item.id;
-        item.icon = item['has-child']? 'SocialPeople':'ActionSupervisorAccount';
-        if(item['has-child']){
-          item.children = [{
+      const newnodes = json.map((item) => {
+        item.key = item.id; // eslint-disable-line
+        item.icon = item['has-child'] ? 'SocialPeople' : 'ActionSupervisorAccount'; // eslint-disable-line
+        if (item['has-child']) {
+          item.children = [{ // eslint-disable-line
             key: 'PLACE_HOLDER',
             title: 'Loading...',
             icon: 'ActionSupervisorAccount',
@@ -207,7 +205,7 @@ class OrgHierPage extends React.Component {
         }
         return item;
       });
-      if(paths.length === 1) orgnodes = newnodes;
+      if (paths.length === 1) orgnodes = newnodes;
       else mountnode.children = newnodes;
 
       this.props.saveOrgHier({ orgnodes });
@@ -215,37 +213,33 @@ class OrgHierPage extends React.Component {
     });
   }
 
-  loadOrgMembers(orgId){
-    this.props.rpcInvoke(MasterApis.OrgMembersQuery, {'org-id': orgId}, (json) => {
+  loadOrgMembers(orgId) {
+    this.props.rpcInvoke(MasterApis.OrgMembersQuery, { 'org-id': orgId }, (json) => {
       return saveOrgHier({ orgmembers: json });
     });
   }
 
-  componentWillMount() {
-    if (this.props.setCurrentPage) { this.props.setCurrentPage('orghier'); }
-    this.loadOrgNodes('root',{'org-id':'root'});
-  }
-
   render() {
     const styles = getStyles(this.props.muiTheme);
-    let {orgadd, orgedit, memberadd, infomode, orgnodes, orgmembers} = this.props.mapJson(
+    const { orgadd, orgedit, infomode, orgnodes, orgmembers } = this.props.mapJson(
       this.props.orghier,
-      ['orgadd', 'orgedit', 'memberadd', 'infomode', 'orgnodes', 'orgmembers']
+      ['orgadd', 'orgedit', 'infomode', 'orgnodes', 'orgmembers']
       );
 
-    let memberItems = orgmembers.map((item) => {
+    const memberItems = orgmembers.map((item) => {
       return (
-        <MemberListItem key={item['user-id']} 
-          itemData={item} 
+        <MemberListItem
+          key={ item['user-id'] }
+          itemData={ item }
           onItemRemove={ this.handleMemberRemove }
-          />
+        />
       );
     });
 
     return (
       <div >
         <div style={ styles.topFull }>
-          { (orgedit.id) && <Chip style={{ margin: 6 }}>
+          { (orgedit.id) && <Chip style={ { margin: 6 } }>
             Org. Node: { orgedit.title }
           </Chip> }
           <div style={ styles.spacer } />
@@ -257,14 +251,14 @@ class OrgHierPage extends React.Component {
           <div style={ styles.halfStyle }>
             <h3 style={ styles.panelTitle }>Hierarchy </h3>
             <Divider />
-            <MuiTreeList 
-              ref = { this.setOrgHierTree }
+            <MuiTreeList
+              ref={ this.setOrgHierTree }
               nodes={ orgnodes }
               useFolderIcons={ true }
               nodeRemovable={ true }
               onNodeRemove={ this.handleOrgRemove }
-              onNodeTouchTap = { this.handleOrgTouchTap }
-              onNestedListToggle = {this.handleNestedListToggle}
+              onNodeTouchTap={ this.handleOrgTouchTap }
+              onNestedListToggle={ this.handleNestedListToggle }
             />
           </div>
           <div style={ styles.halfStyle }>
@@ -276,55 +270,58 @@ class OrgHierPage extends React.Component {
           </div>
           <div style={ styles.halfStyle }>
             <h3 style={ styles.panelTitle }>
-              { (infomode === 'org-edit' ) ? 'Org Detail Info.':
-               ((infomode === 'org-add' ) ? 'Add New Org': 'Add Member')
-              }
-              { (infomode === 'org-edit' ) && <IconButton
+              { (infomode === 'org-edit') && 'Org Detail Info.' }
+              { (infomode === 'org-add') && 'Add New Org' }
+              { (infomode === 'org-add') && 'Add Member' }
+              { (infomode === 'org-edit') && <IconButton
                 style={ styles.iconBtnStyle }
                 iconStyle={ infomode === 'org-edit' ? styles.activeBtnIconStyle : styles.btnIconStyle }
-                onTouchTap={ this.handleOrg } >
+                onTouchTap={ this.handleOrg }
+              >
                 <SocialGrp />
               </IconButton>}
               <IconButton
                 style={ styles.iconBtnStyle }
                 iconStyle={ infomode === 'org-add' ? styles.activeBtnIconStyle : styles.btnIconStyle }
                 disabled={ infomode === 'org-add' }
-                onTouchTap={ this.handleOrgAdd } >
+                onTouchTap={ this.handleOrgAdd }
+              >
                 <SocialGrpAdd />
               </IconButton>
               <IconButton
                 style={ styles.iconBtnStyle }
                 iconStyle={ infomode === 'mbr-add' ? styles.activeBtnIconStyle : styles.btnIconStyle }
                 disabled={ infomode === 'mbr-add' }
-                onTouchTap={ this.handleMemberAdd } >
+                onTouchTap={ this.handleMemberAdd }
+              >
                 <SocialPsnAdd />
               </IconButton>
             </h3>
             <Divider />
-            { ( infomode === 'org-add' ) && <OrgHierInfo
-                styles={ styles }
-                onHandleClear={ () => {} }
-                onHandleChange={ this.handleOrgAddFieldChange }
-                rpcInvoke={ this.props.rpcInvoke }
-                muiTheme={ this.props.muiTheme }
-                initialData={ orgadd }
-                onHandleSave = { this.handleOrgAddSave }
-                infomode = { infomode }
-              />
+            { (infomode === 'org-add') && <OrgHierInfo
+              styles={ styles }
+              onHandleClear={ () => {} }
+              onHandleChange={ this.handleOrgAddFieldChange }
+              rpcInvoke={ this.props.rpcInvoke }
+              muiTheme={ this.props.muiTheme }
+              initialData={ orgadd }
+              onHandleSave={ this.handleOrgAddSave }
+              infomode={ infomode }
+            />
             }
-            { ( infomode === 'org-edit') && <OrgHierInfo
-                styles={ styles }
-                onHandleClear={ () => {} }
-                onHandleChange={ this.handleOrgEditFieldChange }
-                rpcInvoke={ this.props.rpcInvoke }
-                muiTheme={ this.props.muiTheme }
-                initialData={ orgedit }
-                onHandleSave = { this.handleOrgEditSave }
-                infomode = { infomode }
-              />
+            { (infomode === 'org-edit') && <OrgHierInfo
+              styles={ styles }
+              onHandleClear={ () => {} }
+              onHandleChange={ this.handleOrgEditFieldChange }
+              rpcInvoke={ this.props.rpcInvoke }
+              muiTheme={ this.props.muiTheme }
+              initialData={ orgedit }
+              onHandleSave={ this.handleOrgEditSave }
+              infomode={ infomode }
+            />
             }
             {
-              ( infomode === 'mbr-add' ) && <OrgHierMember
+              (infomode === 'mbr-add') && <OrgHierMember
                 styles={ styles }
                 onHandleClear={ () => {} }
                 onHandleSave={ () => {} }
@@ -344,6 +341,8 @@ OrgHierPage.propTypes = {
   rpcInvoke: PropTypes.func,
   orghier: PropTypes.object,
   muiTheme: PropTypes.object,
+  saveOrgHier: PropTypes.func,
+  mapJson: PropTypes.func,
 };
 
 /* eslint-disable */
@@ -368,7 +367,7 @@ const NewComponent = AuthConnect(
   (state) => ({
     orghier: state.master.get('orghier'),
   }),
-  {saveOrgHier}
+  { saveOrgHier }
 );
 
 export default NewComponent;
